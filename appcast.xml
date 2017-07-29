@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Flyme UXD Sketch Helper</title>
+    <link>https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml</link>
+    <description>Sketch 助手插件</description>
+    <language>en</language>
+      <item>
+        <title>v1.0</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>First release. Update page numbers with a single click</li>
+            </ul>
+          ]]>
+        </description>
+      <pubDate>Sat, July 29 2017 21:29:00 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.zip" type="application/octet-stream" sparkle:version="1.0"/>
+      </item>
+      <language>zh-Hans</language>
+      <title>v1.0</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>初版，支持一键更新文档页码</li>
+            </ul>
+          ]]>
+        </description>
+      <pubDate>Sat, July 29 2017 21:29:00 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.zip" type="application/octet-stream" sparkle:version="1.0"/>
+      </item>
+
+  </channel>
+</rss>
