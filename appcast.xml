@@ -10,7 +10,7 @@
         <description>
           <![CDATA[
             <ul>
-              <li>First release. Update page numbers with a single click.</li>
+              <li>初版，支持一键更新文档页码</li>
             </ul>
           ]]>
         </description>
@@ -22,36 +22,12 @@
         <description>
           <![CDATA[
             <ul>
-              <li>Update the page numbers and their position.</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Tue, 01 Aug 2017 20:53:14 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.1.zip" type="application/octet-stream" sparkle:version="1.0.1"/>
-      </item>
-      <language>zh-Hans</language>
-      <title>v1.0</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>初版，支持一键更新文档页码</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Sat, July 29 2017 21:29:00 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.zip" type="application/octet-stream" sparkle:version="1.0.1"/>
-      </item>
-      <item>
-        <title>v1.0.1</title>
-        <description>
-          <![CDATA[
-            <ul>
               <li>更新页码的同时会调整它与页面标题的间距</li>
             </ul>
           ]]>
         </description>
       <pubDate>Tue, 01 Aug 2017 20:53:14 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.1.zip" type="application/octet-stream" sparkle:version="1.0"/>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.1.zip" type="application/octet-stream" sparkle:version="1.0.1"/>
       </item>
   </channel>
 </rss>
