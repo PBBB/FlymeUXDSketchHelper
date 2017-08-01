@@ -24,7 +24,7 @@ function prepareSelectedArtboards (context) {
 function updatePageNumbersOfArtboards (artboards) {
 
 	// 未选择图层提示
-	if (selectedArtboards.length == 0) {
+	if (artboards.length == 0) {
 		NSApp.displayDialog("请选择文档的所有画板（包括封面和概述）");
 		return false;
 	} 
@@ -48,21 +48,45 @@ function updatePageNumbersOfArtboards (artboards) {
     for (var i = 0; i < artboards.length; i++) {
 		if (i > 1) {
             var layersInArtboard = artboards[i].children();
+            var pageTitleLayer = null;
+            var pageNumberLayer = null;
+
             for (var j = 0; j < layersInArtboard.length; j++) {
+
+            	// 筛选出功能概述
+            	if (layersInArtboard[j].name() == "功能概述") {
+            		pageTitleLayer = layersInArtboard[j]
+                }
+
+                // 筛选出页码
                 if (layersInArtboard[j].name() == "交互图例 / 页码") {
+                	pageNumberLayer = layersInArtboard[j]
                     if (layerIDs == null ) {
-                        layerIDs = getLayerIDs(layersInArtboard[j]);
+                        layerIDs = getLayerIDs(pageNumberLayer);
                         if (layerIDs == null) {
-                            NSApp.displayDialog("请选择文档的所有画板（包括封面和概述）");
+                            NSApp.displayDialog("页码图层需为 symbol");
 		                    return;
                         }
                     }
-                    var pageData = {};
-                    pageData[layerIDs.currentPage_ID.toString()] = (i+1).toString();
-                    pageData[layerIDs.totalPages_ID.toString()] = artboards.length.toString();
-                    layersInArtboard[j].overrides = pageData;
                 }
             }
+
+            if (pageTitleLayer == null || pageNumberLayer == null) {
+                	NSApp.displayDialog("未找到功能概述或页码");
+                	return;
+                }
+
+            // 设定页码值
+            var pageData = {};
+            pageData[layerIDs.currentPage_ID.toString()] = (i+1).toString();
+            pageData[layerIDs.totalPages_ID.toString()] = artboards.length.toString();
+            pageNumberLayer.overrides = pageData;
+
+            //更新标题与页码的间距
+            pageTitleLayer.frame().setX(164);
+            pageTitleLayer.frame().setY(65);
+            pageNumberLayer.frame().setX(pageTitleLayer.frame().x() + pageTitleLayer.frame().width() + 50);
+            pageNumberLayer.frame().setY(pageTitleLayer.frame().y() - 2)
 		}
 	}
 	return true;
@@ -72,16 +96,4 @@ var updatePageNumbers = function (context) {
 	var selectedArtboards = prepareSelectedArtboards(context);
 	var result = updatePageNumbersOfArtboards(selectedArtboards);
 	if (result) { context.document.showMessage("页码更新成功") }
-}
-
-function updateCatalog (context) {
-	var selectedArtboards = prepareSelectedArtboards(context);
-	var result = updatePageNumbersOfArtboards(selectedArtboards);
-	if (!result) { return }
-		
-	// 清理旧目录
-
-	// 生成新目录
-
-	context.document.showMessage("目录更新成功");
 }

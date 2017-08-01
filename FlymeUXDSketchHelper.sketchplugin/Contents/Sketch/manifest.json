@@ -1,9 +1,9 @@
 {
-  "name": "UXD 交互文档助手",
-  "description": "静静画图吧",
+  "name": "Fletch",
+  "description": "",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
-  "version": "1.1",
+  "version": "1.0.1",
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
   "compatibleVersion": "3",
@@ -14,20 +14,11 @@
       "identifier": "pageNumber",
       "script": "main.js",
       "handler": "updatePageNumbers"
-    },
-    {
-      "name": "更新目录",
-      "identifier": "updateCatalog",
-      "script": "main.js",
-      "handler": "updateCatalog"
     }
   ],
   "menu": {
     "items": [
       "pageNumber"
-    ],
-    [
-      "updateCatalog"
     ]
   }
 }
