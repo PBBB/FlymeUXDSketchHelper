@@ -16,7 +16,7 @@
       "handler": "updatePageNumbers"
     },
     {
-      "name": "更新目录",
+      "name": "更新文档页码及目录",
       "identifier": "updateCatalog",
       "script": "main.js",
       "handler": "updateCatalog"
