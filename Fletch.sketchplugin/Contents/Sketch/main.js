@@ -97,3 +97,16 @@ var updatePageNumbers = function (context) {
 	var result = updatePageNumbersOfArtboards(selectedArtboards);
 	if (result) { context.document.showMessage("页码更新成功") }
 }
+
+var updateCatalog = function (context) {
+    var selectedArtboards = prepareSelectedArtboards(context);
+    var result = updatePageNumbersOfArtboards(selectedArtboards);
+    if (!result) { return }
+        
+    // 清理旧目录
+
+    // 生成新目录
+
+    context.document.showMessage("目录更新成功");
+}
+
