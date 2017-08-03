@@ -77,7 +77,7 @@ function updatePageNumbersOfArtboards (artboards) {
             }
 
             if (pageTitleLayer == null || pageNumberLayer == null) {
-                [NSApp displayDialog: "功能概述的图层名需为“功能概述”，页码的图层名需为“交互图例 / 页码”" withTitle: "页码更新失败"];
+                [NSApp displayDialog: "请检查文档是否符合以下条件：\n1. 文档所有画板（包括封面和概述）按从上到下、从左到右的顺序排列\n2. 功能概述的图层名需为“功能概述”，页码的图层名需为“交互图例 / 页码”" withTitle: "页码更新失败"];
                 return result;
             }
 
@@ -123,6 +123,12 @@ var updateCatalog = function (context) {
         lastTitle = result.data[page];
     }
 
+    // 如果目录大于 16，提示暂不支持
+    var cataloglength = Object.keys(catalog).length;
+    if (cataloglength > 16) {
+        [NSApp displayDialog: "暂不支持超过 16 条的目录" withTitle: "目录更新失败"];
+    }
+
     // 清理旧目录
     var coverArtboard = selectedArtboards[0];
     var layersInCoverArtboard = coverArtboard.children();
@@ -135,7 +141,58 @@ var updateCatalog = function (context) {
         }
     }
 
-    // 生成新目录
+    // 生成新目录文字图层
+    var catalogTextLayers = [];
+    for (var pageNumber in catalog) {
+        var textLayer = MSTextLayer.new();
+        var catalogString = (parseInt(pageNumber) + 1) + " " + catalog[pageNumber];
+        textLayer.setStringValue(catalogString);
+        textLayer.setName(catalogString);
+        var font = [NSFont fontWithName: "PingFangSC-Medium" size: 40];
+        textLayer.setFont(font);
+        textLayer.textColor = MSColor.colorWithRGBADictionary({"r": 0.29, "g": 0.29, "b": 0.29, "a": 1});
+        textLayer.adjustFrameToFit();
+        catalogTextLayers.push(textLayer);
+    }
+
+    // 将新目录按不同文字分组，并添加到画板
+    var catalogTextLayerGroups = [];
+    switch (cataloglength) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        var catalogLayerGroup1 = MSLayerGroup.new();
+        catalogLayerGroup1.setName("目录一");
+        catalogLayerGroup1.addLayers(catalogTextLayers);
+        for (var i = 1; i < catalogTextLayers.length; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
+        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup1.frame().width()) / 2);
+        catalogLayerGroup1.frame().setY(1132);
+        catalogTextLayerGroups.push(catalogLayerGroup1);
+        break;
+
+        case 5:
+        case 6:
+        break;
+
+        case 7:
+        case 8:
+        break;
+
+        case 9:
+        break;
+
+        // 10~16
+        default:
+        break;
+    }
+
+
+    coverArtboard.addLayers(catalogTextLayerGroups);
+    // 更新日期
 
     context.document.showMessage("目录更新成功");
 }
