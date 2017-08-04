@@ -77,7 +77,7 @@ function updatePageNumbersOfArtboards (artboards) {
             }
 
             if (pageTitleLayer == null || pageNumberLayer == null) {
-                [NSApp displayDialog: "请检查文档是否符合以下条件：\n1. 文档所有画板（包括封面和概述）按从上到下、从左到右的顺序排列\n2. 功能概述的图层名需为“功能概述”，页码的图层名需为“交互图例 / 页码”" withTitle: "页码更新失败"];
+                [NSApp displayDialog: "请检查文档是否符合以下条件：\n1. 文档所有画板（包括封面和概述）都被选中，并按从上到下、从左到右的顺序排列\n2. 从第三个画板开始，功能概述的图层名需为“功能概述”，页码的图层名需为“交互图例 / 页码”" withTitle: "页码更新失败"];
                 return result;
             }
 
@@ -126,7 +126,8 @@ var updateCatalog = function (context) {
     // 如果目录大于 16，提示暂不支持
     var cataloglength = Object.keys(catalog).length;
     if (cataloglength > 16) {
-        [NSApp displayDialog: "暂不支持超过 16 条的目录" withTitle: "目录更新失败"];
+        [NSApp displayDialog: "暂不支持超过 16 条的目录" withTitle: "页码更新成功，目录更新失败"];
+        return;
     }
 
     // 清理旧目录
@@ -176,17 +177,167 @@ var updateCatalog = function (context) {
 
         case 5:
         case 6:
+        var catalogLayerGroup1 = MSLayerGroup.new();
+        catalogLayerGroup1.setName("目录一");
+        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,3));
+        for (var i = 1; i < 3; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
+        
+        var catalogLayerGroup2 = MSLayerGroup.new();
+        catalogLayerGroup2.setName("目录二");
+        catalogLayerGroup2.addLayers(catalogTextLayers.slice(3,catalogTextLayers.length));
+        for (var i = 3; i < catalogTextLayers.length; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
+
+        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691) / 2);
+        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
+        catalogLayerGroup1.frame().setY(1132);
+        catalogLayerGroup2.frame().setY(1132);
+        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2);
         break;
 
         case 7:
         case 8:
+        var catalogLayerGroup1 = MSLayerGroup.new();
+        catalogLayerGroup1.setName("目录一");
+        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,4));
+        for (var i = 1; i < 4; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
+        
+        var catalogLayerGroup2 = MSLayerGroup.new();
+        catalogLayerGroup2.setName("目录二");
+        catalogLayerGroup2.addLayers(catalogTextLayers.slice(4,catalogTextLayers.length));
+        for (var i = 4; i < catalogTextLayers.length; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
+
+        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691) / 2);
+        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
+        catalogLayerGroup1.frame().setY(1132);
+        catalogLayerGroup2.frame().setY(1132);
+        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2);
         break;
 
         case 9:
+        var catalogLayerGroup1 = MSLayerGroup.new();
+        catalogLayerGroup1.setName("目录一");
+        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,3));
+        for (var i = 1; i < 3; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
+
+        var catalogLayerGroup2 = MSLayerGroup.new();
+        catalogLayerGroup2.setName("目录二");
+        catalogLayerGroup2.addLayers(catalogTextLayers.slice(3,6));
+        for (var i = 3; i < 6; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
+        
+        var catalogLayerGroup3 = MSLayerGroup.new();
+        catalogLayerGroup3.setName("目录三");
+        catalogLayerGroup3.addLayers(catalogTextLayers.slice(6,catalogTextLayers.length));
+        for (var i = 6; i < catalogTextLayers.length; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup3.resizeToFitChildrenWithOption(0);
+
+        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691 * 2) / 2);
+        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
+        catalogLayerGroup3.frame().setX(catalogLayerGroup1.frame().x() + 691 * 2);
+        catalogLayerGroup1.frame().setY(1132);
+        catalogLayerGroup2.frame().setY(1132);
+        catalogLayerGroup3.frame().setY(1132);
+        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2, catalogLayerGroup3);
         break;
 
-        // 10~16
+        case 10:
+        case 11:
+        case 12:
+        var catalogLayerGroup1 = MSLayerGroup.new();
+        catalogLayerGroup1.setName("目录一");
+        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,4));
+        for (var i = 1; i < 4; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
+
+        var catalogLayerGroup2 = MSLayerGroup.new();
+        catalogLayerGroup2.setName("目录二");
+        catalogLayerGroup2.addLayers(catalogTextLayers.slice(4,8));
+        for (var i = 4; i < 8; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
+        
+        var catalogLayerGroup3 = MSLayerGroup.new();
+        catalogLayerGroup3.setName("目录三");
+        catalogLayerGroup3.addLayers(catalogTextLayers.slice(8,catalogTextLayers.length));
+        for (var i = 8; i < catalogTextLayers.length; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup3.resizeToFitChildrenWithOption(0);
+
+        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691 * 2) / 2);
+        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
+        catalogLayerGroup3.frame().setX(catalogLayerGroup1.frame().x() + 691 * 2);
+        catalogLayerGroup1.frame().setY(1132);
+        catalogLayerGroup2.frame().setY(1132);
+        catalogLayerGroup3.frame().setY(1132);
+        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2, catalogLayerGroup3);
+        break;
+
+        // 13~16
         default:
+        var catalogLayerGroup1 = MSLayerGroup.new();
+        catalogLayerGroup1.setName("目录一");
+        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,4));
+        for (var i = 1; i < 4; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
+
+        var catalogLayerGroup2 = MSLayerGroup.new();
+        catalogLayerGroup2.setName("目录二");
+        catalogLayerGroup2.addLayers(catalogTextLayers.slice(4,8));
+        for (var i = 4; i < 8; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
+
+        var catalogLayerGroup3 = MSLayerGroup.new();
+        catalogLayerGroup3.setName("目录三");
+        catalogLayerGroup3.addLayers(catalogTextLayers.slice(8,12));
+        for (var i = 8; i < 12; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup3.resizeToFitChildrenWithOption(0);
+        
+        var catalogLayerGroup4 = MSLayerGroup.new();
+        catalogLayerGroup4.setName("目录四");
+        catalogLayerGroup4.addLayers(catalogTextLayers.slice(12,catalogTextLayers.length));
+        for (var i = 12; i < catalogTextLayers.length; i++) {
+            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+        }
+        catalogLayerGroup4.resizeToFitChildrenWithOption(0);
+
+        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691 * 3) / 2);
+        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
+        catalogLayerGroup3.frame().setX(catalogLayerGroup1.frame().x() + 691 * 2);
+        catalogLayerGroup4.frame().setX(catalogLayerGroup1.frame().x() + 691 * 3);
+        catalogLayerGroup1.frame().setY(1132);
+        catalogLayerGroup2.frame().setY(1132);
+        catalogLayerGroup3.frame().setY(1132);
+        catalogLayerGroup4.frame().setY(1132);
+        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2, catalogLayerGroup3, catalogLayerGroup4);
         break;
     }
 
