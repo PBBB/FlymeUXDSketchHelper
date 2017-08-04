@@ -130,15 +130,18 @@ var updateCatalog = function (context) {
         return;
     }
 
-    // 清理旧目录
+    // 清理旧目录，以及获取日期图层
     var coverArtboard = selectedArtboards[0];
     var layersInCoverArtboard = coverArtboard.children();
+    var dateLayer = null;
     for (var i = 0; i < layersInCoverArtboard.length; i++) {
         if (layersInCoverArtboard[i].name() == "目录一" || 
             layersInCoverArtboard[i].name() == "目录二" ||
             layersInCoverArtboard[i].name() == "目录三" ||
             layersInCoverArtboard[i].name() == "目录四" ) {
             layersInCoverArtboard[i].removeFromParent();
+        } else if (layersInCoverArtboard[i].name() == "date") {
+            dateLayer = layersInCoverArtboard[i];
         }
     }
 
@@ -156,195 +159,57 @@ var updateCatalog = function (context) {
         catalogTextLayers.push(textLayer);
     }
 
-    // 将新目录按不同文字分组，并添加到画板
-    var catalogTextLayerGroups = [];
-    switch (cataloglength) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        var catalogLayerGroup1 = MSLayerGroup.new();
-        catalogLayerGroup1.setName("目录一");
-        catalogLayerGroup1.addLayers(catalogTextLayers);
-        for (var i = 1; i < catalogTextLayers.length; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
-        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup1.frame().width()) / 2);
-        catalogLayerGroup1.frame().setY(1132);
-        catalogTextLayerGroups.push(catalogLayerGroup1);
-        break;
+    // 设定目录文字图层的纵向间距
+    for (var i = 1; i < catalogTextLayers.length; i++) {
+        catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
+    }
 
+    // 用于存放目录图层组
+    var catalogTextLayerGroups = [];
+
+    // 根据目录文字图层，以及每一组的图层数量来将目录图层文字分组
+    function genetateGroupsFromLayes(layers, groupSize) {
+        var layerGroups = [];
+        var names = ["目录一", "目录二", "目录三", "目录四"];
+        var numberOfGroups = Math.ceil(layers.length / groupSize);
+        for (var i = 0; i < numberOfGroups; i++) {
+            var layerGroup = MSLayerGroup.new();
+            layerGroup.setName(names[i]);
+            layerGroup.addLayers(layers.slice(i*groupSize, (i+1)*groupSize));
+            layerGroup.resizeToFitChildrenWithOption(0);
+            layerGroups.push(layerGroup);
+        }
+        return layerGroups;
+    }
+
+    // 5、6、9 条目录时，每组目录 3 条，其他情况下都是 4 条
+    switch (cataloglength) {
         case 5:
         case 6:
-        var catalogLayerGroup1 = MSLayerGroup.new();
-        catalogLayerGroup1.setName("目录一");
-        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,3));
-        for (var i = 1; i < 3; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
-        
-        var catalogLayerGroup2 = MSLayerGroup.new();
-        catalogLayerGroup2.setName("目录二");
-        catalogLayerGroup2.addLayers(catalogTextLayers.slice(3,catalogTextLayers.length));
-        for (var i = 3; i < catalogTextLayers.length; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
-
-        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691) / 2);
-        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
-        catalogLayerGroup1.frame().setY(1132);
-        catalogLayerGroup2.frame().setY(1132);
-        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2);
-        break;
-
-        case 7:
-        case 8:
-        var catalogLayerGroup1 = MSLayerGroup.new();
-        catalogLayerGroup1.setName("目录一");
-        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,4));
-        for (var i = 1; i < 4; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
-        
-        var catalogLayerGroup2 = MSLayerGroup.new();
-        catalogLayerGroup2.setName("目录二");
-        catalogLayerGroup2.addLayers(catalogTextLayers.slice(4,catalogTextLayers.length));
-        for (var i = 4; i < catalogTextLayers.length; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
-
-        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691) / 2);
-        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
-        catalogLayerGroup1.frame().setY(1132);
-        catalogLayerGroup2.frame().setY(1132);
-        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2);
-        break;
-
         case 9:
-        var catalogLayerGroup1 = MSLayerGroup.new();
-        catalogLayerGroup1.setName("目录一");
-        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,3));
-        for (var i = 1; i < 3; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
-
-        var catalogLayerGroup2 = MSLayerGroup.new();
-        catalogLayerGroup2.setName("目录二");
-        catalogLayerGroup2.addLayers(catalogTextLayers.slice(3,6));
-        for (var i = 3; i < 6; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
-        
-        var catalogLayerGroup3 = MSLayerGroup.new();
-        catalogLayerGroup3.setName("目录三");
-        catalogLayerGroup3.addLayers(catalogTextLayers.slice(6,catalogTextLayers.length));
-        for (var i = 6; i < catalogTextLayers.length; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup3.resizeToFitChildrenWithOption(0);
-
-        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691 * 2) / 2);
-        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
-        catalogLayerGroup3.frame().setX(catalogLayerGroup1.frame().x() + 691 * 2);
-        catalogLayerGroup1.frame().setY(1132);
-        catalogLayerGroup2.frame().setY(1132);
-        catalogLayerGroup3.frame().setY(1132);
-        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2, catalogLayerGroup3);
+        catalogTextLayerGroups = genetateGroupsFromLayes(catalogTextLayers, 3);
         break;
 
-        case 10:
-        case 11:
-        case 12:
-        var catalogLayerGroup1 = MSLayerGroup.new();
-        catalogLayerGroup1.setName("目录一");
-        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,4));
-        for (var i = 1; i < 4; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
-
-        var catalogLayerGroup2 = MSLayerGroup.new();
-        catalogLayerGroup2.setName("目录二");
-        catalogLayerGroup2.addLayers(catalogTextLayers.slice(4,8));
-        for (var i = 4; i < 8; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
-        
-        var catalogLayerGroup3 = MSLayerGroup.new();
-        catalogLayerGroup3.setName("目录三");
-        catalogLayerGroup3.addLayers(catalogTextLayers.slice(8,catalogTextLayers.length));
-        for (var i = 8; i < catalogTextLayers.length; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup3.resizeToFitChildrenWithOption(0);
-
-        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691 * 2) / 2);
-        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
-        catalogLayerGroup3.frame().setX(catalogLayerGroup1.frame().x() + 691 * 2);
-        catalogLayerGroup1.frame().setY(1132);
-        catalogLayerGroup2.frame().setY(1132);
-        catalogLayerGroup3.frame().setY(1132);
-        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2, catalogLayerGroup3);
-        break;
-
-        // 13~16
         default:
-        var catalogLayerGroup1 = MSLayerGroup.new();
-        catalogLayerGroup1.setName("目录一");
-        catalogLayerGroup1.addLayers(catalogTextLayers.slice(0,4));
-        for (var i = 1; i < 4; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup1.resizeToFitChildrenWithOption(0);
-
-        var catalogLayerGroup2 = MSLayerGroup.new();
-        catalogLayerGroup2.setName("目录二");
-        catalogLayerGroup2.addLayers(catalogTextLayers.slice(4,8));
-        for (var i = 4; i < 8; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup2.resizeToFitChildrenWithOption(0);
-
-        var catalogLayerGroup3 = MSLayerGroup.new();
-        catalogLayerGroup3.setName("目录三");
-        catalogLayerGroup3.addLayers(catalogTextLayers.slice(8,12));
-        for (var i = 8; i < 12; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup3.resizeToFitChildrenWithOption(0);
-        
-        var catalogLayerGroup4 = MSLayerGroup.new();
-        catalogLayerGroup4.setName("目录四");
-        catalogLayerGroup4.addLayers(catalogTextLayers.slice(12,catalogTextLayers.length));
-        for (var i = 12; i < catalogTextLayers.length; i++) {
-            catalogTextLayers[i].frame().setY(catalogTextLayers[i-1].frame().y() + 117);
-        }
-        catalogLayerGroup4.resizeToFitChildrenWithOption(0);
-
-        catalogLayerGroup1.frame().setX((coverArtboard.frame().width() - catalogLayerGroup2.frame().width() - 691 * 3) / 2);
-        catalogLayerGroup2.frame().setX(catalogLayerGroup1.frame().x() + 691);
-        catalogLayerGroup3.frame().setX(catalogLayerGroup1.frame().x() + 691 * 2);
-        catalogLayerGroup4.frame().setX(catalogLayerGroup1.frame().x() + 691 * 3);
-        catalogLayerGroup1.frame().setY(1132);
-        catalogLayerGroup2.frame().setY(1132);
-        catalogLayerGroup3.frame().setY(1132);
-        catalogLayerGroup4.frame().setY(1132);
-        catalogTextLayerGroups.push(catalogLayerGroup1, catalogLayerGroup2, catalogLayerGroup3, catalogLayerGroup4);
+        catalogTextLayerGroups = genetateGroupsFromLayes(catalogTextLayers, 4);
         break;
     }
 
-
+    // 设定每个组的位置，并置入封面画板
+    catalogTextLayerGroups[0].frame().setX((coverArtboard.frame().width() - catalogTextLayerGroups[catalogTextLayerGroups.length - 1].frame().width() - 691 * (catalogTextLayerGroups.length - 1)) / 2);
+    for (var i = 0; i < catalogTextLayerGroups.length; i++) {
+        catalogTextLayerGroups[i].frame().setX(catalogTextLayerGroups[0].frame().x() + 691 * i);
+        catalogTextLayerGroups[i].frame().setY(1132);
+    }
     coverArtboard.addLayers(catalogTextLayerGroups);
+
     // 更新日期
+    if (dateLayer != null) {
+        var dateOfNow = new Date();
+        dateLayer.setStringValue("最后更新日期 " + dateOfNow.getFullYear() + " 年 " + (dateOfNow.getMonth() + 1) + " 月 " + dateOfNow.getDate() + " 日");
+    } else {
+        [NSApp displayDialog: "请更新至最新版交互文档模板" withTitle: "页码及目录更新成功，日期更新失败"];
+    }
 
-    context.document.showMessage("目录更新成功");
+    context.document.showMessage("目录及页码更新成功");
 }
-
