@@ -29,5 +29,18 @@
       <pubDate>Tue, 01 Aug 2017 20:53:14 +0800</pubDate>
       <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.1.zip" type="application/octet-stream" sparkle:version="1.0.1"/>
       </item>
+      <item>
+        <title>v1.1.0</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>1. 更新页码，以及封面目录、更新日期</li>
+              <li>2. 增加旧版文档模板兼容处理，减少出错概率</li>
+            </ul>
+          ]]>
+        </description>
+      <pubDate>Mon, 07 Aug 2017 20:12:43 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.1.0.zip" type="application/octet-stream" sparkle:version="1.1.0"/>
+      </item>
   </channel>
 </rss>

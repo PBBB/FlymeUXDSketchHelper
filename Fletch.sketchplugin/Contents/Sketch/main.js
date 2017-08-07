@@ -40,12 +40,20 @@ function updatePageNumbersOfArtboards (artboards) {
         var symbolMaster = symbolInstance.symbolMaster();
         var children = symbolMaster.children();
         var layerIDs = {};
-
         for (var i = 0; i < [children count]; i++){
             var layer = children[i];
             if( layer.name() == "3" )   { layerIDs.currentPage_ID = layer.objectID() }
-            if( layer.name() == "10" )    { layerIDs.totalPages_ID = layer.objectID() }
+            if( layer.name() == "10" )  { layerIDs.totalPages_ID = layer.objectID() }
         }
+
+        // 兼容处理，后续模板更新后删掉此部分
+        if (layerIDs.currentPage_ID == null) {
+            layerIDs.currentPage_ID = children[0].objectID();
+        }
+        if (layerIDs.totalPages_ID == null) {
+            layerIDs.totalPages_ID = children[1].objectID();
+        }
+
         return layerIDs;
     }
     
@@ -60,12 +68,13 @@ function updatePageNumbersOfArtboards (artboards) {
 
             	// 筛选出功能概述
             	if (layersInArtboard[j].name() == "功能概述") {
-            		pageTitleLayer = layersInArtboard[j]
+            		pageTitleLayer = layersInArtboard[j];
+                    continue;
                 }
 
                 // 筛选出页码
                 if (layersInArtboard[j].name() == "交互图例 / 页码") {
-                	pageNumberLayer = layersInArtboard[j]
+                	pageNumberLayer = layersInArtboard[j];
                     if (layerIDs == null ) {
                         layerIDs = getLayerIDs(pageNumberLayer);
                         if (layerIDs == null) {
@@ -73,6 +82,7 @@ function updatePageNumbersOfArtboards (artboards) {
 		                    return result;
                         }
                     }
+                    continue;
                 }
             }
 
@@ -140,7 +150,8 @@ var updateCatalog = function (context) {
             layersInCoverArtboard[i].name() == "目录三" ||
             layersInCoverArtboard[i].name() == "目录四" ) {
             layersInCoverArtboard[i].removeFromParent();
-        } else if (layersInCoverArtboard[i].name() == "date") {
+        // "date" 是之前测试版留下的结果，属于兼容处理
+        } else if (layersInCoverArtboard[i].name().includes("最后更新") || layersInCoverArtboard[i].name() == "date") {
             dateLayer = layersInCoverArtboard[i];
         }
     }
@@ -206,7 +217,10 @@ var updateCatalog = function (context) {
     // 更新日期
     if (dateLayer != null) {
         var dateOfNow = new Date();
-        dateLayer.setStringValue("最后更新日期 " + dateOfNow.getFullYear() + " 年 " + (dateOfNow.getMonth() + 1) + " 月 " + dateOfNow.getDate() + " 日");
+        var dateInfo = "最后更新日期 " + dateOfNow.getFullYear() + " 年 " + (dateOfNow.getMonth() + 1) + " 月 " + dateOfNow.getDate() + " 日";
+        dateLayer.setTextAlignment(0);// 设置左对齐
+        dateLayer.setStringValue(dateInfo);
+        dateLayer.setName(dateInfo);
     } else {
         [NSApp displayDialog: "请更新至最新版交互文档模板" withTitle: "页码及目录更新成功，日期更新失败"];
     }
