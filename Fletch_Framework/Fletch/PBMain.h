@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AddHistoryWindowController.h"
 
 @interface PBMain : NSObject
+@property (strong, retain) AddHistoryWindowController *addHistoryWC;
 
-- (void)addHistory;
+- (AddHistoryWindowController *)addHistory;
 @end
