@@ -8,11 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AddHistoryDelegate.h"
+#import "PBUpdateNotesTextView.h"
 
 @interface AddHistoryWindowController : NSWindowController
 @property (nonatomic, retain) AddHistoryDelegate *delegate;
 @property (weak) IBOutlet NSDatePicker *datePicker;
 @property (weak) IBOutlet NSTextField *authorTextField;
-@property (unsafe_unretained) IBOutlet NSTextView *updateNotesTextView;
+@property (unsafe_unretained) IBOutlet PBUpdateNotesTextView *updateNotesTextView;
+@property (weak) IBOutlet NSTextField *errorTipLabel;
 - (IBAction)addHistory:(NSButton *)sender;
+- (void) close;
 @end

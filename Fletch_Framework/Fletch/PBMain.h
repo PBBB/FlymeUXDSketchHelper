@@ -12,5 +12,6 @@
 @interface PBMain : NSObject
 @property (strong, retain) AddHistoryWindowController *addHistoryWC;
 
-- (AddHistoryWindowController *)addHistory;
+// 添加历史记录的入口
+- (AddHistoryWindowController *)addHistoryWindowController;
 @end

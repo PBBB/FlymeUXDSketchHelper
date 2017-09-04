@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="authorTextField" destination="60c-ag-Myb" id="qTS-dl-Kkx"/>
                 <outlet property="datePicker" destination="pQg-KW-hJA" id="J0C-Dw-B8u"/>
+                <outlet property="errorTipLabel" destination="44E-qP-6z8" id="BCe-Yb-R1B"/>
                 <outlet property="updateNotesTextView" destination="2D3-6s-fEl" id="Ei6-gx-EZB"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -65,16 +66,16 @@
                         </textFieldCell>
                     </textField>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="0tN-Iw-Kp5">
-                        <rect key="frame" x="95" y="60" width="365" height="153"/>
+                        <rect key="frame" x="95" y="61" width="365" height="152"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="pLh-PR-I2j">
-                            <rect key="frame" x="1" y="1" width="363" height="151"/>
+                            <rect key="frame" x="1" y="1" width="363" height="150"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="2D3-6s-fEl">
-                                    <rect key="frame" x="0.0" y="0.0" width="363" height="151"/>
+                                <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="2D3-6s-fEl" customClass="PBUpdateNotesTextView">
+                                    <rect key="frame" x="0.0" y="0.0" width="363" height="150"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="363" height="151"/>
+                                    <size key="minSize" width="363" height="150"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
@@ -86,7 +87,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.5" horizontal="NO" id="JgQ-GT-Ica">
-                            <rect key="frame" x="348" y="1" width="16" height="151"/>
+                            <rect key="frame" x="348" y="1" width="16" height="150"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -109,12 +110,21 @@
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         </datePickerCell>
                     </datePicker>
+                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="44E-qP-6z8">
+                        <rect key="frame" x="94" y="22" width="111" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="更新内容不能为空" id="E1s-Fc-HCy">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.83464216321243523" green="0.0" blue="0.016602276576725604" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="pIQ-Af-CIv" firstAttribute="top" secondItem="2D3-6s-fEl" secondAttribute="top" id="05I-ee-m1P"/>
                     <constraint firstAttribute="bottom" secondItem="gDG-KP-Ibb" secondAttribute="bottom" constant="20" symbolic="YES" id="3o2-Ky-klE"/>
                     <constraint firstItem="LlN-rX-yx9" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="20" symbolic="YES" id="4x9-11-Ope"/>
-                    <constraint firstItem="gDG-KP-Ibb" firstAttribute="top" secondItem="2D3-6s-fEl" secondAttribute="bottom" constant="20" id="8wp-wc-NFZ"/>
+                    <constraint firstItem="gDG-KP-Ibb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="44E-qP-6z8" secondAttribute="trailing" constant="8" symbolic="YES" id="9Sv-zo-N6x"/>
+                    <constraint firstItem="44E-qP-6z8" firstAttribute="baseline" secondItem="gDG-KP-Ibb" secondAttribute="baseline" id="A5n-IB-yaJ"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="baseline" secondItem="CEM-Ol-o0g" secondAttribute="baseline" id="J4W-FP-N9b"/>
                     <constraint firstItem="pIQ-Af-CIv" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" symbolic="YES" id="JzB-ya-czc"/>
                     <constraint firstItem="LlN-rX-yx9" firstAttribute="trailing" secondItem="pIQ-Af-CIv" secondAttribute="trailing" id="L5F-l6-jB3"/>
@@ -124,7 +134,9 @@
                     <constraint firstItem="0tN-Iw-Kp5" firstAttribute="leading" secondItem="pIQ-Af-CIv" secondAttribute="trailing" constant="8" symbolic="YES" id="TUu-od-vuk"/>
                     <constraint firstItem="CEM-Ol-o0g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pQg-KW-hJA" secondAttribute="trailing" constant="8" symbolic="YES" id="Xx1-yz-tHh"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="baseline" secondItem="LlN-rX-yx9" secondAttribute="baseline" id="dgb-vI-5lW"/>
+                    <constraint firstItem="44E-qP-6z8" firstAttribute="leading" secondItem="2D3-6s-fEl" secondAttribute="leading" id="gQL-ju-axU"/>
                     <constraint firstAttribute="trailing" secondItem="gDG-KP-Ibb" secondAttribute="trailing" constant="20" symbolic="YES" id="gU8-I8-YsP"/>
+                    <constraint firstItem="gDG-KP-Ibb" firstAttribute="top" secondItem="0tN-Iw-Kp5" secondAttribute="bottom" constant="20" id="ohp-vQ-z4i"/>
                     <constraint firstAttribute="trailing" secondItem="60c-ag-Myb" secondAttribute="trailing" constant="20" symbolic="YES" id="qPb-e6-3tn"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="leading" secondItem="CEM-Ol-o0g" secondAttribute="trailing" constant="8" symbolic="YES" id="r0h-r6-0UX"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="leading" secondItem="LlN-rX-yx9" secondAttribute="trailing" constant="8" symbolic="YES" id="zyk-Pm-3Mg"/>

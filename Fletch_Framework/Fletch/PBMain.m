@@ -17,7 +17,7 @@
     return @"Hey there, sending signal from PBMain, over.";
 }
 
-- (AddHistoryWindowController *)addHistory {
+- (AddHistoryWindowController *)addHistoryWindowController {
     addHistoryWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
     return addHistoryWC;
 }
