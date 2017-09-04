@@ -1,0 +1,7 @@
+@import 'Fletch.framework/FletchSketchHelper.js'
+var updateCatalog = function (context) {
+  log("Hello Catalog");
+  var main = [[PBMain alloc] initWithContext: context];
+  [main addHistory];
+  log(main);
+}

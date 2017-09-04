@@ -1,0 +1,6 @@
+framework module Fletch {
+  umbrella header "Fletch.h"
+
+  export *
+  module * { export * }
+}
