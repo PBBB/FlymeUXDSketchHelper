@@ -12,4 +12,7 @@
 
 //用来显示占位文本，但是因为是私有 API 所以只能用继承的方式来做
 @property (nonatomic, retain) NSString *placeholderString;
+
+//用来规避粘贴的富文本
+- (NSArray *)readablePasteboardTypes;
 @end

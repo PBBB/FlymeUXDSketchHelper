@@ -7,8 +7,6 @@ var addHistory = function (context) {
     return;
   }
 
-  var main = [[PBMain alloc] init];
-
   //定义 Delegate 所需要的方法
   COScript.currentCOScript().setShouldKeepAround_(true);
   var historyDelegate = new MochaJSDelegate();
@@ -16,20 +14,22 @@ var addHistory = function (context) {
     //如果更新成功，就关闭窗口；如果更新失败，用户还可以修改画板，重新执行添加目录操作，不会丢失写的内容
   	if (generateHistory (overviewArtboard, updateDate, author, notesArray)) {
       [addHistoryWC close];
+      context.document.showMessage("更新记录添加成功");
     }
   });
 
+  /*
   historyDelegate.setHandlerForSelector("didCloseAddHistoryWindowController:", function(addHistoryWC){
     //之前手动增加了引用记数，需要手动释放，避免内存泄漏。不过用户主动关闭的话，可能还是会有内存泄漏
-    [addHistoryWC release];
+    // [addHistoryWC release];
   });
+  */
 
   //生成弹出的窗口，设定 Delegate
-  // var historyWC = [main addHistoryWindowController];
   var historyWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
   historyWC.delegate = (historyDelegate.getClassInstance());
-  //增加引用记数，防止内存被释放导致窗口自动被关闭
-  [historyWC retain]; 
+  //增加引用记数，防止内存被释放导致窗口自动被关闭（似乎不需要了）
+  // [historyWC retain]; 
   [historyWC showWindow:self];
 }
 
@@ -136,17 +136,11 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray) {
 
   for (var i = 0; i < notesArray.length; i++) {
     var numberTextLayer = MSTextLayer.new();
-    numberTextLayer.setStringValue((i+1).toString());
+    numberTextLayer.setStringValue((i+1).toString() + ".");
     numberTextLayer.setName((i+1).toString());
     numberTextLayer.setFont(font);
     numberTextLayer.textColor = textColor;
     numberTextLayer.adjustFrameToFit();
-    // numberTextLayer.frame().setX(dateAndDesignerTextLayer.frame().x());
-    // if (i == 0) {
-    //   numberTextLayer.frame().setY(dateAndDesignerTextLayer.frame().y() + 29);
-    // } else {
-    //   numberTextLayer.frame().setY(updateNotesNumberLayersArray[i-1].frame().y() + 21);
-    // }
     updateNotesNumberLayersArray.push(numberTextLayer);
 
     var updateNoteTextLayer = MSTextLayer.new();
@@ -154,10 +148,9 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray) {
     updateNoteTextLayer.setName(notesArray[i]);
     updateNoteTextLayer.setFont(font);
     updateNoteTextLayer.textColor = textColor;
-    updateNoteTextLayer.adjustFrameToFit();
+    updateNoteTextLayer.setTextBehaviour(1);
     updateNoteTextLayer.frame().setWidth(492);
-    // updateNoteTextLayer.frame().setX(numberTextLayer.frame().x() + 33);
-    // updateNoteTextLayer.frame().setY(numberTextLayer.frame().y());
+    updateNoteTextLayer.adjustFrameToFit();
     updateNotesLayersArray.push(updateNoteTextLayer);
   }
 
@@ -166,8 +159,67 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray) {
   [historyLayerGroup insertLayer:updateHistorylayerGroup atIndex: 0];
 
   //调整各个图层的间距
+  for (var i = 0; i < updateNotesLayersArray.length; i++) {
+    updateNotesLayersArray[i].frame().setX(dateAndDesignerTextLayer.frame().x() + 33);
+    if (i == 0) {
+      updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i].frame().y() + 82);
+    } else {
+      updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i-1].frame().y() + updateNotesLayersArray[i-1].frame().height() + 21);
+    }
 
-  //添加并排列目录
+    updateNotesNumberLayersArray[i].frame().setX(dateAndDesignerTextLayer.frame().x());
+    updateNotesNumberLayersArray[i].frame().setY(updateNotesLayersArray[i].frame().y());
+  }
+  updateHistorylayerGroup.resizeToFitChildrenWithOption(0);
 
+  // 排列目录
+  var currentColumnNumber = 1;
+  var maxColumnNumber = 2;
+  var hasTooManyHistory = false;
+  // var columnsOfHistory = [[]];
+  for (var i = 0; i < historyLayerGroupsArray.length; i++) {
+    historyLayerGroupsArray[i].isVisible = true;
+    if (i == 0) {
+      historyLayerGroupsArray[i].frame().setX(0);
+      historyLayerGroupsArray[i].frame().setY(229);
+      var farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
+      if (farestBottom > 1540) {
+        historyLayerGroupsArray[i].removeFromParent();
+        [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
+        return false;
+      }
+      // columnsOfHistory[currentColumnNumber - 1].push(historyLayerGroupsArray[i]);
+    } else {
+      if (currentColumnNumber > maxColumnNumber) {
+        historyLayerGroupsArray[i].isVisible = false;
+        hasTooManyHistory = true;
+        continue;
+      }
+      historyLayerGroupsArray[i].frame().setX(0 + 688 * (currentColumnNumber - 1));
+      historyLayerGroupsArray[i].frame().setY(historyLayerGroupsArray[i-1].frame().y() + historyLayerGroupsArray[i-1].frame().height() + 154);
+      var farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
+      if (farestBottom > 1540) {
+          currentColumnNumber += 1;
+          if (currentColumnNumber > maxColumnNumber) {
+            historyLayerGroupsArray[i].isVisible = false;
+            hasTooManyHistory = true;
+            continue;
+          }
+          historyLayerGroupsArray[i].frame().setX(0 + 688 * (currentColumnNumber - 1));
+          historyLayerGroupsArray[i].frame().setY(229);
+          farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
+          if (farestBottom > 1540) {
+            historyLayerGroupsArray[i].isVisible = false;
+            [NSApp displayDialog: "请手动编辑更新记录" withTitle: "更新记录过长"];
+            currentColumnNumber = maxColumnNumber + 1;
+          }
+      }
+    }
+  }
 
+  if (hasTooManyHistory) { 
+    [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"]; 
+  }
+
+  return true;
 }

@@ -17,5 +17,5 @@
 @property (unsafe_unretained) IBOutlet PBUpdateNotesTextView *updateNotesTextView;
 @property (weak) IBOutlet NSTextField *errorTipLabel;
 - (IBAction)addHistory:(NSButton *)sender;
-- (void) close;
+//- (void) close;
 @end

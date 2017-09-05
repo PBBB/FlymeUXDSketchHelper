@@ -16,4 +16,8 @@
     // Drawing code here.
 }
 
+- (NSArray *)readablePasteboardTypes {
+    return [NSArray arrayWithObjects:NSPasteboardTypeString, nil];
+}
+
 @end

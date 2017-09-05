@@ -1,10 +1,10 @@
 {
-  "name": "Fletch ObjC",
+  "name": "Fletch",
   "description": "",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
-  "version": "1.2.0",
-  "identifier": "com.flyme.uxd.pbb.sketch-helper-objc",
+  "version": "1.1.9",
+  "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "compatibleVersion": "3",
   "bundleVersion": 1,
   "commands": [
@@ -16,7 +16,7 @@
       "handler": "updateCatalog"
     },
     {
-      "name": "Fletch 添加更新记录",
+      "name": "添加更新记录",
       "identifier": "addHistory",
       "shortcut": "ctrl shift h",
       "script": "AddHistory.cocoascript",

@@ -40,10 +40,11 @@
     }
 }
 
+/*
 - (void)close {
     [super close];
-    NSLog(@"did close");
     [delegate didCloseAddHistoryWindowController:self];
 }
+ */
 @end
 

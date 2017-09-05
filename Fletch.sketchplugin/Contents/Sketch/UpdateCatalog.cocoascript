@@ -179,7 +179,7 @@ var updateCatalog = function (context) {
     var catalogTextLayerGroups = [];
 
     // 根据目录文字图层，以及每一组的图层数量来将目录图层文字分组
-    function genetateGroupsFromLayes(layers, groupSize) {
+    function genetateGroupsFromLayers(layers, groupSize) {
         var layerGroups = [];
         var names = ["目录一", "目录二", "目录三", "目录四"];
         var numberOfGroups = Math.ceil(layers.length / groupSize);
@@ -198,11 +198,11 @@ var updateCatalog = function (context) {
         case 5:
         case 6:
         case 9:
-        catalogTextLayerGroups = genetateGroupsFromLayes(catalogTextLayers, 3);
+        catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, 3);
         break;
 
         default:
-        catalogTextLayerGroups = genetateGroupsFromLayes(catalogTextLayers, 4);
+        catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, 4);
         break;
     }
 
