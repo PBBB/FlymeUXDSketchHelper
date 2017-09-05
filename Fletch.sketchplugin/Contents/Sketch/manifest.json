@@ -9,16 +9,24 @@
   "bundleVersion": 1,
   "commands": [
     {
-      "name": "Fletch Objc",
+      "name": "更新文档页码及封面目录",
       "identifier": "updateCatalog",
       "shortcut": "ctrl shift c",
-      "script": "script.cocoascript",
+      "script": "UpdateCatalog.cocoascript",
       "handler": "updateCatalog"
+    },
+    {
+      "name": "Fletch 添加更新记录",
+      "identifier": "addHistory",
+      "shortcut": "ctrl shift h",
+      "script": "AddHistory.cocoascript",
+      "handler": "addHistory"
     }
   ],
   "menu": {
     "items": [
-      "updateCatalog"
+      "updateCatalog",
+      "addHistory"
     ]
   }
 }

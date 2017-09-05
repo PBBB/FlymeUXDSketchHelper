@@ -1,0 +1,174 @@
+@import 'Fletch.framework/FletchSketchHelper.js'
+@import 'MochaJSDelegate.js'
+
+var addHistory = function (context) {
+  var overviewArtboard = prepareOverviewArtboard(context);
+  if (overviewArtboard == null){
+    return;
+  }
+
+  var main = [[PBMain alloc] init];
+
+  //定义 Delegate 所需要的方法
+  COScript.currentCOScript().setShouldKeepAround_(true);
+  var historyDelegate = new MochaJSDelegate();
+  historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithDate:Author:Notes:", function(addHistoryWC, updateDate, author, notesArray){
+    //如果更新成功，就关闭窗口；如果更新失败，用户还可以修改画板，重新执行添加目录操作，不会丢失写的内容
+  	if (generateHistory (overviewArtboard, updateDate, author, notesArray)) {
+      [addHistoryWC close];
+    }
+  });
+
+  historyDelegate.setHandlerForSelector("didCloseAddHistoryWindowController:", function(addHistoryWC){
+    //之前手动增加了引用记数，需要手动释放，避免内存泄漏。不过用户主动关闭的话，可能还是会有内存泄漏
+    [addHistoryWC release];
+  });
+
+  //生成弹出的窗口，设定 Delegate
+  var historyWC = [main addHistoryWindowController];
+  historyWC.delegate = (historyDelegate.getClassInstance());
+  //增加引用记数，防止内存被释放导致窗口自动被关闭
+  [historyWC retain]; 
+  [historyWC showWindow:self];
+}
+
+//获得概述画板，如果没有找到，或者找到多个就要求用户选择
+function prepareOverviewArtboard (context) {
+  var artboardsOfCurrentPage = context.document.currentPage().artboards();
+  var overviewArtboardArray = [];
+  for (var i = 0; i < artboardsOfCurrentPage.length; i++) {
+    if (artboardsOfCurrentPage[i].name() == "概述") {
+      overviewArtboardArray.push(artboardsOfCurrentPage[i]);
+    }
+  }
+
+  //如果只有一个叫“概述”的画板
+  if (overviewArtboardArray.length == 1) {
+    return overviewArtboardArray[0];
+  } else {
+    //如果有超过一个，或者少于一个叫“概述”的画板，就从选择的画板里找
+    var selection = context.selection;
+    var selectedArtboards = [];
+    for (var i = 0; i < selection.length; i++) {
+      if (selection[i].isMemberOfClass(MSArtboardGroup)) {
+        selectedArtboards.push(selection[i]);
+      }
+    }
+    if (selectedArtboards.length == 1 ) {
+      if (selectedArtboards[0].name() == "概述") {
+        return selectedArtboards[0];
+      }
+    } else {
+      [NSApp displayDialog: "请确保当前页面只有一个名为“概述”的画板。\n如果有多个名为“概述”的画板，你可以选中希望添加更新记录的“概述”画板，并重新添加更新记录" withTitle: "未找到可添加更新记录的画板"];
+      return null;
+    }
+  }
+}
+
+function generateHistory (overviewArtboard, updateDate, author, notesArray) {
+  //获取原有目录
+  var historyLayerGroupsArray = [];
+  var historyLayerGroup = null;
+  for (var i = 0; i < overviewArtboard.children().length; i++) {
+    if (overviewArtboard.children()[i].name() == "更新记录" && overviewArtboard.children()[i].isMemberOfClass(MSLayerGroup)) {
+      historyLayerGroup = overviewArtboard.children()[i];
+      var historyLayers = historyLayerGroup.children();
+      for (var j = 0; j < historyLayers.length; j++) {
+        //目录的 children 会包含自己（好奇怪），所以需要排除
+        if (historyLayers[j].isMemberOfClass(MSLayerGroup) && historyLayers[j] != historyLayerGroup) {
+          historyLayerGroupsArray.push(historyLayers[j]);
+        }
+      }
+      break;
+    }
+  }
+
+  if (historyLayerGroup == null) {
+    [NSApp displayDialog: "请确保“概述”画板里有“更新记录”图层组" withTitle: "未找到“更新记录”图层组"];
+    return false;
+  }
+
+  // 将更新记录图层组按从新到旧的顺序排序
+  function compareLayers (firstLayer, secondLayer) {
+    if (firstLayer.frame().x() != secondLayer.frame().x()) {
+      return firstLayer.frame().x() - secondLayer.frame().x();
+    } else {
+      return firstLayer.frame().y() - secondLayer.frame().y();
+    }
+  }
+
+  historyLayerGroupsArray.sort(compareLayers);
+
+  //生成日期字符串（考虑时区、语言等因素，确保转换为中文日期）
+  var dateFormatter = [[NSDateFormatter alloc]init];
+  [dateFormatter setTimeZone: [NSTimeZone localTimeZone]];
+  var locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+  var localeFormatString = [NSDateFormatter dateFormatFromTemplate:@"dMMM" options:0 locale:locale];
+  dateFormatter.dateFormat = localeFormatString;
+  var localizedString = [dateFormatter stringFromDate:updateDate];
+
+  //生成新目录
+  var updateHistorylayerGroup = MSLayerGroup.new();
+  updateHistorylayerGroup.setName(localizedString);
+
+  //生成日期和设计师图层
+  var dateAndDesigner = localizedString;
+  if (author != "") {
+    dateAndDesigner = localizedString + "   " + author;
+  }
+  var dateAndDesignerTextLayer = MSTextLayer.new();
+  dateAndDesignerTextLayer.setStringValue(dateAndDesigner);
+  dateAndDesignerTextLayer.setName(dateAndDesigner);
+  var font = [NSFont fontWithName: "PingFangSC-Thin" size: 38];
+  dateAndDesignerTextLayer.setFont(font);
+  dateAndDesignerTextLayer.textColor = MSColor.colorWithRGBADictionary({"r": 0.1, "g": 0.1, "b": 0.1, "a": 1});
+  dateAndDesignerTextLayer.adjustFrameToFit();
+
+  //生成更新记录图层
+  var updateNotesNumberLayersArray = [];
+  var updateNotesLayersArray = [];
+
+  for (var i = 0; i < notesArray.length; i++) {
+    if (notesArray[i] == "") {
+      continue;
+    }
+    var numberTextLayer = MSTextLayer.new();
+    numberTextLayer.setStringValue(i+1);
+    numberTextLayer.setName(i+1);
+    var font = [NSFont fontWithName: "PingFangSC-Medium" size: 24];
+    numberTextLayer.setFont(font);
+    var textColor = MSColor.colorWithRGBADictionary({"r": 0.29, "g": 0.29, "b": 0.29, "a": 1});
+    numberTextLayer.textColor = textColor;
+    numberTextLayer.adjustFrameToFit();
+    numberTextLayer.frame().setX(dateAndDesignerTextLayer.frame().x());
+    if (i == 0) {
+      numberTextLayer.frame().setY(dateAndDesignerTextLayer.frame().y() + 29);
+    } else {
+      numberTextLayer.frame().setY(updateNotesNumberLayersArray[i-1].frame().y() + 21);
+    }
+    updateNotesNumberLayersArray.push(numberTextLayer);
+
+    var updateNoteTextLayer = MSTextLayer.new();
+    updateNoteTextLayer.setStringValue(notesArray[i]);
+    updateNoteTextLayer.setName(notesArray[i]);
+    updateNoteTextLayer.setFont(font);
+    updateNoteTextLayer.textColor = textColor;
+    updateNoteTextLayer.adjustFrameToFit();
+    updateNoteTextLayer.frame().setWidth(492);
+    updateNoteTextLayer.frame().setX(numberTextLayer.frame().x() + 33);
+    updateNoteTextLayer.frame().setY(numberTextLayer.frame().y());
+    updateNotesLayersArray.push(updateNoteTextLayer);
+  }
+
+  log(dateAndDesignerTextLayer);
+  log(updateNotesNumberLayersArray);
+  log(updateNotesLayersArray);
+
+  updateHistorylayerGroup.addLayers([dateAndDesignerTextLayer] + updateNotesNumberLayersArray + updateNotesLayersArray);
+  historyLayerGroupsArray.unshift(updateHistorylayerGroup);
+  historyLayerGroup.addLayers([updateHistorylayerGroup]);
+
+  //添加并排列目录
+
+
+}
