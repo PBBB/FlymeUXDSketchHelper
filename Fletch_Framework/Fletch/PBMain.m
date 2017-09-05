@@ -9,7 +9,7 @@
 #import "PBMain.h"
 
 @implementation PBMain
-#define PBLog(fmt, ...) NSLog((@"HelloSketch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 @synthesize addHistoryWC;
 
 - (NSString *)helloText {

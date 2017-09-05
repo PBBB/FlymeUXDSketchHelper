@@ -12,6 +12,7 @@
 @end
 
 @implementation AddHistoryWindowController
+#define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 @synthesize delegate;
 
 - (void)windowDidLoad {
@@ -20,7 +21,7 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     _datePicker.dateValue = [NSDate dateWithTimeIntervalSinceNow:0];
     [_datePicker setTimeZone: [NSTimeZone localTimeZone]];
-    _updateNotesTextView.placeholderString = @"不需要输入序号";
+    _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] makeFirstResponder:_updateNotesTextView];
 }
 
@@ -33,7 +34,9 @@
     } else {
         _errorTipLabel.hidden = YES;
         NSArray *updateNotes = [updateNotesString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:updateNotes];
+        //处理空行得到的空字符串
+        NSArray *finalUpdateNotes = [updateNotes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF != \"\""]];
+        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:finalUpdateNotes];
     }
 }
 
