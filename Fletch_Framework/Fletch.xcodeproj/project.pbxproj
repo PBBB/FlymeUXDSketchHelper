@@ -15,8 +15,6 @@
 		2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */; };
 		2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */; };
 		2BE505901F5930E500083521 /* Fletch.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BE5058E1F5930E500083521 /* Fletch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2BE505981F59312600083521 /* PBMain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BE505961F59312600083521 /* PBMain.h */; };
-		2BE505991F59312600083521 /* PBMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE505971F59312600083521 /* PBMain.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,8 +41,6 @@
 		2BE5058B1F5930E500083521 /* Fletch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fletch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE5058E1F5930E500083521 /* Fletch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fletch.h; sourceTree = "<group>"; };
 		2BE5058F1F5930E500083521 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2BE505961F59312600083521 /* PBMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBMain.h; sourceTree = "<group>"; };
-		2BE505971F59312600083521 /* PBMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBMain.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				2BE5058E1F5930E500083521 /* Fletch.h */,
-				2BE505961F59312600083521 /* PBMain.h */,
-				2BE505971F59312600083521 /* PBMain.m */,
 				2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */,
 				2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */,
 				2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */,
@@ -103,7 +97,6 @@
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
 				2BE505901F5930E500083521 /* Fletch.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
-				2BE505981F59312600083521 /* PBMain.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +172,6 @@
 			files = (
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
-				2BE505991F59312600083521 /* PBMain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
