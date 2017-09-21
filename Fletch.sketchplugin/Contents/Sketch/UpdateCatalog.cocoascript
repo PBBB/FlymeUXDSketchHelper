@@ -1,3 +1,5 @@
+@import 'Libraries/ga.js'
+
 function prepareSelectedArtboards (context) {
   var selection = context.selection;
   
@@ -21,7 +23,10 @@ function prepareSelectedArtboards (context) {
   return selectedArtboards;
 }
 
-function updatePageNumbersOfArtboards (artboards) {
+function updatePageNumbersOfArtboards (context, artboards) {
+
+    //初始化 GA
+    var ga = new Analytics(context);
 
     // 结果用于存储目录信息，以及是否更新成功
     var result = {};
@@ -31,6 +36,7 @@ function updatePageNumbersOfArtboards (artboards) {
   // 未选择图层提示
   if (artboards.length == 0) {
     [NSApp displayDialog: "请选择文档的所有画板（包括封面和概述）" withTitle: "页码更新失败"];
+    ga.sendEvent('UpdateCatalog', 'Fail', 'NoSelection');
     return result;
   } 
 
@@ -88,6 +94,7 @@ function updatePageNumbersOfArtboards (artboards) {
 
             if (pageTitleLayer == null || pageNumberLayer == null) {
                 [NSApp displayDialog: "请检查文档是否符合以下条件：\n1. 文档所有画板（包括封面和概述）都被选中，并按从上到下、从左到右的顺序排列\n2. 从第三个画板开始，功能概述的图层名需为“功能概述”，页码的图层名需为“交互图例 / 页码”" withTitle: "页码更新失败"];
+                ga.sendEvent('UpdateCatalog', 'Fail', 'NoPageTitleOrPageNumber');
                 return result;
             }
 
@@ -112,15 +119,19 @@ function updatePageNumbersOfArtboards (artboards) {
   return result;
 }
 
+//旧的只更新页码的方法，考虑去掉
 var updatePageNumbers = function (context) {
   var selectedArtboards = prepareSelectedArtboards(context);
-  var result = updatePageNumbersOfArtboards(selectedArtboards);
+  var result = updatePageNumbersOfArtboards(context, selectedArtboards);
   if (result) { context.document.showMessage("页码更新成功") }
 }
 
 var updateCatalog = function (context) {
+    //初始化 GA
+    var ga = new Analytics(context);
+
     var selectedArtboards = prepareSelectedArtboards(context);
-    var result = updatePageNumbersOfArtboards(selectedArtboards);
+    var result = updatePageNumbersOfArtboards(context, selectedArtboards);
     if (!result.isSuccess) { return }
        
     // 处理重复标题，生成目录数据
@@ -225,5 +236,6 @@ var updateCatalog = function (context) {
         [NSApp displayDialog: "请更新至最新版交互文档模板" withTitle: "页码及目录更新成功，日期更新失败"];
     }
 
+    ga.sendEvent('UpdateCatalog', 'Success', 'Success', cataloglength);
     context.document.showMessage("目录及页码更新成功");
 }

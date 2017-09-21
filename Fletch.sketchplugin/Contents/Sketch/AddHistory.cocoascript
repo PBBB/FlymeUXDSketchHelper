@@ -1,7 +1,12 @@
 @import 'Fletch.framework/FletchSketchHelper.js'
-@import 'MochaJSDelegate.js'
+@import 'Libraries/MochaJSDelegate.js'
+@import 'Libraries/ga.js'
 
 var addHistory = function (context) {
+
+  //初始化 GA
+  var ga = new Analytics(context);
+
   var overviewArtboard = prepareOverviewArtboard(context);
   if (overviewArtboard == null){
     return;
@@ -12,8 +17,11 @@ var addHistory = function (context) {
   var historyDelegate = new MochaJSDelegate();
   historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithDate:Author:Notes:", function(addHistoryWC, updateDate, author, notesArray){
     //如果更新成功，就关闭窗口；如果更新失败，用户还可以修改画板，重新执行添加目录操作，不会丢失写的内容
-  	if (generateHistory (overviewArtboard, updateDate, author, notesArray)) {
+  	if (generateHistory (overviewArtboard, updateDate, author, notesArray, ga)) {
       [addHistoryWC close];
+      if (ga) {
+        ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
+      }
       context.document.showMessage("更新记录添加成功");
     }
   });
@@ -21,8 +29,6 @@ var addHistory = function (context) {
   //生成弹出的窗口，设定 Delegate
   var historyWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
   historyWC.delegate = (historyDelegate.getClassInstance());
-  //增加引用记数，防止内存被释放导致窗口自动被关闭（似乎不需要了）
-  // [historyWC retain]; 
   [historyWC showWindow:self];
 }
 
@@ -59,7 +65,7 @@ function prepareOverviewArtboard (context) {
   }
 }
 
-function generateHistory (overviewArtboard, updateDate, author, notesArray) {
+function generateHistory (overviewArtboard, updateDate, author, notesArray, ga) {
   //获取原有目录
   var historyLayerGroupsArray = [];
   var historyLayerGroup = null;
@@ -185,7 +191,6 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray) {
         [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
         return false;
       }
-      // columnsOfHistory[currentColumnNumber - 1].push(historyLayerGroupsArray[i]);
     } else {
       if (currentColumnNumber > maxColumnNumber) {
         historyLayerGroupsArray[i].isVisible = false;
@@ -214,9 +219,10 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray) {
     }
   }
 
-  if (hasTooManyHistory) { 
+  if (hasTooManyHistory) {
+    ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
     [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"]; 
   }
-
+  
   return true;
 }
