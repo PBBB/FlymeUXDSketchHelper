@@ -15,7 +15,6 @@
 @property (weak) IBOutlet NSDatePicker *datePicker;
 @property (weak) IBOutlet NSTextField *authorTextField;
 @property (unsafe_unretained) IBOutlet PBUpdateNotesTextView *updateNotesTextView;
-@property (weak) IBOutlet NSTextField *errorTipLabel;
+@property (weak) IBOutlet NSButton *combineHistoryCheckbox;
 - (IBAction)addHistory:(NSButton *)sender;
-//- (void) close;
 @end

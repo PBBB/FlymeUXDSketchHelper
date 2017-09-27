@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13156.6"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AddHistoryWindowController">
             <connections>
                 <outlet property="authorTextField" destination="60c-ag-Myb" id="qTS-dl-Kkx"/>
+                <outlet property="combineHistoryCheckbox" destination="AI1-0T-L6a" id="Ai3-Ou-z3b"/>
                 <outlet property="datePicker" destination="pQg-KW-hJA" id="J0C-Dw-B8u"/>
-                <outlet property="errorTipLabel" destination="44E-qP-6z8" id="BCe-Yb-R1B"/>
                 <outlet property="updateNotesTextView" destination="2D3-6s-fEl" id="Ei6-gx-EZB"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="添加更新记录" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+        <window title="添加更新记录" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <rect key="contentRect" x="1092" y="634" width="480" height="270"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
@@ -104,7 +104,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pQg-KW-hJA">
-                        <rect key="frame" x="95" y="230" width="97" height="27"/>
+                        <rect key="frame" x="95" y="230" width="96" height="27"/>
                         <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="ag0-if-FTh">
                             <font key="font" metaFont="system"/>
                             <date key="date" timeIntervalSinceReferenceDate="-595929600">
@@ -114,21 +114,21 @@ DQ
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         </datePickerCell>
                     </datePicker>
-                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="44E-qP-6z8">
-                        <rect key="frame" x="94" y="22" width="111" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="更新内容不能为空" id="E1s-Fc-HCy">
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="AI1-0T-L6a">
+                        <rect key="frame" x="94" y="21" width="155" height="18"/>
+                        <buttonCell key="cell" type="check" title="合并同一天的更新记录" bezelStyle="regularSquare" imagePosition="left" inset="2" id="zED-Jo-T5D">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
-                            <color key="textColor" red="0.83464216321243523" green="0.0" blue="0.016602276576725604" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+                        </buttonCell>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="pIQ-Af-CIv" firstAttribute="top" secondItem="2D3-6s-fEl" secondAttribute="top" id="05I-ee-m1P"/>
                     <constraint firstAttribute="bottom" secondItem="gDG-KP-Ibb" secondAttribute="bottom" constant="20" symbolic="YES" id="3o2-Ky-klE"/>
                     <constraint firstItem="LlN-rX-yx9" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="20" symbolic="YES" id="4x9-11-Ope"/>
-                    <constraint firstItem="gDG-KP-Ibb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="44E-qP-6z8" secondAttribute="trailing" constant="8" symbolic="YES" id="9Sv-zo-N6x"/>
-                    <constraint firstItem="44E-qP-6z8" firstAttribute="baseline" secondItem="gDG-KP-Ibb" secondAttribute="baseline" id="A5n-IB-yaJ"/>
+                    <constraint firstItem="gDG-KP-Ibb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="AI1-0T-L6a" secondAttribute="trailing" constant="8" symbolic="YES" id="7xX-yL-hHL"/>
+                    <constraint firstItem="AI1-0T-L6a" firstAttribute="leading" secondItem="2D3-6s-fEl" secondAttribute="leading" id="HgO-Um-ZWa"/>
+                    <constraint firstItem="AI1-0T-L6a" firstAttribute="baseline" secondItem="gDG-KP-Ibb" secondAttribute="baseline" id="HzM-xC-21k"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="baseline" secondItem="CEM-Ol-o0g" secondAttribute="baseline" id="J4W-FP-N9b"/>
                     <constraint firstItem="pIQ-Af-CIv" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" symbolic="YES" id="JzB-ya-czc"/>
                     <constraint firstItem="LlN-rX-yx9" firstAttribute="trailing" secondItem="pIQ-Af-CIv" secondAttribute="trailing" id="L5F-l6-jB3"/>
@@ -138,7 +138,6 @@ DQ
                     <constraint firstItem="0tN-Iw-Kp5" firstAttribute="leading" secondItem="pIQ-Af-CIv" secondAttribute="trailing" constant="8" symbolic="YES" id="TUu-od-vuk"/>
                     <constraint firstItem="CEM-Ol-o0g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pQg-KW-hJA" secondAttribute="trailing" constant="8" symbolic="YES" id="Xx1-yz-tHh"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="baseline" secondItem="LlN-rX-yx9" secondAttribute="baseline" id="dgb-vI-5lW"/>
-                    <constraint firstItem="44E-qP-6z8" firstAttribute="leading" secondItem="2D3-6s-fEl" secondAttribute="leading" id="gQL-ju-axU"/>
                     <constraint firstAttribute="trailing" secondItem="gDG-KP-Ibb" secondAttribute="trailing" constant="20" symbolic="YES" id="gU8-I8-YsP"/>
                     <constraint firstItem="gDG-KP-Ibb" firstAttribute="top" secondItem="0tN-Iw-Kp5" secondAttribute="bottom" constant="20" id="ohp-vQ-z4i"/>
                     <constraint firstAttribute="trailing" secondItem="60c-ag-Myb" secondAttribute="trailing" constant="20" symbolic="YES" id="qPb-e6-3tn"/>
