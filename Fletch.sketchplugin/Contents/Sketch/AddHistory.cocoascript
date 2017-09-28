@@ -15,15 +15,8 @@ var addHistory = function (context) {
   //定义 Delegate 所需要的方法
   COScript.currentCOScript().setShouldKeepAround_(true);
   var historyDelegate = new MochaJSDelegate();
-  historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithDate:Author:Notes:", function(addHistoryWC, updateDate, author, notesArray){
-    //如果更新成功，就关闭窗口；如果更新失败，用户还可以修改画板，重新执行添加目录操作，不会丢失写的内容
-  	if (generateHistory (overviewArtboard, updateDate, author, notesArray, ga)) {
-      [addHistoryWC close];
-      if (ga) {
-        ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
-      }
-      context.document.showMessage("更新记录添加成功");
-    }
+  historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithInfo:", function(addHistoryWC, userInfo){
+    generateHistory (overviewArtboard, addHistoryWC, userInfo, ga);
   });
 
   //生成弹出的窗口，设定 Delegate
@@ -65,7 +58,14 @@ function prepareOverviewArtboard (context) {
   }
 }
 
-function generateHistory (overviewArtboard, updateDate, author, notesArray, ga) {
+function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
+
+  //提取数据
+  var updateDate = userInfo["date"];
+  var author = userInfo["author"];
+  var notesArray = userInfo["notes"];
+  var willCombine = userInfo["willConbineHistoryOfSameDay"];
+
   //获取原有目录
   var historyLayerGroupsArray = [];
   var historyLayerGroup = null;
@@ -188,7 +188,13 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray, ga) 
       var farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
       if (farestBottom > 1540) {
         historyLayerGroupsArray[i].removeFromParent();
-        [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
+        var alert = [[NSAlert alloc] init];
+        [alert setMessageText:"更新记录过长"];
+        [alert setInformativeText:"请手动添加更新记录"];
+        [alert addButtonWithTitle:"确定"];
+        [alert setAlertStyle: NSAlertStyleWarning];
+        [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:nil];
+        // [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
         return false;
       }
     } else {
@@ -212,7 +218,12 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray, ga) 
           farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
           if (farestBottom > 1540) {
             historyLayerGroupsArray[i].isVisible = false;
-            [NSApp displayDialog: "请手动编辑更新记录" withTitle: "更新记录过长"];
+            var alert = [[NSAlert alloc] init];
+            [alert setMessageText:"更新记录过长"];
+            [alert setInformativeText:"请手动编辑更新记录"];
+            [alert addButtonWithTitle:"确定"];
+            [alert setAlertStyle: NSAlertStyleWarning];
+            [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:nil];
             currentColumnNumber = maxColumnNumber + 1;
           }
       }
@@ -221,8 +232,20 @@ function generateHistory (overviewArtboard, updateDate, author, notesArray, ga) 
 
   if (hasTooManyHistory) {
     ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
-    [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"]; 
+    var alert = [[NSAlert alloc] init];
+    [alert setMessageText:"更新记录添加成功"];
+    [alert setInformativeText:"由于更新记录过多，较旧的更新记录已被隐藏"];
+    [alert addButtonWithTitle:"确定"];
+    [alert setAlertStyle: NSAlertStyleWarning];
+    [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:completionHandler];
+    function completionHandler (returnCode){
+      [addHistoryWC close];
+    }
+  } else {
+    [addHistoryWC close];
+    if (ga) {
+      ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
+    }
+    åcontext.document.showMessage("更新记录添加成功");
   }
-  
-  return true;
 }

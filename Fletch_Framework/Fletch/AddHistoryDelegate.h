@@ -13,6 +13,6 @@
 @interface AddHistoryDelegate : NSObject
 
 //处理弹窗中输入的内容
-//- (void) handleHistoryinAddHistoryWindowController:(AddHistoryWindowController *)addHistoryWC WithDate:(NSDate *)date Author:(NSString *)author Notes:(NSArray *)updateNotes CombineHistoryOfSameDay:(NSString *)willCombine;
-- (void) handleHistoryinAddHistoryWindowController:(AddHistoryWindowController *)addHistoryWC WithDate:(NSDate *)date Author:(NSString *)author Notes:(NSArray *)updateNotes;
+- (void) handleHistoryinAddHistoryWindowController:(AddHistoryWindowController *)addHistoryWC WithInfo:(NSDictionary *)userInfo;
+//- (void) handleHistoryinAddHistoryWindowController:(AddHistoryWindowController *)addHistoryWC WithDate:(NSDate *)date Author:(NSString *)author Notes:(NSArray *)updateNotes;
 @end

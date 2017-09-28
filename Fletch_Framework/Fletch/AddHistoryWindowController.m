@@ -34,7 +34,6 @@
     NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"确定"];
     [alert setMessageText:@"更新记录不能为空"];
-    [alert setAlertStyle: NSAlertStyleWarning];
 
     //若更新记录内容是为空，弹窗提示
     NSString *updateNotesString = _updateNotesTextView.string;
@@ -51,9 +50,16 @@
             return;
         }
         
-//        NSString *willConbineHistoryOfSameDay = self.combineHistoryCheckbox.state == NSOnState ? @"true" : @"false";
+        NSDictionary *userInfo = @{
+                                   @"date" : _datePicker.dateValue,
+                                   @"author" : _authorTextField.stringValue,
+                                   @"notes" : finalUpdateNotes,
+                                   @"willConbineHistoryOfSameDay" : self.combineHistoryCheckbox.state == NSOnState ? @(YES) : @(NO)
+                                   };
+        
 //        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:finalUpdateNotes CombineHistoryOfSameDay:willConbineHistoryOfSameDay];
-        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:finalUpdateNotes];
+//        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:finalUpdateNotes];
+        [delegate handleHistoryinAddHistoryWindowController:self WithInfo:userInfo];
     }
 }
 
