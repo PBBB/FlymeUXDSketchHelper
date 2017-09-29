@@ -22,6 +22,7 @@ var addHistory = function (context) {
   //生成弹出的窗口，设定 Delegate
   var historyWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
   historyWC.delegate = (historyDelegate.getClassInstance());
+  historyWC.window.title = "添加更新记录 - " + context.document.window().title();
   [historyWC showWindow:self];
 }
 
@@ -192,7 +193,6 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
         [alert setMessageText:"更新记录过长"];
         [alert setInformativeText:"请手动添加更新记录"];
         [alert addButtonWithTitle:"确定"];
-        [alert setAlertStyle: NSAlertStyleWarning];
         [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:nil];
         // [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
         return false;
@@ -231,21 +231,29 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
   }
 
   if (hasTooManyHistory) {
-    ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
-    var alert = [[NSAlert alloc] init];
-    [alert setMessageText:"更新记录添加成功"];
-    [alert setInformativeText:"由于更新记录过多，较旧的更新记录已被隐藏"];
-    [alert addButtonWithTitle:"确定"];
-    [alert setAlertStyle: NSAlertStyleWarning];
-    [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:completionHandler];
-    function completionHandler (returnCode){
-      [addHistoryWC close];
+    [addHistoryWC close];
+
+    //获取是否选择过不再提醒
+    var kTooManyHistoryHidingNofityKey = 'kTooManyHistoryHidingNofity';
+    var willNotify = NSUserDefaults.standardUserDefaults().objectForKey(kTooManyHistoryHidingNofityKey);
+    if (willNotify != 1) {
+      var alert = [[NSAlert alloc] init];
+      [alert setMessageText:"更新记录添加成功"];
+      [alert setInformativeText:"由于更新记录过多，较旧的更新记录已被隐藏"];
+      [alert addButtonWithTitle:"确定"];
+      [[alert suppressionButton] setTitle:"不再提醒"];
+      alert.showsSuppressionButton = true;
+      [alert runModal];
+      if ([[alert suppressionButton] state] == NSOnState) {
+        NSUserDefaults.standardUserDefaults().setObject_forKey(true, kTooManyHistoryHidingNofityKey);
+      }
     }
+ 
+    // [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"];
+    ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
   } else {
     [addHistoryWC close];
-    if (ga) {
-      ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
-    }
-    åcontext.document.showMessage("更新记录添加成功");
+    ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
+    context.document.showMessage("更新记录添加成功");
   }
 }
