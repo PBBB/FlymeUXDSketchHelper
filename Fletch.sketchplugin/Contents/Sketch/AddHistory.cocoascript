@@ -22,7 +22,9 @@ var addHistory = function (context) {
   //生成弹出的窗口，设定 Delegate
   var historyWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
   historyWC.delegate = (historyDelegate.getClassInstance());
-  historyWC.window.title = "添加更新记录 - " + context.document.window().title();
+  var titleWithExtension = context.document.window().title();
+  var title = titleWithExtension.substring(0, titleWithExtension.length() - 7);
+  [[historyWC window] setTitle: "添加更新记录 - " + title];
   [historyWC showWindow:self];
 }
 
@@ -70,13 +72,13 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
   //获取原有目录
   var historyLayerGroupsArray = [];
   var historyLayerGroup = null;
-  for (var i = 0; i < overviewArtboard.children().length; i++) {
-    if (overviewArtboard.children()[i].name() == "更新记录" && overviewArtboard.children()[i].isMemberOfClass(MSLayerGroup)) {
-      historyLayerGroup = overviewArtboard.children()[i];
-      var historyLayers = historyLayerGroup.children();
+  for (var i = 0; i < overviewArtboard.layers().length; i++) {
+    if (overviewArtboard.layers()[i].name() == "更新记录" && overviewArtboard.layers()[i].isMemberOfClass(MSLayerGroup)) {
+      historyLayerGroup = overviewArtboard.layers()[i];
+      var historyLayers = historyLayerGroup.layers();
       for (var j = 0; j < historyLayers.length; j++) {
-        //目录的 children 会包含自己（好奇怪），所以需要排除
-        if (historyLayers[j].isMemberOfClass(MSLayerGroup) && historyLayers[j] != historyLayerGroup) {
+        //目录的 children 会包含自己（好奇怪），所以需要排除（已改用 layers，不会出现奇葩情况了）
+        if (historyLayers[j].isMemberOfClass(MSLayerGroup)) {
           historyLayerGroupsArray.push(historyLayers[j]);
         }
       }
@@ -100,87 +102,147 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
 
   historyLayerGroupsArray.sort(compareLayers);
 
-  //生成日期字符串（考虑时区、语言等因素，确保转换为中文日期）
-  var dateFormatter = [[NSDateFormatter alloc]init];
-  [dateFormatter setTimeZone: [NSTimeZone localTimeZone]];
-  var locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
-  var localeFormatString = [NSDateFormatter dateFormatFromTemplate:@"dMMM" options:0 locale:locale];
-  dateFormatter.dateFormat = localeFormatString;
-  var localizedString = [dateFormatter stringFromDate:updateDate];
+  function generateNumberAndNotesLayersArray(notesArray) {
+    //生成更新记录图层
+    var updateNotesNumberLayersArray = [];
+    var updateNotesLayersArray = [];
 
-  //生成新目录
-  var updateHistorylayerGroup = MSLayerGroup.new();
-  updateHistorylayerGroup.setName(localizedString);
-
-  //生成日期和设计师图层
-  var dateAndDesigner = localizedString;
-  if (author != "") {
-    dateAndDesigner = localizedString + "   " + author;
-  }
-  var dateAndDesignerTextLayer = MSTextLayer.new();
-  dateAndDesignerTextLayer.setStringValue(dateAndDesigner);
-  dateAndDesignerTextLayer.setName(dateAndDesigner);
-  var font = [NSFont fontWithName: "PingFangSC-Thin" size: 38];
-  dateAndDesignerTextLayer.setFont(font);
-  dateAndDesignerTextLayer.textColor = MSColor.colorWithRGBADictionary({"r": 0.1, "g": 0.1, "b": 0.1, "a": 1});
-  dateAndDesignerTextLayer.adjustFrameToFit();
-
-  //生成更新记录图层
-  var updateNotesNumberLayersArray = [];
-  var updateNotesLayersArray = [];
-
-  var paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  paragraphStyle.minimumLineHeight = 40;
-  paragraphStyle.maximumLineHeight = 40;
-  paragraphStyle.paragraphSpacing = 14;
-  var attributes = {
-    'NSColor' : [NSColor colorWithSRGBRed:0.29 green:0.29 blue:0.29 alpha:1],
-    'NSFont' : [NSFont fontWithName: "PingFangSC-Medium" size: 24],
-    'NSParagraphStyle' : paragraphStyle
-  };
+    var paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.minimumLineHeight = 40;
+    paragraphStyle.maximumLineHeight = 40;
+    paragraphStyle.paragraphSpacing = 14;
+    var attributes = {
+      'NSColor' : [NSColor colorWithSRGBRed:0.29 green:0.29 blue:0.29 alpha:1],
+      'NSFont' : [NSFont fontWithName: "PingFangSC-Medium" size: 24],
+      'NSParagraphStyle' : paragraphStyle
+    };
 
 
-  for (var i = 0; i < notesArray.length; i++) {
-    var numberTextLayer = MSTextLayer.new();
-    numberTextLayer.setStringValue((i+1).toString() + ".");
-    numberTextLayer.setStyleAttributes(attributes);
-    numberTextLayer.setName((i+1).toString());
-    numberTextLayer.adjustFrameToFit();
-    updateNotesNumberLayersArray.push(numberTextLayer);
+    for (var i = 0; i < notesArray.length; i++) {
+      var numberTextLayer = MSTextLayer.new();
+      numberTextLayer.setStringValue((i+1).toString() + ".");
+      numberTextLayer.setStyleAttributes(attributes);
+      numberTextLayer.setName((i+1).toString());
+      numberTextLayer.adjustFrameToFit();
+      updateNotesNumberLayersArray.push(numberTextLayer);
 
-    var updateNoteTextLayer = MSTextLayer.new();
-    updateNoteTextLayer.setStringValue(notesArray[i]);
-    updateNoteTextLayer.setName(notesArray[i]);
-    updateNoteTextLayer.setStyleAttributes(attributes);
-    updateNoteTextLayer.setTextBehaviour(1);
-    updateNoteTextLayer.frame().setWidth(492);
-    updateNoteTextLayer.adjustFrameToFit();
-    updateNotesLayersArray.push(updateNoteTextLayer);
-  }
-
-  updateHistorylayerGroup.addLayers([dateAndDesignerTextLayer].concat(updateNotesNumberLayersArray).concat(updateNotesLayersArray));
-  historyLayerGroupsArray.unshift(updateHistorylayerGroup);
-  [historyLayerGroup insertLayer:updateHistorylayerGroup atIndex: 0];
-
-  //调整各个图层的间距
-  for (var i = 0; i < updateNotesLayersArray.length; i++) {
-    updateNotesLayersArray[i].frame().setX(dateAndDesignerTextLayer.frame().x() + 33);
-    if (i == 0) {
-      updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i].frame().y() + 82);
-    } else {
-      updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i-1].frame().y() + updateNotesLayersArray[i-1].frame().height() + 14);
+      var updateNoteTextLayer = MSTextLayer.new();
+      updateNoteTextLayer.setStringValue(notesArray[i]);
+      updateNoteTextLayer.setName(notesArray[i]);
+      updateNoteTextLayer.setStyleAttributes(attributes);
+      updateNoteTextLayer.setTextBehaviour(1);
+      updateNoteTextLayer.frame().setWidth(492);
+      updateNoteTextLayer.adjustFrameToFit();
+      updateNotesLayersArray.push(updateNoteTextLayer);
     }
 
-    updateNotesNumberLayersArray[i].frame().setX(dateAndDesignerTextLayer.frame().x());
-    updateNotesNumberLayersArray[i].frame().setY(updateNotesLayersArray[i].frame().y());
+    return [updateNotesNumberLayersArray, updateNotesLayersArray];
   }
-  updateHistorylayerGroup.resizeToFitChildrenWithOption(0);
+
+
+  //如果历史记录为空，则直接生成新内容
+  var localizedString = "";
+  var latestHistoryLayersGroup = historyLayerGroupsArray[0];
+
+  if (historyLayerGroupsArray.length == 0){
+    willCombine = 0;
+  } else {
+    //生成日期字符串（考虑时区、语言等因素，确保转换为中文日期）
+    var dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone: [NSTimeZone localTimeZone]];
+    var locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+    var localeFormatString = [NSDateFormatter dateFormatFromTemplate:@"dMMM" options:0 locale:locale];
+    dateFormatter.dateFormat = localeFormatString;
+    localizedString = [dateFormatter stringFromDate:updateDate];
+    //如果最新记录与更新日期不同，则直接生成新内容
+    if (latestHistoryLayersGroup.name().localeCompare(localizedString) != 0) {
+      willCombine = 0;
+    }
+  }
+
+  //如果不选择合并同一天记录，或者历史记录原本为空，则全部内容新生成
+  if (willCombine == 0) {
+
+    //生成新目录
+    var updateHistorylayerGroup = MSLayerGroup.new();
+    updateHistorylayerGroup.setName(localizedString);
+
+    //生成日期和设计师图层
+    var dateAndDesigner = localizedString;
+    if (author != "") {
+      dateAndDesigner = localizedString + "   " + author;
+    }
+    var dateAndDesignerTextLayer = MSTextLayer.new();
+    dateAndDesignerTextLayer.setStringValue(dateAndDesigner);
+    dateAndDesignerTextLayer.setName(dateAndDesigner);
+    var font = [NSFont fontWithName: "PingFangSC-Thin" size: 38];
+    dateAndDesignerTextLayer.setFont(font);
+    dateAndDesignerTextLayer.textColor = MSColor.colorWithRGBADictionary({"r": 0.1, "g": 0.1, "b": 0.1, "a": 1});
+    dateAndDesignerTextLayer.adjustFrameToFit();
+
+    //生成更新记录图层
+    var numberAndNotesArray = generateNumberAndNotesLayersArray(notesArray);
+    var updateNotesNumberLayersArray = numberAndNotesArray[0];
+    var updateNotesLayersArray = numberAndNotesArray[1];
+
+    
+    updateHistorylayerGroup.addLayers([dateAndDesignerTextLayer].concat(updateNotesNumberLayersArray).concat(updateNotesLayersArray));
+    historyLayerGroupsArray.unshift(updateHistorylayerGroup);
+    [historyLayerGroup insertLayer:updateHistorylayerGroup atIndex: 0];
+
+    //调整各个图层的间距
+    for (var i = 0; i < updateNotesLayersArray.length; i++) {
+      updateNotesLayersArray[i].frame().setX(dateAndDesignerTextLayer.frame().x() + 33);
+      if (i == 0) {
+        updateNotesLayersArray[i].frame().setY(dateAndDesignerTextLayer.frame().y() + 82);
+      } else {
+        updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i-1].frame().y() + updateNotesLayersArray[i-1].frame().height() + 14);
+      }
+
+      updateNotesNumberLayersArray[i].frame().setX(dateAndDesignerTextLayer.frame().x());
+      updateNotesNumberLayersArray[i].frame().setY(updateNotesLayersArray[i].frame().y());
+    }
+    updateHistorylayerGroup.resizeToFitChildrenWithOption(0);
+  } else {
+
+    //在最新的记录找到最靠后的图层，并在其下方插入生成的目录项
+    var latestHistoryLayersArray = latestHistoryLayersGroup.layers();
+    latestHistoryLayersArray.sort(compareLayers);
+    var leftMostLayer = latestHistoryLayersArray[0];
+    var bottomMostLayer = latestHistoryLayersArray[latestHistoryLayersArray.length - 1];
+
+    //生成更新记录图层
+    var numberAndNotesArray = generateNumberAndNotesLayersArray(notesArray);
+    var updateNotesNumberLayersArray = numberAndNotesArray[0];
+    var updateNotesLayersArray = numberAndNotesArray[1];
+    
+    latestHistoryLayersGroup.addLayers(updateNotesNumberLayersArray.concat(updateNotesLayersArray));
+
+    //调整各个图层的间距
+    for (var i = 0; i < updateNotesLayersArray.length; i++) {
+      updateNotesLayersArray[i].frame().setX(leftMostLayer.frame().x() + 33);
+      if (i == 0) {
+        updateNotesLayersArray[i].frame().setY(bottomMostLayer.frame().y() + 54);
+      } else {
+        updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i-1].frame().y() + updateNotesLayersArray[i-1].frame().height() + 14);
+      }
+
+      //改变更新序号的数值，这里只能近似去推算
+      log(updateNotesNumberLayersArray[i].name());
+      log(latestHistoryLayersArray.length);
+      var newNumber = parseInt(updateNotesNumberLayersArray[i].name()) + Math.floor((latestHistoryLayersArray.length - 1) / 2 - updateNotesLayersArray.length);
+      updateNotesNumberLayersArray[i].setName(newNumber.toString());
+      updateNotesNumberLayersArray[i].setStringValue(newNumber.toString() + ".");
+      updateNotesNumberLayersArray[i].frame().setX(leftMostLayer.frame().x());
+      updateNotesNumberLayersArray[i].frame().setY(updateNotesLayersArray[i].frame().y());
+    }
+    latestHistoryLayersGroup.resizeToFitChildrenWithOption(0);
+  }
 
   // 排列目录
   var currentColumnNumber = 1;
   var maxColumnNumber = 2;
   var hasTooManyHistory = false;
-  // var columnsOfHistory = [[]];
   for (var i = 0; i < historyLayerGroupsArray.length; i++) {
     historyLayerGroupsArray[i].isVisible = true;
     if (i == 0) {
@@ -188,14 +250,20 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
       historyLayerGroupsArray[i].frame().setY(229);
       var farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
       if (farestBottom > 1540) {
-        historyLayerGroupsArray[i].removeFromParent();
-        var alert = [[NSAlert alloc] init];
-        [alert setMessageText:"更新记录过长"];
-        [alert setInformativeText:"请手动添加更新记录"];
-        [alert addButtonWithTitle:"确定"];
-        [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:nil];
-        // [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
-        return false;
+        if (willCombine == 0) {
+          //如果不是合并后过长，则删除被添加的目录并提示，弹窗不关闭
+          historyLayerGroupsArray[i].removeFromParent();
+          var alert = [[NSAlert alloc] init];
+          [alert setMessageText:"更新记录过长"];
+          [alert setInformativeText:"请手动添加更新记录"];
+          [alert addButtonWithTitle:"确定"];
+          [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:nil];
+          // [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
+        } else {
+          //如果是合并后过长，因为单列过长难处理，所以直接排；后续目录正常排列，弹窗关闭
+          [addHistoryWC close];
+          // [NSApp displayDialog: "请手动调整更新记录" withTitle: "更新记录过长"];
+        }
       }
     } else {
       if (currentColumnNumber > maxColumnNumber) {
@@ -217,13 +285,9 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
           historyLayerGroupsArray[i].frame().setY(229);
           farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
           if (farestBottom > 1540) {
+            // 理论上不会出现这种情况
             historyLayerGroupsArray[i].isVisible = false;
-            var alert = [[NSAlert alloc] init];
-            [alert setMessageText:"更新记录过长"];
-            [alert setInformativeText:"请手动编辑更新记录"];
-            [alert addButtonWithTitle:"确定"];
-            [alert setAlertStyle: NSAlertStyleWarning];
-            [alert beginSheetModalForWindow:[addHistoryWC window] completionHandler:nil];
+            [NSApp displayDialog: "请手动编辑更新记录" withTitle: "更新记录过长"];
             currentColumnNumber = maxColumnNumber + 1;
           }
       }
