@@ -72,8 +72,8 @@ function updatePageNumbersOfArtboards (context, artboards) {
 
             for (var j = 0; j < layersInArtboard.length; j++) {
 
-              // 筛选出功能概述
-              if (layersInArtboard[j].name() == "功能概述") {
+                // 筛选出功能概述
+                if (layersInArtboard[j].name() == "功能概述") {
                 pageTitleLayer = layersInArtboard[j];
                     continue;
                 }
@@ -89,6 +89,16 @@ function updatePageNumbersOfArtboards (context, artboards) {
                         }
                     }
                     continue;
+                }
+
+                // 筛选出说明
+                if (layersInArtboard[j].name() == "界面名称" && layersInArtboard[j].isMemberOfClass(MSLayerGroup)) {
+                    for (var k = 0; k < layersInArtboard[j].layers().length; k++) {
+                        var subLayer = layersInArtboard[j].layers()[k];
+                        if(subLayer.isMemberOfClass(MSTextLayer) && subLayer.stringValue() == "- 界面逻辑说明"){
+                            subLayer.isVisible = false;
+                        }
+                    }
                 }
             }
 
