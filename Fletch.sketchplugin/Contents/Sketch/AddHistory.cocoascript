@@ -139,21 +139,20 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
     return [updateNotesNumberLayersArray, updateNotesLayersArray];
   }
 
+  //生成日期字符串（考虑时区、语言等因素，确保转换为中文日期）
+  var dateFormatter = [[NSDateFormatter alloc]init];
+  [dateFormatter setTimeZone: [NSTimeZone localTimeZone]];
+  var locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+  var localeFormatString = [NSDateFormatter dateFormatFromTemplate:@"dMMM" options:0 locale:locale];
+  dateFormatter.dateFormat = localeFormatString;
+  var localizedString = [dateFormatter stringFromDate:updateDate];
 
-  //如果历史记录为空，则直接生成新内容
-  var localizedString = "";
   var latestHistoryLayersGroup = historyLayerGroupsArray[0];
 
+  //如果历史记录为空，则直接生成新内容
   if (historyLayerGroupsArray.length == 0){
     willCombine = 0;
   } else {
-    //生成日期字符串（考虑时区、语言等因素，确保转换为中文日期）
-    var dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setTimeZone: [NSTimeZone localTimeZone]];
-    var locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
-    var localeFormatString = [NSDateFormatter dateFormatFromTemplate:@"dMMM" options:0 locale:locale];
-    dateFormatter.dateFormat = localeFormatString;
-    localizedString = [dateFormatter stringFromDate:updateDate];
     //如果最新记录与更新日期不同，则直接生成新内容
     if (latestHistoryLayersGroup.name().localeCompare(localizedString) != 0) {
       willCombine = 0;
