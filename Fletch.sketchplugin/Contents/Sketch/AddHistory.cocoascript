@@ -4,6 +4,13 @@
 
 var addHistory = function (context) {
 
+  // 存储线程标识符，避免弹出多个窗口
+  var threadDictionary = NSThread.mainThread().threadDictionary();
+  var identifier = "com.flyme.uxd.pbb.sketch-helper.addHistory";
+
+  // 如果已经存在了弹窗，则直接退出
+  if (threadDictionary[identifier]) return;
+
   //初始化 GA
   var ga = new Analytics(context);
 
@@ -26,6 +33,14 @@ var addHistory = function (context) {
   var title = titleWithExtension.substring(0, titleWithExtension.length() - 7);
   [[historyWC window] setTitle: "添加更新记录 - " + title];
   [historyWC showWindow:self];
+
+  //关闭窗口后需要移除对窗口的引用
+  var closeButton = [historyWC window].standardWindowButton(NSWindowCloseButton);
+  closeButton.setCOSJSTargetFunction(function(sender){
+    closeAddHistoryWindow(historyWC);
+  });
+
+  threadDictionary[identifier] = historyWC;
 }
 
 //获得概述画板，如果没有找到，或者找到多个就要求用户选择
@@ -260,7 +275,7 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
           // [NSApp displayDialog: "请手动添加更新记录" withTitle: "更新记录过长"];
         } else {
           //如果是合并后过长，因为单列过长难处理，所以直接排；后续目录正常排列，弹窗关闭
-          [addHistoryWC close];
+          closeAddHistoryWindow(addHistoryWC);
           // [NSApp displayDialog: "请手动调整更新记录" withTitle: "更新记录过长"];
         }
       }
@@ -294,7 +309,7 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
   }
 
   if (hasTooManyHistory) {
-    [addHistoryWC close];
+    closeAddHistoryWindow(addHistoryWC);
 
     //获取是否选择过不再提醒
     var kTooManyHistoryHidingNofityKey = 'kTooManyHistoryHidingNofity';
@@ -315,8 +330,20 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
     // [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"];
     ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
   } else {
-    [addHistoryWC close];
+    closeAddHistoryWindow(addHistoryWC);
     ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
     context.document.showMessage("更新记录添加成功");
   }
+}
+
+function closeAddHistoryWindow (addHistoryWC){
+  [addHistoryWC close];
+
+  // 移除对窗口的引用
+  var threadDictionary = NSThread.mainThread().threadDictionary();
+  var identifier = "com.flyme.uxd.pbb.sketch-helper.addHistory";
+  threadDictionary.removeObjectForKey(identifier);
+
+  // 停止插件运行
+  COScript.currentCOScript().setShouldKeepAround_(false);
 }
