@@ -21,6 +21,8 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [[self window] setBackgroundColor:NSColor.whiteColor];
     [[self window] setMovableByWindowBackground:YES];
+    [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
+    [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
     
     _datePicker.dateValue = [NSDate dateWithTimeIntervalSinceNow:0];
     [_datePicker setTimeZone: [NSTimeZone localTimeZone]];
