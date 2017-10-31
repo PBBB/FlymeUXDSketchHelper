@@ -91,15 +91,15 @@ function updatePageNumbersOfArtboards (context, artboards) {
                     continue;
                 }
 
-                // 筛选出说明
-                if (layersInArtboard[j].name() == "界面名称" && layersInArtboard[j].isMemberOfClass(MSLayerGroup)) {
-                    for (var k = 0; k < layersInArtboard[j].layers().length; k++) {
-                        var subLayer = layersInArtboard[j].layers()[k];
-                        if(subLayer.isMemberOfClass(MSTextLayer) && subLayer.stringValue() == "- 界面逻辑说明"){
-                            subLayer.isVisible = false;
-                        }
-                    }
-                }
+                // // 筛选出说明
+                // if (layersInArtboard[j].name() == "界面名称" && layersInArtboard[j].isMemberOfClass(MSLayerGroup)) {
+                //     for (var k = 0; k < layersInArtboard[j].layers().length; k++) {
+                //         var subLayer = layersInArtboard[j].layers()[k];
+                //         if(subLayer.isMemberOfClass(MSTextLayer) && subLayer.stringValue() == "- 界面逻辑说明"){
+                //             subLayer.isVisible = false;
+                //         }
+                //     }
+                // }
             }
 
             if (pageTitleLayer == null || pageNumberLayer == null) {
