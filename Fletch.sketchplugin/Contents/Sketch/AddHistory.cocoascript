@@ -308,6 +308,8 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
     }
   }
 
+  historyLayerGroup.resizeToFitChildrenWithOption(0);
+  
   if (hasTooManyHistory) {
     closeAddHistoryWindow(addHistoryWC);
 
