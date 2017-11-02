@@ -47,12 +47,26 @@
         <description>
           <![CDATA[
             <ul>
-              <li>1. 新增“添加更新历史”功能</li>
+              <li>1. 新增“添加更新记录”功能</li>
             </ul>
           ]]>
         </description>
       <pubDate>Thu, 21 Sep 2017 14:18:27 +0800</pubDate>
       <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.2.0.zip" type="application/octet-stream" sparkle:version="1.2.0"/>
+      </item>
+      <item>
+        <title>v1.2.1</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>1. 添加更新记录时可选合并同一天的记录</li>
+              <li>2. 添加更新记录窗口不再会被 Sketch 窗口挡住，且整个窗口可拖动</li>
+              <li>3. 更现代的外观</li>
+            </ul>
+          ]]>
+        </description>
+      <pubDate>Thu, 02 Nov 2017 15:42:13 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.2.1.zip" type="application/octet-stream" sparkle:version="1.2.1"/>
       </item>
   </channel>
 </rss>
