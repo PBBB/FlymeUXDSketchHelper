@@ -238,7 +238,7 @@ var updateCatalog = function (context) {
     // 更新日期
     if (dateLayer != null) {
         var dateOfNow = new Date();
-        var dateInfo = "最后更新 " + dateOfNow.getFullYear() + " 年 " + (dateOfNow.getMonth() + 1) + " 月 " + dateOfNow.getDate() + " 日";
+        var dateInfo = "最后更新 " + dateOfNow.getFullYear() + "年" + (dateOfNow.getMonth() + 1) + "月" + dateOfNow.getDate() + "日";
         dateLayer.setTextAlignment(0);// 设置左对齐
         dateLayer.setStringValue(dateInfo);
         dateLayer.setName(dateInfo);
