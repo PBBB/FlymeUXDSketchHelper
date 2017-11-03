@@ -68,5 +68,18 @@
       <pubDate>Thu, 02 Nov 2017 15:42:13 +0800</pubDate>
       <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/1.2.1" type="application/octet-stream" sparkle:version="1.2.1"/>
       </item>
+      <item>
+        <title>v1.2.2</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>1. 修复了添加更新记录事件不会上报的问题</li>
+              <li>2. 去除了两行调试代码</li>
+            </ul>
+          ]]>
+        </description>
+      <pubDate>Fri, 03 Nov 2017 11:08:53 +0800</pubDate>
+      <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/1.2.2" type="application/octet-stream" sparkle:version="1.2.2"/>
+      </item>
   </channel>
 </rss>

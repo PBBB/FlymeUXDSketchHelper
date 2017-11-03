@@ -242,8 +242,6 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
       }
 
       //改变更新序号的数值，这里只能近似去推算
-      log(updateNotesNumberLayersArray[i].name());
-      log(latestHistoryLayersArray.length);
       var newNumber = parseInt(updateNotesNumberLayersArray[i].name()) + Math.floor((latestHistoryLayersArray.length - 1) / 2 - updateNotesLayersArray.length);
       updateNotesNumberLayersArray[i].setName(newNumber.toString());
       updateNotesNumberLayersArray[i].setStringValue(newNumber.toString() + ".");
@@ -311,8 +309,6 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
   historyLayerGroup.resizeToFitChildrenWithOption(0);
   
   if (hasTooManyHistory) {
-    closeAddHistoryWindow(addHistoryWC);
-
     //获取是否选择过不再提醒
     var kTooManyHistoryHidingNofityKey = 'kTooManyHistoryHidingNofity';
     var willNotify = NSUserDefaults.standardUserDefaults().objectForKey(kTooManyHistoryHidingNofityKey);
@@ -331,10 +327,12 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
  
     // [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"];
     ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
-  } else {
     closeAddHistoryWindow(addHistoryWC);
+  } else {
     ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
-    context.document.showMessage("更新记录添加成功");
+    // 这里的提示暂时去掉，因为成功的结果很明显，不需要单独的提示
+    // context.document.showMessage("更新记录添加成功");
+    closeAddHistoryWindow(addHistoryWC);
   }
 }
 
