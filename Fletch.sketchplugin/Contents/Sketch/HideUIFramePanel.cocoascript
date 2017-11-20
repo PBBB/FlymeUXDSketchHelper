@@ -1,0 +1,10 @@
+@import 'Fletch.framework/FletchSketchHelper.js'
+@import 'Libraries/MochaJSDelegate.js'
+@import 'Libraries/ga.js'
+
+var showHideUIFramePanel = function (context) {
+  //显示面板
+  //生成线框
+
+  //面板处理完毕或关闭面板后，隐藏线框
+}

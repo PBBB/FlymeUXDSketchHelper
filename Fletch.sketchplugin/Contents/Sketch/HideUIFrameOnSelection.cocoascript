@@ -1,0 +1,12 @@
+@import 'Libraries/ga.js'
+
+var hideUIFrameOnSelection = function (context) {
+  //判断是否处于编辑界面框状态
+  if (false) {
+    for (var i = 0; i < context.actionContext.newSelection.length; i++) {
+    context.actionContext.document.currentPage().changeSelectionBySelectingLayers(nil);
+    }
+  }
+  
+
+}

@@ -22,12 +22,30 @@
       "shortcut": "ctrl shift h",
       "script": "AddHistory.cocoascript",
       "handler": "addHistory"
+    },
+    {
+      "name": "显示 / 隐藏界面框",
+      "identifier": "hideUIFramePanel",
+      "shortcut": "ctrl shift f",
+      "script": "HideUIFramePanel.cocoascript",
+      "handler": "showHideUIFramePanel"
+    },
+    {
+      "name": "显示 / 隐藏界面框 - 事件",
+      "identifier": "hideUIFrameOnSelection",
+      "script": "HideUIFrameOnSelection.cocoascript",
+      "handlers": {
+        "actions": {
+          "SelectionChanged.finish": "hideUIFrameOnSelection"
+        }
+      }
     }
   ],
   "menu": {
     "items": [
       "updateCatalog",
-      "addHistory"
+      "addHistory",
+      "hideUIFramePanel"
     ]
   }
 }
