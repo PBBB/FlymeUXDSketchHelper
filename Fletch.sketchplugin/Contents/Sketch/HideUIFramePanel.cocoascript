@@ -3,11 +3,79 @@
 @import 'Libraries/ga.js'
 
 var showHideUIFramePanel = function (context) {
-  //显示面板
-  //获取画板（选择？全部？还需要筛选出有界面的画板）
-  //获取界面框位置（大小先不处理了，只按默认大小处理，因为大的会导致字母顺序更难处理）
-  //获取界面逻辑说明的大小（需要设定大小上线）和位置
-  //生成线框
+  
+  //获取画板
+  var selectedArtboards = prepareSelectedArtboards(context);
+  var artboardsToProcess = [];
+  if (selectedArtboards.length == 0) {
+    //TO DO:如果没选择画板，则视为全选画板
+  } else {
+    artboardsToProcess = selectedArtboards;
+  }
+
+  //筛选出有界面的画板，并提取出框架、界面名称及说明
+  var artboardsWithUIFrame = [];
+  for (var i = 0; i < selectedArtboards.length; i++) {
+    for (var j = 0; j < selectedArtboards[i].layers().length; j++){
+      if (selectedArtboards[i].layers()[j].name() == "框架"){
+        artboardsWithUIFrame.push(selectedArtboards[i]);
+
+        continue;
+      }
+      if (selectedArtboards[i].layers()[j].name() == "界面名称"){
+        //
+        continue;
+      }
+    }
+  }
+  
+  //如果没有有界面的画板，则直接退出
+  if(artboardsWithUIFrame.length == 0){
+    [NSApp displayDialog: "框架的图层组名须为“框架”，界面名称及说明的图层组名须为“界面名称”" withTitle: "未找到包含界面框的画板"];
+    return;
+  }
+
+//如果有有界面的画板，则开始初始化面板
+//存储线程标识符，避免弹出多个面板
+  var threadDictionary = NSThread.mainThread().threadDictionary();
+  var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
+
+  //如果已经存在了面板，则直接退出
+  if (threadDictionary[identifier]) return;
+
+  //初始化 GA
+  var ga = new Analytics(context);
+
+  //定义 Delegate 所需要的方法
+  COScript.currentCOScript().setShouldKeepAround_(true);
+  var hideUIFramePanelDelegate = new MochaJSDelegate();
+  hideUIFramePanelDelegate.setHandlerForSelector("didClickFinishOperationInWindowController:", function(hideUIFramePanelWC){
+    //TO DO: 面板里按钮调用的方法
+    log("finish operation" + hideUIFramePanelWC.toString());
+    //generateHistory (overviewArtboard, addHistoryWC, userInfo, ga);
+  });
+
+  //生成弹出的面板，设定 Delegate
+  var hideUIFramePanelWC = [[ShowHideUIFrameWindowController alloc] initWithWindowNibName:@"ShowHideUIFrameWindowController"];
+  hideUIFramePanelWC.delegate = (hideUIFramePanelDelegate.getClassInstance());
+  [hideUIFramePanelWC showWindow:self];
+
+  //关闭面板后需要移除对面板的引用
+  var closeButton = [hideUIFramePanelWC window].standardWindowButton(NSWindowCloseButton);
+  closeButton.setCOSJSTargetFunction(function(sender){
+    //TO DO: 关闭窗口后需要移除对窗口的引用
+    // closeAddHistoryWindow(historyWC);
+    [hideUIFramePanelWC close];
+    // 移除对面板的引用
+    var threadDictionary = NSThread.mainThread().threadDictionary();
+    var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
+    threadDictionary.removeObjectForKey(identifier);
+    // 停止插件运行
+    COScript.currentCOScript().setShouldKeepAround_(false);
+  });
+  threadDictionary[identifier] = hideUIFramePanelWC;
+
+  //根据线框、说明等位置数据生成线框
   var rect   = MSRectangleShape.alloc().init();
   rect.frame = MSRect.rectWithRect(NSMakeRect(0, 0, 100, 100));
   var shapeGroup = MSShapeGroup.shapeWithPath(rect);
@@ -16,3 +84,17 @@ var showHideUIFramePanel = function (context) {
 
   //面板处理完毕或关闭面板后，隐藏线框（Delegation）
 }
+
+function prepareSelectedArtboards (context) {
+  var selection = context.selection;
+  
+  // 提取所选画板
+  var selectedArtboards = [];
+  for (var i = 0; i < selection.length; i++) {
+    if (selection[i].isMemberOfClass(MSArtboardGroup)) {
+      selectedArtboards.push(selection[i]);
+    }
+  }
+  return selectedArtboards;
+}
+

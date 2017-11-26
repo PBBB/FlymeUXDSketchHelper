@@ -31,6 +31,7 @@ var addHistory = function (context) {
   historyWC.delegate = (historyDelegate.getClassInstance());
   var titleWithExtension = context.document.window().title();
   var title = titleWithExtension.substring(0, titleWithExtension.length() - 7);
+  // 需要判断末位是否为“.sketch”来隐藏
   [[historyWC window] setTitle: "添加更新记录 - " + title];
   [historyWC showWindow:self];
 

@@ -28,7 +28,6 @@
     [_datePicker setTimeZone: [NSTimeZone localTimeZone]];
     _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] setLevel: NSFloatingWindowLevel];
-    [[self window] setHidesOnDeactivate: YES];
     [[self window] makeFirstResponder:_updateNotesTextView];
 }
 

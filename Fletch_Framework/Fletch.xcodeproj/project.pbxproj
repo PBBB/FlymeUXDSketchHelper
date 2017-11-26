@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */; };
 		2B1237871F5937BF0010ABDC /* FletchSketchHelper.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1237841F5936C90010ABDC /* FletchSketchHelper.js */; };
+		2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */; };
+		2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */; };
+		2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */; };
 		2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */; };
 		2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */; };
 		2BBE4D9C1F5CEE4E005ACB47 /* AddHistoryWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BBE4D991F5CEE4E005ACB47 /* AddHistoryWindowController.xib */; };
@@ -31,7 +35,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameDelegate.h; sourceTree = "<group>"; };
 		2B1237841F5936C90010ABDC /* FletchSketchHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FletchSketchHelper.js; sourceTree = "<group>"; };
+		2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameWindowController.h; sourceTree = "<group>"; };
+		2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowHideUIFrameWindowController.m; sourceTree = "<group>"; };
+		2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowHideUIFrameWindowController.xib; sourceTree = "<group>"; };
 		2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddHistoryWindowController.h; sourceTree = "<group>"; };
 		2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddHistoryWindowController.m; sourceTree = "<group>"; };
 		2BBE4D991F5CEE4E005ACB47 /* AddHistoryWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddHistoryWindowController.xib; sourceTree = "<group>"; };
@@ -54,6 +62,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BB0906F1FC6A9710065F0D3 /* AddHistory */ = {
+			isa = PBXGroup;
+			children = (
+				2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */,
+				2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */,
+				2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */,
+				2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */,
+				2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */,
+				2BBE4D991F5CEE4E005ACB47 /* AddHistoryWindowController.xib */,
+			);
+			path = AddHistory;
+			sourceTree = "<group>";
+		};
+		2BB090701FC6A9990065F0D3 /* ShowHideUIFrame */ = {
+			isa = PBXGroup;
+			children = (
+				2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */,
+				2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */,
+				2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */,
+				2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */,
+			);
+			path = ShowHideUIFrame;
+			sourceTree = "<group>";
+		};
 		2BE505811F5930E500083521 = {
 			isa = PBXGroup;
 			children = (
@@ -74,12 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				2BE5058E1F5930E500083521 /* Fletch.h */,
-				2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */,
-				2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */,
-				2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */,
-				2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */,
-				2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */,
-				2BBE4D991F5CEE4E005ACB47 /* AddHistoryWindowController.xib */,
+				2BB0906F1FC6A9710065F0D3 /* AddHistory */,
+				2BB090701FC6A9990065F0D3 /* ShowHideUIFrame */,
 				2B1237841F5936C90010ABDC /* FletchSketchHelper.js */,
 				2BE5058F1F5930E500083521 /* Info.plist */,
 			);
@@ -94,8 +122,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */,
+				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
 				2BE505901F5930E500083521 /* Fletch.h in Headers */,
+				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,6 +189,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */,
 				2BBE4D9C1F5CEE4E005ACB47 /* AddHistoryWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */,
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
 			);
