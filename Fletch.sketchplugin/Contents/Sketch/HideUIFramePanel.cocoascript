@@ -1,8 +1,10 @@
-@import 'Fletch.framework/FletchSketchHelper.js'
-@import 'Libraries/MochaJSDelegate.js'
-@import 'Libraries/ga.js'
+
 
 var showHideUIFramePanel = function (context) {
+
+  @import 'Fletch.framework/FletchSketchHelper.js'
+  @import 'Libraries/MochaJSDelegate.js'
+  @import 'Libraries/ga.js'
   
   //获取画板
   var selectedArtboards = prepareSelectedArtboards(context);
