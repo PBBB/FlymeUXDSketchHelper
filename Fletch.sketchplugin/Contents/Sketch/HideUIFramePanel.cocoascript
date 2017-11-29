@@ -27,6 +27,7 @@ var showHideUIFramePanel = function (context) {
   var artboardsWithUIFrame = [];
 
   //以下三个为二维数组，子数组为每个有界面的画板下相应元素的数组
+  //"i"的概念还是不对，这个方法有问题，要改
   var frameLayers = [];
   var uiNameLayers = [];
   var uiDescriptionLayers = [];
@@ -36,7 +37,7 @@ var showHideUIFramePanel = function (context) {
         artboardsWithUIFrame.push(selectedArtboards[i]);
         frameLayers.push([]);
         for (var k = 0; k < selectedArtboards[i].layers()[j].layers().length; k++){
-         	frameLayers[i].push(selectedArtboards[i].layers()[j].layers()[k]);
+         	frameLayers[frameLayers.length - 1].push(selectedArtboards[i].layers()[j].layers()[k]);
         }
         continue;
       }
@@ -59,6 +60,9 @@ var showHideUIFramePanel = function (context) {
     }
   }
   
+  //获取信息之后取消选择，方便下一步选择操作
+  context.document.currentPage().changeSelectionBySelectingLayers(nil);
+
   //如果没有有界面的画板，则直接退出
   if(artboardsWithUIFrame.length == 0){
     [NSApp displayDialog: "框架的图层组名须为“框架”，界面名称及说明的图层组名须为“界面名称”" withTitle: "未找到包含界面框的画板"];
