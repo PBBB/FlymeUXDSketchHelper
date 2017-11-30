@@ -18,48 +18,55 @@ var showHideUIFramePanel = function (context) {
   var selectedArtboards = prepareSelectedArtboards(context);
   var artboardsToProcess = [];
   if (selectedArtboards.length == 0) {
-    //TO DO:如果没选择画板，则视为全选画板
+    artboardsToProcess = context.document.currentPage().artboards()
   } else {
     artboardsToProcess = selectedArtboards;
   }
 
   //筛选出有界面的画板，并提取出框架、界面名称及说明
   var artboardsWithUIFrame = [];
+  for (var i = 0; i < artboardsToProcess.length; i++) {
+    for (var j = 0; j < artboardsToProcess[i].layers().length; j++){
+      if (artboardsToProcess[i].layers()[j].name() == "框架"){
+        artboardsWithUIFrame.push(artboardsToProcess[i]);
+      }
+    }
+  }
 
   //以下三个为二维数组，子数组为每个有界面的画板下相应元素的数组
-  //"i"的概念还是不对，这个方法有问题，要改
   var frameLayers = [];
   var uiNameLayers = [];
   var uiDescriptionLayers = [];
-  for (var i = 0; i < selectedArtboards.length; i++) {
-    for (var j = 0; j < selectedArtboards[i].layers().length; j++){
-      if (selectedArtboards[i].layers()[j].name() == "框架"){
-        artboardsWithUIFrame.push(selectedArtboards[i]);
-        frameLayers.push([]);
-        for (var k = 0; k < selectedArtboards[i].layers()[j].layers().length; k++){
-         	frameLayers[frameLayers.length - 1].push(selectedArtboards[i].layers()[j].layers()[k]);
+  for (var i = 0; i < artboardsWithUIFrame.length; i++) {
+    for (var j = 0; j < artboardsWithUIFrame[i].layers().length; j++){
+      if (artboardsWithUIFrame[i].layers()[j].name() == "框架"){
+      	while (frameLayers.length <= i) {
+      		frameLayers.push([]);
+      	}
+        for (var k = 0; k < artboardsWithUIFrame[i].layers()[j].layers().length; k++){
+         	frameLayers[i].push(artboardsWithUIFrame[i].layers()[j].layers()[k]);
         }
         continue;
       }
-      if (selectedArtboards[i].layers()[j].name() == "界面名称"){
-        for (var k = 0; k < selectedArtboards[i].layers()[j].layers().length; k++){
-        	if (selectedArtboards[i].layers()[j].layers()[k].isMemberOfClass(MSTextLayer)){
+      if (artboardsWithUIFrame[i].layers()[j].name() == "界面名称"){
+        for (var k = 0; k < artboardsWithUIFrame[i].layers()[j].layers().length; k++){
+        	if (artboardsWithUIFrame[i].layers()[j].layers()[k].isMemberOfClass(MSTextLayer)){
         		while (uiDescriptionLayers.length <= i) {
         			uiDescriptionLayers.push([]);
         		}
-        		uiDescriptionLayers[i].push(selectedArtboards[i].layers()[j].layers()[k]);
+        		uiDescriptionLayers[i].push(artboardsWithUIFrame[i].layers()[j].layers()[k]);
         	} else {
         		while (uiNameLayers.length <= i) {
         			uiNameLayers.push([]);
         		}
-				uiNameLayers[i].push(selectedArtboards[i].layers()[j].layers()[k]);
+				uiNameLayers[i].push(artboardsWithUIFrame[i].layers()[j].layers()[k]);
         	}
          }
         continue;
       }
     }
   }
-  
+
   //获取信息之后取消选择，方便下一步选择操作
   context.document.currentPage().changeSelectionBySelectingLayers(nil);
 
@@ -102,10 +109,25 @@ var showHideUIFramePanel = function (context) {
   threadDictionary[identifier] = hideUIFramePanelWC;
 
   //根据线框、说明等位置数据生成线框
-  var shapeGroup = generateRectangleWithRect(NSMakeRect(0,0,100,100), true);
-  context.document.currentPage().artboards()[0].addLayers([shapeGroup]);
+  
 
-  //面板处理完毕或关闭面板后，隐藏线框（Delegation）
+  for (var i = 0; i < artboardsWithUIFrame.length; i++) {
+  	for (var j = 0; j < uiNameLayers[i].length; j++){
+  		// 外框留出边距
+  		var x = uiNameLayers[i][j].frame().x() - 10;
+  		var y = uiNameLayers[i][j].frame().y() - 10;
+  		//确定框的起点坐标，因为获取到的是相对父图层的坐标，所以转换成相对画板的
+  		var ancestors = uiNameLayers[i][j].ancestors()
+  		var parent = ancestors[ancestors.length - 1]
+  		var pointRelativeToArtboard = parent.convertPoint_toLayer_(CGPointMake(x,y), artboardsWithUIFrame[i]);
+  		//确定框的大小
+  		var width = frameLayers[i][j].frame().width() + 10 * 2;
+  		var height = uiNameLayers[i][j].frame().height() + 11 + frameLayers[i][j].frame().height() + 10 * 2;
+  		//画框
+  		var shapeGroup = generateRectangleWithRect(NSMakeRect(pointRelativeToArtboard.x,pointRelativeToArtboard.y,width,height), true);
+  		artboardsWithUIFrame[i].addLayers([shapeGroup]);
+  	}
+  }
 }
 
 function prepareSelectedArtboards (context) {
