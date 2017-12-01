@@ -24,14 +24,14 @@
       "handler": "addHistory"
     },
     {
-      "name": "显示 / 隐藏界面框",
+      "name": "显示 / 隐藏界面框或说明",
       "identifier": "hideUIFramePanel",
       "shortcut": "ctrl shift f",
       "script": "HideUIFramePanel.cocoascript",
       "handler": "showHideUIFramePanel"
     },
     {
-      "name": "显示 / 隐藏界面框 - 事件",
+      "name": "显示 / 隐藏界面框或说明 - 事件",
       "identifier": "hideUIFrameOnSelection",
       "script": "HideUIFrameOnSelection.cocoascript",
       "handlers": {

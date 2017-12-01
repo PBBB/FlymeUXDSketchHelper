@@ -11,8 +11,12 @@ var showHideUIFramePanel = function (context) {
   var threadDictionary = NSThread.mainThread().threadDictionary();
   var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
 
-  //如果已经存在了面板，则直接退出
-  if (threadDictionary[identifier]) return;
+  //如果已经存在了面板，则震动窗口然后直接退出
+  if (threadDictionary[identifier]) {
+  	//TO DO: 增加震动窗口的动画（可以考虑在 Xcode 里写）：https://stackoverflow.com/questions/10517386/how-to-give-nswindow-a-shake-effect-as-saying-no-as-in-login-failure-window/23491643#23491643
+  	return
+  }
+
   
   //获取画板
   var selectedArtboards = prepareSelectedArtboards(context);
@@ -32,6 +36,7 @@ var showHideUIFramePanel = function (context) {
       }
     }
   }
+  artboardsWithUIFrame.sort(compareLayers);
 
   //以下三个为二维数组，子数组为每个有界面的画板下相应元素的数组
   var frameLayers = [];
@@ -66,6 +71,13 @@ var showHideUIFramePanel = function (context) {
       }
     }
   }
+  //图层按位置排序
+  for (var i = 0; i < artboardsWithUIFrame.length; i++) {
+	frameLayers[i].sort(compareLayers);
+	uiNameLayers[i].sort(compareLayers);
+	uiDescriptionLayers[i].sort(compareLayers);
+  }
+  
 
   //获取信息之后取消选择，方便下一步选择操作
   context.document.currentPage().changeSelectionBySelectingLayers(nil);
@@ -76,6 +88,7 @@ var showHideUIFramePanel = function (context) {
     return;
   }
 
+
   //初始化 GA
   var ga = new Analytics(context);
 
@@ -83,9 +96,8 @@ var showHideUIFramePanel = function (context) {
   COScript.currentCOScript().setShouldKeepAround_(true);
   var hideUIFramePanelDelegate = new MochaJSDelegate();
   hideUIFramePanelDelegate.setHandlerForSelector("didClickFinishOperationInWindowController:", function(hideUIFramePanelWC){
-    //TO DO: 面板里按钮调用的方法
-    log("finish operation" + hideUIFramePanelWC.toString());
-    //generateHistory (overviewArtboard, addHistoryWC, userInfo, ga);
+    removeHelperLayersInArtboards(artboardsWithUIFrame);
+    finishOperationInWindowController(hideUIFramePanelWC);
   });
 
   //生成弹出的面板，设定 Delegate
@@ -96,37 +108,60 @@ var showHideUIFramePanel = function (context) {
   //关闭面板后需要移除对面板的引用
   var closeButton = [hideUIFramePanelWC window].standardWindowButton(NSWindowCloseButton);
   closeButton.setCOSJSTargetFunction(function(sender){
-    //TO DO: 关闭窗口后需要移除对窗口的引用
-    // closeAddHistoryWindow(historyWC);
-    [hideUIFramePanelWC close];
-    // 移除对面板的引用
-    var threadDictionary = NSThread.mainThread().threadDictionary();
-    var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
-    threadDictionary.removeObjectForKey(identifier);
-    // 停止插件运行
-    COScript.currentCOScript().setShouldKeepAround_(false);
+    removeHelperLayersInArtboards(artboardsWithUIFrame);
+    finishOperationInWindowController(hideUIFramePanelWC);
   });
+
   threadDictionary[identifier] = hideUIFramePanelWC;
 
   //根据线框、说明等位置数据生成线框
-  
+  //清理之前可能遗留的线框
+  removeHelperLayersInArtboards(artboardsWithUIFrame);
+  var shapeGroupOfFrameLayerGroupArray = [];
+  var shapeGroupOfDescriptionLayerGroupArray = [];
 
   for (var i = 0; i < artboardsWithUIFrame.length; i++) {
+  	shapeGroupOfFrameLayerGroupArray.push(MSLayerGroup.new());
+  	shapeGroupOfFrameLayerGroupArray[i].setName("_辅助线框 / 界面框");
+  	shapeGroupOfDescriptionLayerGroupArray.push(MSLayerGroup.new());
+  	shapeGroupOfDescriptionLayerGroupArray[i].setName("_辅助线框 / 界面说明");
+
   	for (var j = 0; j < uiNameLayers[i].length; j++){
   		// 外框留出边距
-  		var x = uiNameLayers[i][j].frame().x() - 10;
-  		var y = uiNameLayers[i][j].frame().y() - 10;
+  		var uiFrameX = uiNameLayers[i][j].frame().x() - 10;
+  		var uiFrameY = uiNameLayers[i][j].frame().y() - 10;
   		//确定框的起点坐标，因为获取到的是相对父图层的坐标，所以转换成相对画板的
-  		var ancestors = uiNameLayers[i][j].ancestors()
-  		var parent = ancestors[ancestors.length - 1]
-  		var pointRelativeToArtboard = parent.convertPoint_toLayer_(CGPointMake(x,y), artboardsWithUIFrame[i]);
+  		var ancestorsOfFrame = uiNameLayers[i][j].ancestors()
+  		var parentOfFrame = ancestorsOfFrame[ancestorsOfFrame.length - 1]
+  		var pointOfFrameRelativeToArtboard = parentOfFrame.convertPoint_toLayer_(CGPointMake(uiFrameX,uiFrameY), artboardsWithUIFrame[i]);
   		//确定框的大小
-  		var width = frameLayers[i][j].frame().width() + 10 * 2;
-  		var height = uiNameLayers[i][j].frame().height() + 11 + frameLayers[i][j].frame().height() + 10 * 2;
+  		var uiFrameWidth = frameLayers[i][j].frame().width() + 10 * 2;
+  		var uiFrameHeight = uiNameLayers[i][j].frame().height() + 11 + frameLayers[i][j].frame().height() + 10 * 2;
+  		//计算逻辑说明框的起点
+  		var uiDescriptionX = pointOfFrameRelativeToArtboard.x;
+  		var uiDescriptionY = pointOfFrameRelativeToArtboard.y + uiFrameHeight;
+  		//确定说明相对画板的坐标
+  		var ancestorsOfDescription = uiDescriptionLayers[i][j].ancestors();
+  		var parentOfDescription = ancestorsOfDescription[ancestorsOfDescription.length - 1]
+  		var pointOfDescriptionRelativeToArtboard = parentOfDescription.convertPoint_toLayer_(CGPointMake(uiDescriptionLayers[i][j].frame().x(),uiDescriptionLayers[i][j].frame().y()), artboardsWithUIFrame[i]);
+  		//计算说明框的宽高
+  		var uiDescriptionWidth = Math.max(uiDescriptionLayers[i][j].frame().width(), uiFrameWidth);
+  		var originalUIDescriptionHeight = pointOfDescriptionRelativeToArtboard.y - pointOfFrameRelativeToArtboard.y - uiFrameHeight + uiDescriptionLayers[i][j].frame().height();
+  		var uiDescriptionHeight = Math.min(originalUIDescriptionHeight, 230);
   		//画框
-  		var shapeGroup = generateRectangleWithRect(NSMakeRect(pointRelativeToArtboard.x,pointRelativeToArtboard.y,width,height), true);
-  		artboardsWithUIFrame[i].addLayers([shapeGroup]);
+  		var isFrameHiddenOrTransparent = isLayerHiddenOrTransparent(uiNameLayers[i][j]);
+  		var shapeGroupOfFrame = generateRectangleWithRect(NSMakeRect(pointOfFrameRelativeToArtboard.x,pointOfFrameRelativeToArtboard.y,uiFrameWidth,uiFrameHeight), !isFrameHiddenOrTransparent);
+  		shapeGroupOfFrameLayerGroupArray[i].addLayers([shapeGroupOfFrame]);
+  		var isDescriptionHiddenOrTransparent = isLayerHiddenOrTransparent(uiDescriptionLayers[i][j]);
+  		var shapeGroupOfDescription = generateRectangleWithRect(NSMakeRect(uiDescriptionX,uiDescriptionY,uiDescriptionWidth,uiDescriptionHeight), !isDescriptionHiddenOrTransparent);
+  		shapeGroupOfDescriptionLayerGroupArray[i].addLayers([shapeGroupOfDescription]);
+  		// artboardsWithUIFrame[i].addLayers([shapeGroupOfFrame, shapeGroupOfDescription]);
   	}
+  	shapeGroupOfFrameLayerGroupArray[i].resizeToFitChildrenWithOption(0);
+  	shapeGroupOfFrameLayerGroupArray[i].setHasClickThrough(true);
+  	shapeGroupOfDescriptionLayerGroupArray[i].resizeToFitChildrenWithOption(0);
+  	shapeGroupOfDescriptionLayerGroupArray[i].setHasClickThrough(true);
+	artboardsWithUIFrame[i].addLayers([shapeGroupOfFrameLayerGroupArray[i], shapeGroupOfDescriptionLayerGroupArray[i]]);
   }
 }
 
@@ -153,8 +188,49 @@ function generateRectangleWithRect(nsRect, isVisible) {
 	var styleBorder = style.addStylePartOfType(1);
 	styleBorder.color = MSColor.colorWithRGBADictionary({"r": 0.96, "g": 0.65, "b": 0.137, "a": 1});
 	styleBorder.thickness = 2;
-	isVisible ? style.contextSettings().setOpacity(1) : style.contextSettings().setOpacity(0.4);
+	isVisible ? style.contextSettings().setOpacity(1) : style.contextSettings().setOpacity(0.3);
 	shapeGroup.setStyle(style);
 	return shapeGroup;
 }
 
+function compareLayers (firstLayer, secondLayer) {
+    if (firstLayer.frame().y() != secondLayer.frame().y()) {
+      return firstLayer.frame().y() - secondLayer.frame().y();
+    } else {
+      return firstLayer.frame().x() - secondLayer.frame().x();
+    }
+ }
+function isLayerHiddenOrTransparent (layer) {
+	if (!layer.isVisible()) {
+		return true;
+	} else if (layer.style().contextSettings().opacity() == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function removeHelperLayersInArtboards (artboardsWithUIFrame) {
+	var helperLayers = [];
+	for (var i = 0; i < artboardsWithUIFrame.length; i++) {
+		for (var j = 0; j < artboardsWithUIFrame[i].layers().length; j++){
+			// log(artboardsWithUIFrame[i].layers()[j].name());
+			if (artboardsWithUIFrame[i].layers()[j].name().localeCompare("_辅助线框 / 界面说明") == 0 || artboardsWithUIFrame[i].layers()[j].name().localeCompare("_辅助线框 / 界面框") == 0){
+				helperLayers.push(artboardsWithUIFrame[i].layers()[j]);
+			} 
+		}
+	}
+	for (var i = 0; i < helperLayers.length; i++) {
+		helperLayers[i].removeFromParent();
+	}
+}
+
+function finishOperationInWindowController(windowController){
+	[windowController close];
+    // 移除对面板的引用
+    var threadDictionary = NSThread.mainThread().threadDictionary();
+    var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
+    threadDictionary.removeObjectForKey(identifier);
+    // 停止插件运行
+    COScript.currentCOScript().setShouldKeepAround_(false);
+}
