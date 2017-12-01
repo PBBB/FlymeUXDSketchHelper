@@ -161,8 +161,9 @@ var showHideUIFramePanel = function (context) {
   	shapeGroupOfFrameLayerGroupArray[i].setHasClickThrough(true);
   	shapeGroupOfDescriptionLayerGroupArray[i].resizeToFitChildrenWithOption(0);
   	shapeGroupOfDescriptionLayerGroupArray[i].setHasClickThrough(true);
-	artboardsWithUIFrame[i].addLayers([shapeGroupOfFrameLayerGroupArray[i], shapeGroupOfDescriptionLayerGroupArray[i]]);
+    artboardsWithUIFrame[i].addLayers([shapeGroupOfFrameLayerGroupArray[i], shapeGroupOfDescriptionLayerGroupArray[i]]);
   }
+  rearrangeLettersOfNamesInArtboards(artboardsWithUIFrame, uiNameLayers);
 }
 
 function prepareSelectedArtboards (context) {
@@ -233,4 +234,37 @@ function finishOperationInWindowController(windowController){
     threadDictionary.removeObjectForKey(identifier);
     // 停止插件运行
     COScript.currentCOScript().setShouldKeepAround_(false);
+}
+
+function rearrangeLettersOfNamesInArtboards (artboardsWithUIFrame, uiNameLayers) {
+  var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  var letterLayerID = null;
+  for (var i = 0; i < artboardsWithUIFrame.length; i++) {
+    var numberOfVisibleNameLayers = 0;
+    for (var j = 0; j < uiNameLayers[i].length; j++){
+      if (!isLayerHiddenOrTransparent(uiNameLayers[i][j])) {
+        if (letterLayerID == null) {
+          letterLayerID = getLetterLayerIDsInUINameSymbol(uiNameLayers[i][j]);
+          if (letterLayerID == null) {
+            [NSApp displayDialog: "Symbol 中字母对应的图层名需为“A”" withTitle: "界面名称需为 Symbol"];
+            return;
+          }
+        }
+        numberOfVisibleNameLayers++;
+        var overrides = uiNameLayers[i][j].overrides();
+        overrides[letterLayerID.toString()] = letters[numberOfVisibleNameLayers - 1];
+        uiNameLayers[i][j].setOverrides(overrides);
+      }
+    }
+  }
+}
+
+function getLetterLayerIDsInUINameSymbol (uiNameSymbol) {
+  var symbolMaster = uiNameSymbol.symbolMaster();
+  for (var i = 0; i < symbolMaster.layers().length; i++){
+    if(symbolMaster.layers()[i].name().localeCompare("A") == 0) {
+      return symbolMaster.layers()[i].objectID();
+    } 
+  }
+  return null;
 }
