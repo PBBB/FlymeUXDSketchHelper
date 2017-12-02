@@ -11,7 +11,7 @@ var showHideUIFramePanel = function (context) {
   var threadDictionary = NSThread.mainThread().threadDictionary();
   var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
 
-  //如果已经存在了面板，则震动窗口然后直接退出
+  //如果已经存在了面板，则抖动窗口然后直接退出
   if (threadDictionary[identifier]) {
     threadDictionary[identifier].shakeWindow();
   	return
@@ -107,7 +107,8 @@ var showHideUIFramePanel = function (context) {
       return;
     }
     if (selectedLayer.length > 1){
-      //TO DO: 埋点多选的情况
+      //虽然想上报多选的事件，但是因为会触发多次，所以会使数量虚高，同时也意味着多选的情况基本没法处理了
+      // ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Fail', 'MultipleSelection')
       return;
     }
 
@@ -169,6 +170,9 @@ var showHideUIFramePanel = function (context) {
 
     //更新字母
     rearrangeLettersOfNamesInArtboards ([ artboardsWithUIFrame[indexOfArtboard] ], [ uiNameLayers[indexOfArtboard] ]);
+
+    //上报成功事件
+    type == 1 ? ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Success', 'UIFrame', 1) : ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Success', 'Description', 1);
   }
 
   //生成弹出的面板，设定 Delegate

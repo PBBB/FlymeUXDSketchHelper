@@ -8,6 +8,6 @@ var hideUIFrameOnSelection = function (context) {
   if (hideUIFramePanelWC == null) {
   	return;
   }
-  hideUIFramePanelWC.handleSelectedLayer(context.actionContext.newSelection);
+  hideUIFramePanelWC.handleSelectedLayer(context.actionContext.document.selectedLayers().layers());
   context.actionContext.document.currentPage().changeSelectionBySelectingLayers(nil);
 }
