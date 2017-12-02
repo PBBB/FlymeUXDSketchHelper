@@ -14,5 +14,7 @@
 
 //完成操作
 - (void) didClickFinishOperationInWindowController:(ShowHideUIFrameWindowController *)showHideUIFrameWC;
+//选择了某个图层
+- (void) didSelectLayer:(id *)layer;
 
 @end

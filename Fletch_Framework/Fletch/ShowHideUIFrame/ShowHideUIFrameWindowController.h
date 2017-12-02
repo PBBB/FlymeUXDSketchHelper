@@ -7,9 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
 #import "ShowHideUIFrameDelegate.h"
 
 @interface ShowHideUIFrameWindowController : NSWindowController
 @property (nonatomic, retain) ShowHideUIFrameDelegate *delegate;
+-(void)shakeWindow;
+-(void)handleSelectedLayer: (id *)layer;
 
 @end

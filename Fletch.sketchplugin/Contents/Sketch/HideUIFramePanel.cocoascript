@@ -13,7 +13,7 @@ var showHideUIFramePanel = function (context) {
 
   //如果已经存在了面板，则震动窗口然后直接退出
   if (threadDictionary[identifier]) {
-  	//TO DO: 增加震动窗口的动画（可以考虑在 Xcode 里写）：https://stackoverflow.com/questions/10517386/how-to-give-nswindow-a-shake-effect-as-saying-no-as-in-login-failure-window/23491643#23491643
+    threadDictionary[identifier].shakeWindow();
   	return
   }
 
@@ -88,7 +88,6 @@ var showHideUIFramePanel = function (context) {
     return;
   }
 
-
   //初始化 GA
   var ga = new Analytics(context);
 
@@ -99,6 +98,78 @@ var showHideUIFramePanel = function (context) {
     removeHelperLayersInArtboards(artboardsWithUIFrame);
     finishOperationInWindowController(hideUIFramePanelWC);
   });
+
+  hideUIFramePanelDelegate.setHandlerForSelector("didSelectLayer:", updateFramesWithSelectedLayer);
+
+  // 这个函数放在里面是为了方便用到许多变量，可以避免传很多参数
+  function updateFramesWithSelectedLayer(selectedLayer) {
+    if (selectedLayer.length == 0){
+      return;
+    }
+    if (selectedLayer.length > 1){
+      //TO DO: 埋点多选的情况
+      return;
+    }
+
+    //判断来自哪个画板
+    var indexOfArtboard = artboardsWithUIFrame.findIndex(function(element){
+      return element == selectedLayer[0].parentArtboard();
+    });
+    if (indexOfArtboard == -1){
+      return;
+    }
+
+    //判断所选的是界面框还是小框
+    //定义类型，界面框 1，描述框 2，未定义 0
+    var type = 0;
+    var indexOfFrame = -1;
+    for (var j = 0; j < artboardsWithUIFrame[indexOfArtboard].layers().length; j++){
+      var layer = artboardsWithUIFrame[indexOfArtboard].layers()[j];
+      if (layer.name().localeCompare("_辅助线框 / 界面说明") == 0 || layer.name().localeCompare("_辅助线框 / 界面框") == 0){
+        indexOfFrame = layer.layers().findIndex(function(element){
+          return element == selectedLayer[0];
+        });
+        if (indexOfFrame != -1) {
+          type = layer.name().localeCompare("_辅助线框 / 界面说明") == 0 ? 2 : 1;
+          break;
+        }
+      } 
+    }
+    var isVisible = isLayerUnderShapeGroupVisible(selectedLayer[0]);
+
+    switch (type) {
+      case 0:
+      return;
+
+      //界面框
+      case 1:
+      //如果可见，就隐藏界面框，同时隐藏描述框；如果不可见，就显示界面框，同时显示描述框
+      setLayerVisibility(frameLayers[indexOfArtboard][indexOfFrame], !isVisible);
+      setLayerVisibility(uiNameLayers[indexOfArtboard][indexOfFrame], !isVisible);
+      setLayerVisibility(uiDescriptionLayers[indexOfArtboard][indexOfFrame], !isVisible);
+      setRectangleStyle(shapeGroupOfFrameLayerGroupArray[indexOfArtboard].layers()[indexOfFrame], !isVisible);
+      setRectangleStyle(shapeGroupOfDescriptionLayerGroupArray[indexOfArtboard].layers()[indexOfFrame], !isVisible);
+      break;
+
+      //描述框
+      case 2:
+      //如果可见，就只隐藏描述框；如果不可见，就显示界面框，同时显示描述框
+      setLayerVisibility(uiDescriptionLayers[indexOfArtboard][indexOfFrame], !isVisible);
+      setRectangleStyle(shapeGroupOfDescriptionLayerGroupArray[indexOfArtboard].layers()[indexOfFrame], !isVisible);
+      if (!isVisible) {
+        setLayerVisibility(frameLayers[indexOfArtboard][indexOfFrame], !isVisible);
+        setLayerVisibility(uiNameLayers[indexOfArtboard][indexOfFrame], !isVisible);
+        setRectangleStyle(shapeGroupOfFrameLayerGroupArray[indexOfArtboard].layers()[indexOfFrame], !isVisible);
+      }
+      break;
+
+      default:
+      break;
+    }
+
+    //更新字母
+    rearrangeLettersOfNamesInArtboards ([ artboardsWithUIFrame[indexOfArtboard] ], [ uiNameLayers[indexOfArtboard] ]);
+  }
 
   //生成弹出的面板，设定 Delegate
   var hideUIFramePanelWC = [[ShowHideUIFrameWindowController alloc] initWithWindowNibName:@"ShowHideUIFrameWindowController"];
@@ -146,7 +217,7 @@ var showHideUIFramePanel = function (context) {
   		var pointOfDescriptionRelativeToArtboard = parentOfDescription.convertPoint_toLayer_(CGPointMake(uiDescriptionLayers[i][j].frame().x(),uiDescriptionLayers[i][j].frame().y()), artboardsWithUIFrame[i]);
   		//计算说明框的宽高
   		var uiDescriptionWidth = Math.max(uiDescriptionLayers[i][j].frame().width(), uiFrameWidth);
-  		var originalUIDescriptionHeight = pointOfDescriptionRelativeToArtboard.y - pointOfFrameRelativeToArtboard.y - uiFrameHeight + uiDescriptionLayers[i][j].frame().height();
+  		var originalUIDescriptionHeight = pointOfDescriptionRelativeToArtboard.y - pointOfFrameRelativeToArtboard.y - uiFrameHeight + uiDescriptionLayers[i][j].frame().height() + 20; //高度额外加 20 是为了方便点击
   		var uiDescriptionHeight = Math.min(originalUIDescriptionHeight, 230);
   		//画框
   		var isFrameHiddenOrTransparent = isLayerHiddenOrTransparent(uiNameLayers[i][j]);
@@ -179,6 +250,7 @@ function prepareSelectedArtboards (context) {
   return selectedArtboards;
 }
 
+//画框的方法，并根据当前界面框是否能看见来决定框的颜色
 function generateRectangleWithRect(nsRect, isVisible) {
 	var rect   = MSRectangleShape.alloc().init();
 	rect.frame = MSRect.rectWithRect(nsRect);
@@ -194,6 +266,7 @@ function generateRectangleWithRect(nsRect, isVisible) {
 	return shapeGroup;
 }
 
+//图层按位置排序
 function compareLayers (firstLayer, secondLayer) {
     if (firstLayer.frame().y() != secondLayer.frame().y()) {
       return firstLayer.frame().y() - secondLayer.frame().y();
@@ -201,6 +274,8 @@ function compareLayers (firstLayer, secondLayer) {
       return firstLayer.frame().x() - secondLayer.frame().x();
     }
  }
+
+//图层被隐藏或者透明度为 0 都视为不可见
 function isLayerHiddenOrTransparent (layer) {
 	if (!layer.isVisible()) {
 		return true;
@@ -211,6 +286,37 @@ function isLayerHiddenOrTransparent (layer) {
 	}
 }
 
+//如果 shapeGroup 透明度不为 1，则视为可见
+function isLayerUnderShapeGroupVisible (shapeGroup) {
+  if (!shapeGroup.isVisible()) {
+    return false;
+  } else if (shapeGroup.style().contextSettings().opacity() == 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//隐藏或显示图层
+function setLayerVisibility (layer, isVisible) {
+  var style = layer.style();
+  if (isVisible) {
+    layer.setIsVisible(true);
+    style.contextSettings().setOpacity(1);
+    layer.setStyle(style);
+  } else {
+    layer.setIsVisible(false);
+  }
+}
+
+//更新框的样式
+function setRectangleStyle (shapeGroup, isVisible) {
+  var style = shapeGroup.style();
+  isVisible ? style.contextSettings().setOpacity(1) : style.contextSettings().setOpacity(0.3);
+  shapeGroup.setStyle(style);
+}
+
+//删掉生成的框
 function removeHelperLayersInArtboards (artboardsWithUIFrame) {
 	var helperLayers = [];
 	for (var i = 0; i < artboardsWithUIFrame.length; i++) {
@@ -226,16 +332,18 @@ function removeHelperLayersInArtboards (artboardsWithUIFrame) {
 	}
 }
 
+//关闭窗口，退出插件
 function finishOperationInWindowController(windowController){
-	[windowController close];
-    // 移除对面板的引用
-    var threadDictionary = NSThread.mainThread().threadDictionary();
-    var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
-    threadDictionary.removeObjectForKey(identifier);
-    // 停止插件运行
-    COScript.currentCOScript().setShouldKeepAround_(false);
+  [windowController close];
+  // 移除对面板的引用
+  var threadDictionary = NSThread.mainThread().threadDictionary();
+  var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
+  threadDictionary.removeObjectForKey(identifier);
+  // 停止插件运行
+  COScript.currentCOScript().setShouldKeepAround_(false);
 }
 
+//重新按顺序生成字母
 function rearrangeLettersOfNamesInArtboards (artboardsWithUIFrame, uiNameLayers) {
   var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   var letterLayerID = null;
@@ -251,14 +359,16 @@ function rearrangeLettersOfNamesInArtboards (artboardsWithUIFrame, uiNameLayers)
           }
         }
         numberOfVisibleNameLayers++;
-        var overrides = uiNameLayers[i][j].overrides();
-        overrides[letterLayerID.toString()] = letters[numberOfVisibleNameLayers - 1];
-        uiNameLayers[i][j].setOverrides(overrides);
+        var existingOverrides = uiNameLayers[i][j].overrides();
+        var overrides = NSMutableDictionary.dictionaryWithDictionary(existingOverrides);
+        overrides[letterLayerID] = letters[numberOfVisibleNameLayers - 1];
+        uiNameLayers[i][j].overrides = overrides;
       }
     }
   }
 }
 
+//获取字母图层在 Symbol 中的图层 ID
 function getLetterLayerIDsInUINameSymbol (uiNameSymbol) {
   var symbolMaster = uiNameSymbol.symbolMaster();
   for (var i = 0; i < symbolMaster.layers().length; i++){
@@ -268,3 +378,5 @@ function getLetterLayerIDsInUINameSymbol (uiNameSymbol) {
   }
   return null;
 }
+
+
