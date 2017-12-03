@@ -382,5 +382,3 @@ function getLetterLayerIDsInUINameSymbol (uiNameSymbol) {
   }
   return null;
 }
-
-

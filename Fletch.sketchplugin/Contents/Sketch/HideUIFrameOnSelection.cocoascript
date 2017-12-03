@@ -1,5 +1,3 @@
-@import 'Libraries/ga.js'
-
 var hideUIFrameOnSelection = function (context) {
   //判断是否处于编辑界面框状态
   var threadDictionary = NSThread.mainThread().threadDictionary();
