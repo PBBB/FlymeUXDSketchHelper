@@ -220,7 +220,7 @@ var showHideUIFramePanel = function (context) {
   		var parentOfDescription = ancestorsOfDescription[ancestorsOfDescription.length - 1]
   		var pointOfDescriptionRelativeToArtboard = parentOfDescription.convertPoint_toLayer_(CGPointMake(uiDescriptionLayers[i][j].frame().x(),uiDescriptionLayers[i][j].frame().y()), artboardsWithUIFrame[i]);
   		//计算说明框的宽高
-  		var uiDescriptionWidth = Math.max(uiDescriptionLayers[i][j].frame().width(), uiFrameWidth);
+  		var uiDescriptionWidth = Math.max(uiDescriptionLayers[i][j].frame().width() + 10 * 2, uiFrameWidth);
   		var originalUIDescriptionHeight = pointOfDescriptionRelativeToArtboard.y - pointOfFrameRelativeToArtboard.y - uiFrameHeight + uiDescriptionLayers[i][j].frame().height() + 20; //高度额外加 20 是为了方便点击
   		var uiDescriptionHeight = Math.min(originalUIDescriptionHeight, 230);
   		//画框
@@ -358,7 +358,7 @@ function rearrangeLettersOfNamesInArtboards (artboardsWithUIFrame, uiNameLayers)
         if (letterLayerID == null) {
           letterLayerID = getLetterLayerIDsInUINameSymbol(uiNameLayers[i][j]);
           if (letterLayerID == null) {
-            [NSApp displayDialog: "Symbol 中字母对应的图层名需为“A”" withTitle: "界面名称需为 Symbol"];
+            [NSApp displayDialog: "Symbol 中字母对应的图层名须为“A”" withTitle: "界面名称须为 Symbol"];
             return;
           }
         }
@@ -375,9 +375,10 @@ function rearrangeLettersOfNamesInArtboards (artboardsWithUIFrame, uiNameLayers)
 //获取字母图层在 Symbol 中的图层 ID
 function getLetterLayerIDsInUINameSymbol (uiNameSymbol) {
   var symbolMaster = uiNameSymbol.symbolMaster();
-  for (var i = 0; i < symbolMaster.layers().length; i++){
-    if(symbolMaster.layers()[i].name().localeCompare("A") == 0) {
-      return symbolMaster.layers()[i].objectID();
+  // 这里用 children 不用 layers 是为了兼容旧模板的 symbol 多套了个文件夹的情况
+  for (var i = 0; i < symbolMaster.children().length; i++){
+    if(symbolMaster.children()[i].name().localeCompare("A") == 0) {
+      return symbolMaster.children()[i].objectID();
     } 
   }
   return null;
