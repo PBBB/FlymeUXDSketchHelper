@@ -187,7 +187,7 @@ var updateCatalog = function (context) {
         textLayer.setName(catalogString);
         var font = [NSFont fontWithName: "PingFangSC-Medium" size: 40];
         textLayer.setFont(font);
-        textLayer.textColor = MSColor.colorWithRGBADictionary({"r": 0.29, "g": 0.29, "b": 0.29, "a": 1});
+        textLayer.textColor = [MSImmutableColor colorWithRed:0.29 green:0.29 blue:0.29 alpha:1];
         textLayer.adjustFrameToFit();
         catalogTextLayers.push(textLayer);
     }
