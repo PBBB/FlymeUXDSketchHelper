@@ -72,9 +72,10 @@ function updatePageNumbersOfArtboards (context, artboards) {
 
             for (var j = 0; j < layersInArtboard.length; j++) {
 
-                // 筛选出功能概述
+                // 筛选出功能概述并重命名画板
                 if (layersInArtboard[j].name() == "功能概述") {
-                pageTitleLayer = layersInArtboard[j];
+                    pageTitleLayer = layersInArtboard[j];
+                    artboards[i].setName(pageTitleLayer.stringValue());
                     continue;
                 }
 
