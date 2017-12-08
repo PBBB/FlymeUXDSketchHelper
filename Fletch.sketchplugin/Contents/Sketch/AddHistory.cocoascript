@@ -26,7 +26,7 @@ var addHistory = function (context) {
   COScript.currentCOScript().setShouldKeepAround_(true);
   var historyDelegate = new MochaJSDelegate();
   historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithInfo:", function(addHistoryWC, userInfo){
-    generateHistory (overviewArtboard, addHistoryWC, userInfo, ga);
+    generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga);
   });
 
   //生成弹出的窗口，设定 Delegate
@@ -84,7 +84,7 @@ function prepareOverviewArtboard (context) {
   }
 }
 
-function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
+function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga) {
 
   //提取数据
   var updateDate = userInfo["date"];
@@ -333,17 +333,24 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
       }
     }
  
-    // [NSApp displayDialog: "由于更新记录过多，较旧的更新记录已被隐藏" withTitle: "更新记录添加成功"];
     ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
+    zoomToResult(context, overviewArtboard, historyLayerGroupsArray[0]);
     closeAddHistoryWindow(addHistoryWC);
   } else {
     ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
-    // [MSContentDrawView centerRect:NSMakeRect(0,0,2000,2000) animated:true];
-    log("success");
-    // 这里的提示暂时去掉，因为成功的结果很明显，不需要单独的提示
-    // context.document.showMessage("更新记录添加成功");
+    zoomToResult(context, overviewArtboard, historyLayerGroupsArray[0]);
     closeAddHistoryWindow(addHistoryWC);
   }
+}
+
+// 更新成功后，定位至概述画板，并选中最新一组历史记录来告知结果，取代之前的 Toast
+function zoomToResult (context, overviewArtboard, latestHistoryLayersGroup){
+  var canvasView = context.document.currentContentViewController().contentDrawView();
+  var originalRect = overviewArtboard.frame().rect();
+  var zoomRect = CGRectMake(originalRect.origin.x - 200, originalRect.origin.y - 200, originalRect.size.width + 400, originalRect.size.height + 400);
+  [canvasView centerRect:zoomRect animated:true];
+  [canvasView zoomToFitRect:zoomRect];
+  context.document.currentPage().changeSelectionBySelectingLayers([latestHistoryLayersGroup]);
 }
 
 function closeAddHistoryWindow (addHistoryWC){

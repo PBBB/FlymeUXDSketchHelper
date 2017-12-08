@@ -325,7 +325,6 @@ function removeHelperLayersInArtboards (artboardsWithUIFrame) {
 	var helperLayers = [];
 	for (var i = 0; i < artboardsWithUIFrame.length; i++) {
 		for (var j = 0; j < artboardsWithUIFrame[i].layers().length; j++){
-			// log(artboardsWithUIFrame[i].layers()[j].name());
 			if (artboardsWithUIFrame[i].layers()[j].name().localeCompare("_辅助线框 / 界面说明") == 0 || artboardsWithUIFrame[i].layers()[j].name().localeCompare("_辅助线框 / 界面框") == 0){
 				helperLayers.push(artboardsWithUIFrame[i].layers()[j]);
 			} 
