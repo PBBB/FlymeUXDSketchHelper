@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QuartzCore/QuartzCore.h>
 #import "AddHistoryDelegate.h"
 #import "PBUpdateNotesTextView.h"
 

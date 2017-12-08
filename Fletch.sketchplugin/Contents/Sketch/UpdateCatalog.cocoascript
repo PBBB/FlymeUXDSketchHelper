@@ -11,6 +11,11 @@ function prepareSelectedArtboards (context) {
     }
   }
 
+  // 如果没选择画板，则视为选中所有画板
+  if (selectedArtboards.length == 0) {
+    selectedArtboards = context.document.currentPage().artboards();
+  }
+
   // 将画板按照画布中的位置排序
   function compareArtboards (firstAB, secondAB) {
     if (firstAB.frame().y() != secondAB.frame().y()) {
@@ -66,7 +71,7 @@ function updatePageNumbersOfArtboards (context, artboards) {
     // 从第三个画板开始，找到页码图层并更新内容
     for (var i = 0; i < artboards.length; i++) {
     if (i > 1) {
-            var layersInArtboard = artboards[i].children();
+            var layersInArtboard = artboards[i].layers();
             var pageTitleLayer = null;
             var pageNumberLayer = null;
 

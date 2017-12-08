@@ -67,5 +67,27 @@
     }
 }
 
+-(void)shakeWindow {
+    static int numberOfShakes = 3;
+    static float durationOfShake = 0.5f;
+    static float vigourOfShake = 0.05f;
+    
+    CGRect frame=[self.window frame];
+    CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
+    
+    CGMutablePathRef shakePath = CGPathCreateMutable();
+    CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
+    for (NSInteger index = 0; index < numberOfShakes; index++){
+        CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigourOfShake, NSMinY(frame));
+        CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigourOfShake, NSMinY(frame));
+    }
+    CGPathCloseSubpath(shakePath);
+    shakeAnimation.path = shakePath;
+    shakeAnimation.duration = durationOfShake;
+    
+    [self.window setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
+    [[self.window animator] setFrameOrigin:[self.window frame].origin];
+}
+
 @end
 

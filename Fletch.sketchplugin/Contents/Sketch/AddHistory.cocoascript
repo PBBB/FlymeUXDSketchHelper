@@ -9,7 +9,10 @@ var addHistory = function (context) {
   var identifier = "com.flyme.uxd.pbb.sketch-helper.addHistory";
 
   // 如果已经存在了弹窗，则直接退出
-  if (threadDictionary[identifier]) return;
+  if (threadDictionary[identifier]) {
+    threadDictionary[identifier].shakeWindow();
+    return;
+  }
 
   //初始化 GA
   var ga = new Analytics(context);
@@ -30,7 +33,11 @@ var addHistory = function (context) {
   var historyWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
   historyWC.delegate = (historyDelegate.getClassInstance());
   var titleWithExtension = context.document.window().title();
-  var title = titleWithExtension.substring(0, titleWithExtension.length() - 7);
+  var title = titleWithExtension;
+  var extension = titleWithExtension.substring(titleWithExtension.length() - 7, titleWithExtension.length());
+  if (extension.toUpperCase() == ".SKETCH") {
+    title = titleWithExtension.substring(0, titleWithExtension.length() - 7);
+  }
   // 需要判断末位是否为“.sketch”来隐藏
   [[historyWC window] setTitle: "添加更新记录 - " + title];
   [historyWC showWindow:self];
@@ -237,7 +244,7 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
     for (var i = 0; i < updateNotesLayersArray.length; i++) {
       updateNotesLayersArray[i].frame().setX(leftMostLayer.frame().x() + 33);
       if (i == 0) {
-        updateNotesLayersArray[i].frame().setY(bottomMostLayer.frame().y() + 54);
+        updateNotesLayersArray[i].frame().setY(bottomMostLayer.frame().y() + bottomMostLayer.frame().height() + 14);
       } else {
         updateNotesLayersArray[i].frame().setY(updateNotesLayersArray[i-1].frame().y() + updateNotesLayersArray[i-1].frame().height() + 14);
       }
@@ -331,6 +338,8 @@ function generateHistory (overviewArtboard, addHistoryWC, userInfo, ga) {
     closeAddHistoryWindow(addHistoryWC);
   } else {
     ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
+    // [MSContentDrawView centerRect:NSMakeRect(0,0,2000,2000) animated:true];
+    log("success");
     // 这里的提示暂时去掉，因为成功的结果很明显，不需要单独的提示
     // context.document.showMessage("更新记录添加成功");
     closeAddHistoryWindow(addHistoryWC);
