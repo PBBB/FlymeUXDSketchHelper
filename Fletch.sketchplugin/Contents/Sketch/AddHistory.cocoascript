@@ -335,15 +335,17 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
  
     ga.sendEvent('AddHistory', 'Success', 'TooManyHistory', notesArray.length);
     zoomToResult(context, overviewArtboard, historyLayerGroupsArray[0]);
+    updateDateInCover(context, localizedString);
     closeAddHistoryWindow(addHistoryWC);
   } else {
     ga.sendEvent('AddHistory', 'Success', 'Success', notesArray.length);
     zoomToResult(context, overviewArtboard, historyLayerGroupsArray[0]);
+    updateDateInCover(context, localizedString);
     closeAddHistoryWindow(addHistoryWC);
   }
 }
 
-// 更新成功后，定位至概述画板，并选中最新一组历史记录来告知结果，取代之前的 Toast
+// 添加成功后，定位至概述画板，并选中最新一组历史记录来告知结果，取代之前的 Toast
 function zoomToResult (context, overviewArtboard, latestHistoryLayersGroup){
   var canvasView = context.document.currentContentViewController().contentDrawView();
   var originalRect = overviewArtboard.frame().rect();
@@ -351,6 +353,39 @@ function zoomToResult (context, overviewArtboard, latestHistoryLayersGroup){
   [canvasView centerRect:zoomRect animated:true];
   [canvasView zoomToFitRect:zoomRect];
   context.document.currentPage().changeSelectionBySelectingLayers([latestHistoryLayersGroup]);
+}
+
+function updateDateInCover (context, dateString) {
+  var artboardsOfCurrentPage = context.document.currentPage().artboards();
+  var coverArtboardArray = [];
+  for (var i = 0; i < artboardsOfCurrentPage.length; i++) {
+    // 做兼容。。。。。。。。。。。
+    if (artboardsOfCurrentPage[i].name() == ("封面") || artboardsOfCurrentPage[i].name() == ("封面 ")) {
+      coverArtboardArray.push(artboardsOfCurrentPage[i]);
+    }
+  }
+
+  // 如果不是只有一个封面，直接退出
+  if (coverArtboardArray.length != 1) {
+    return
+  }
+
+  var layersInCoverArtboard = coverArtboardArray[0].children();
+  var dateLayer = null;
+  for (var i = 0; i < layersInCoverArtboard.length; i++) {
+      if (layersInCoverArtboard[i].name().includes("最后更新") || layersInCoverArtboard[i].name() == "date") {
+          dateLayer = layersInCoverArtboard[i];
+      }
+  }
+
+  if (dateLayer) {
+    var dateOfNow = new Date();
+    // 因为历史那里只传了月日，所以年份用当年的来做
+    var dateInfo = "最后更新 " + dateOfNow.getFullYear() + "年" + dateString;
+    dateLayer.setTextAlignment(0);// 设置左对齐
+    dateLayer.setStringValue(dateInfo);
+    dateLayer.setName(dateInfo);
+  }
 }
 
 function closeAddHistoryWindow (addHistoryWC){
