@@ -172,7 +172,12 @@ var showHideUIFramePanel = function (context) {
     rearrangeLettersOfNamesInArtboards ([ artboardsWithUIFrame[indexOfArtboard] ], [ uiNameLayers[indexOfArtboard] ]);
 
     //上报成功事件
-    type == 1 ? ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Success', 'UIFrame', 1) : ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Success', 'Description', 1);
+    if (isVisible) {
+      type == 1 ? ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Hide', 'UIFrame', 1) : ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Hide', 'Description', 1);
+    } else {
+      type == 1 ? ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Show', 'UIFrame', 1) : ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Show', 'Description', 1);
+    }
+    
   }
 
   //生成弹出的面板，设定 Delegate

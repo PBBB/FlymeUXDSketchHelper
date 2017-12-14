@@ -139,7 +139,7 @@ function updatePageNumbersOfArtboards (context, artboards) {
 var updatePageNumbers = function (context) {
   var selectedArtboards = prepareSelectedArtboards(context);
   var result = updatePageNumbersOfArtboards(context, selectedArtboards);
-  if (result) { context.document.showMessage("页码更新成功") }
+  if (result) { context.document.showMessage("✅ 页码更新成功") }
 }
 
 var updateCatalog = function (context) {
@@ -253,5 +253,5 @@ var updateCatalog = function (context) {
     }
 
     ga.sendEvent('UpdateCatalog', 'Success', 'Success', cataloglength);
-    context.document.showMessage("目录及页码更新成功");
+    context.document.showMessage("✅ 目录及页码更新成功");
 }
