@@ -3,7 +3,7 @@
   "description": "",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
-  "version": "1.3.0",
+  "version": "1.2.3",
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
   "compatibleVersion": "3",
@@ -39,13 +39,22 @@
           "SelectionChanged.finish": "hideUIFrameOnSelection"
         }
       }
+    },
+    {
+      "name": "添加交互文档画板",
+      "identifier": "addDocumentArtboard",
+      "shortcut": "ctrl shift a",
+      "script": "AddDocumentArtboard.cocoascript",
+      "handler": "addDocumentArtboard"
+      
     }
   ],
   "menu": {
     "items": [
       "updateCatalog",
       "addHistory",
-      "hideUIFramePanel"
+      "hideUIFramePanel",
+      "addDocumentArtboard"
     ]
   }
 }
