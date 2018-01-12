@@ -51,10 +51,11 @@
   ],
   "menu": {
     "items": [
-      "updateCatalog",
+      "addDocumentArtboard",
       "addHistory",
+      "-",
       "hideUIFramePanel",
-      "addDocumentArtboard"
+      "updateCatalog"
     ]
   }
 }
