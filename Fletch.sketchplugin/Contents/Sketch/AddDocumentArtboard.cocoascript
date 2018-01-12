@@ -29,6 +29,7 @@ var addDocumentArtboard = function (context) {
   //规范内容包括显示/隐藏、文本内容、图层名称、位置、大小
   var sublayers = newDocumentArtboard.layers();
   var length = sublayers.length;
+  var uiDescriptionLayers = [];
   var uiNameLayers = [];
   for (var i = length - 1; i >= 0; i--) {
     if (sublayers[i].name() == "功能概述" && sublayers[i].isMemberOfClass(MSTextLayer)) {
@@ -50,6 +51,7 @@ var addDocumentArtboard = function (context) {
         if (sublayers[i].layers()[j].isMemberOfClass(MSTextLayer)) {
           sublayers[i].layers()[j].setName("说明");
           sublayers[i].layers()[j].setStringValue("- 界面逻辑说明");
+          uiDescriptionLayers.push(sublayers[i].layers()[j]);
           setLayerVisibility(sublayers[i].layers()[j], true);
         } else if (sublayers[i].layers()[j].isMemberOfClass(MSSymbolInstance)){
           uiNameLayers.push(sublayers[i].layers()[j]);
@@ -57,19 +59,25 @@ var addDocumentArtboard = function (context) {
         }
       }
       setLayerVisibility(sublayers[i], true);
+      sublayers[i].frame().setX(149);
+      sublayers[i].frame().setY(184);
     } else if (sublayers[i].name() == "框架" && sublayers[i].isMemberOfClass(MSLayerGroup)) {
       for (var j = 0; j < sublayers[i].layers().length; j++) {
         sublayers[i].layers()[j].frame().setWidth(360);
         sublayers[i].layers()[j].frame().setHeight(640);
+        sublayers[i].layers()[j].frame().setX(j%5 * 580);
+        sublayers[i].layers()[j].frame().setY(j<5 ? 0 : 942);
         setLayerVisibility(sublayers[i].layers()[j], true);
       }
       setLayerVisibility(sublayers[i], true);
+      sublayers[i].frame().setX(150);
+      sublayers[i].frame().setY(229);
     } else {
       sublayers[i].removeFromParent();
     }
   }
 
-  //修改界面名称及字母
+  //修改界面名称及字母以及位置
   var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   var layerIDs = getLayerIDsOfUIName(uiNameLayers[0]);
   for (var i = 0; i < uiNameLayers.length; i++) {
@@ -77,10 +85,18 @@ var addDocumentArtboard = function (context) {
     uiNameData[layerIDs.uiName_ID.toString()] = "界面名称";
     uiNameData[layerIDs.uiOrderLetter_ID.toString()] = letters[i];
     uiNameLayers[i].overrides = uiNameData;
+    uiNameLayers[i].frame().setX(i%5 * 580);
+    uiNameLayers[i].frame().setY(i<5 ? 0 : 942);
   }
+
+  //修改界面逻辑说明的位置
+  for (var i = 0; i < uiDescriptionLayers.length; i++) {
+    uiDescriptionLayers[i].frame().setX(i%5 * 580);
+    uiDescriptionLayers[i].frame().setY(i<5 ? 703 : 1645);
+  }
+
   //定位至新添加的画板
   zoomToArtboard(context, newDocumentArtboard);
-
 }
 
 //获得文档画板，倒序排列
