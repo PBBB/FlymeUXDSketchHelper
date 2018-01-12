@@ -69,7 +69,15 @@ var addDocumentArtboard = function (context) {
     }
   }
 
-  //TO DO: 修改界面名称及字母
+  //修改界面名称及字母
+  var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  var layerIDs = getLayerIDsOfUIName(uiNameLayers[0]);
+  for (var i = 0; i < uiNameLayers.length; i++) {
+    var uiNameData = {};
+    uiNameData[layerIDs.uiName_ID.toString()] = "界面名称";
+    uiNameData[layerIDs.uiOrderLetter_ID.toString()] = letters[i];
+    uiNameLayers[i].overrides = uiNameData;
+  }
   //定位至新添加的画板
   zoomToArtboard(context, newDocumentArtboard);
 
@@ -137,8 +145,8 @@ function getLayerIDsOfUIName(symbolInstance) {
     var layerIDs = {};
     for (var i = 0; i < [children count]; i++){
         var layer = children[i];
-        if( layer.name() == "界面名称" )   { layerIDs.uiName = layer.objectID() }
-        if( layer.name() == "A" )  { layerIDs.uiOrderLetter = layer.objectID() }
+        if( layer.name() == "界面名称" )   { layerIDs.uiName_ID = layer.objectID() }
+        if( layer.name() == "A" )  { layerIDs.uiOrderLetter_ID = layer.objectID() }
     }
     return layerIDs;
 }
