@@ -21,7 +21,6 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     
-//    [[self window] setBackgroundColor:NSColor.whiteColor];
     [[self window] setMovableByWindowBackground:YES];
     [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
     [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];

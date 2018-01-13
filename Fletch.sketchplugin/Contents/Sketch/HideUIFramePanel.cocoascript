@@ -101,6 +101,10 @@ var showHideUIFramePanel = function (context) {
 
   hideUIFramePanelDelegate.setHandlerForSelector("didSelectLayer:", updateFramesWithSelectedLayer);
 
+  hideUIFramePanelDelegate.setHandlerForSelector("windowWillclose", function () {
+    removeHelperLayersInArtboards(artboardsWithUIFrame);
+  });
+
   // 这个函数放在里面是为了方便用到许多变量，可以避免传很多参数
   function updateFramesWithSelectedLayer(selectedLayer) {
     if (selectedLayer.length == 0){

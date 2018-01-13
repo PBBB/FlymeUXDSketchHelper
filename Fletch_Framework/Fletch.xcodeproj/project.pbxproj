@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */; };
 		2B1237871F5937BF0010ABDC /* FletchSketchHelper.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1237841F5936C90010ABDC /* FletchSketchHelper.js */; };
+		2B1B6C35200A6D7D00511E45 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1B6C34200A6D7D00511E45 /* Quartz.framework */; };
+		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
+		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */; };
 		2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */; };
 		2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */; };
@@ -37,6 +40,9 @@
 /* Begin PBXFileReference section */
 		2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameDelegate.h; sourceTree = "<group>"; };
 		2B1237841F5936C90010ABDC /* FletchSketchHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FletchSketchHelper.js; sourceTree = "<group>"; };
+		2B1B6C34200A6D7D00511E45 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
+		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameWindowController.h; sourceTree = "<group>"; };
 		2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowHideUIFrameWindowController.m; sourceTree = "<group>"; };
 		2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowHideUIFrameWindowController.xib; sourceTree = "<group>"; };
@@ -56,12 +62,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1B6C35200A6D7D00511E45 /* Quartz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B1B6C33200A6D7D00511E45 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2B1B6C34200A6D7D00511E45 /* Quartz.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2B231BA92009B85B003E1625 /* PDFExport */ = {
+			isa = PBXGroup;
+			children = (
+				2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */,
+				2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */,
+			);
+			path = PDFExport;
+			sourceTree = "<group>";
+		};
+		2B231BAE200A3BA4003E1625 /* SketchHeaders */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SketchHeaders;
+			sourceTree = "<group>";
+		};
 		2BB0906F1FC6A9710065F0D3 /* AddHistory */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +122,7 @@
 			children = (
 				2BE5058D1F5930E500083521 /* Fletch */,
 				2BE5058C1F5930E500083521 /* Products */,
+				2B1B6C33200A6D7D00511E45 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,6 +140,8 @@
 				2BE5058E1F5930E500083521 /* Fletch.h */,
 				2BB0906F1FC6A9710065F0D3 /* AddHistory */,
 				2BB090701FC6A9990065F0D3 /* ShowHideUIFrame */,
+				2B231BA92009B85B003E1625 /* PDFExport */,
+				2B231BAE200A3BA4003E1625 /* SketchHeaders */,
 				2B1237841F5936C90010ABDC /* FletchSketchHelper.js */,
 				2BE5058F1F5930E500083521 /* Info.plist */,
 			);
@@ -124,6 +158,7 @@
 				2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */,
 				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
+				2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */,
 				2BE505901F5930E500083521 /* Fletch.h in Headers */,
 				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
@@ -163,6 +198,7 @@
 				TargetAttributes = {
 					2BE5058A1F5930E500083521 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 23GN8P9Q5M;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -204,6 +240,7 @@
 				2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */,
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
+				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,9 +357,10 @@
 		2BE505941F5930E500083521 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 23GN8P9Q5M;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -342,6 +380,7 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 23GN8P9Q5M;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

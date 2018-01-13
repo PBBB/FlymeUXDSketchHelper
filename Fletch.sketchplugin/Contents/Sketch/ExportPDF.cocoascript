@@ -1,0 +1,12 @@
+@import 'Fletch.framework/FletchSketchHelper.js'
+@import 'Libraries/MochaJSDelegate.js'
+@import 'Libraries/ga.js'
+
+var exportPDF = function (context) {
+
+  //初始化 GA
+  var ga = new Analytics(context);
+
+  var pdfExporter = [[PBPDFExporter alloc] init];
+  [pdfExporter exportPDF: context];
+}
