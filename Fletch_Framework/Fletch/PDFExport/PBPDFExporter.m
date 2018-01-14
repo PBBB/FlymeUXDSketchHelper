@@ -92,29 +92,39 @@
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setNameFieldStringValue:fileName];
     [savePanel setAllowedFileTypes:@[@"pdf"]];
+    [savePanel setMessage:@"若文件过大，导出时请耐心等候"];
+    PDFDocument *pdfDocument = [[PDFDocument alloc] init];
+    __block BOOL isFinishedGenerating = NO;
     [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
 //        [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
-            //生成 PDF（考虑放在另一个线程）
-            PDFDocument *pdfDocument = [[PDFDocument alloc] init];
-            for (int i = 0; i < [sortedArtboardArray count]; i++) {
-                PDFPage *pdfPage = [MSPDFBookExporterClass pdfFromArtboard:sortedArtboardArray[i]];
-                [pdfDocument insertPage:pdfPage atIndex:[pdfDocument pageCount]];
-            }
             //导出 PDF
-            [pdfDocument writeToURL:[savePanel URL]];
+            if (isFinishedGenerating) {
+                [pdfDocument writeToURL:[savePanel URL]];
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
+            }
+            
         }
     }];
+    //生成 PDF（考虑放在另一个线程）
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//        __block BOOL isFinishiedExporting = YES;
+        __block NSURL *url = nil;
+        [[NSNotificationCenter defaultCenter] addObserverForName:@"SaveFileURLReceived" object:self queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            url = [note userInfo][@"URL"];
+//            isFinishiedExporting = NO;
+        }];
+        for (int i = 0; i < [sortedArtboardArray count]; i++) {
+            PDFPage *pdfPage = [MSPDFBookExporterClass pdfFromArtboard:sortedArtboardArray[i]];
+            [pdfDocument insertPage:pdfPage atIndex:[pdfDocument pageCount]];
+        }
+        isFinishedGenerating = YES;
+        if (url != nil) {
+             [pdfDocument writeToURL:[savePanel URL]];
+        }
+    });
 }
-
-//- (BOOL)compareArtboardsWithFirstOne: (MSArtboardGroup *)firstAB SecondOne: (MSArtboardGroup *)secondAB {
-//    if (fabs([[firstAB frame] y] - [[secondAB frame] y]) < [[firstAB frame] height]) {
-//        return [[firstAB frame] x] > [[secondAB frame] x];
-//    } else {
-//        return [[firstAB frame] y] > [[secondAB frame] y];
-//    }
-//}
-
 
 
 @end
