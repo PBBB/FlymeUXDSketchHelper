@@ -7,8 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+@class MSArtboardGroup;
 
 @interface PBPDFExporter : NSObject
 
-- (void)exportPDF: (NSDictionary *)context;
+- (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass
+                    TextLayerClass: (Class)MSTextLayerClass
+                    ArtboardGroupClass: (Class)MSArtboardGroupClass;
 @end
+
