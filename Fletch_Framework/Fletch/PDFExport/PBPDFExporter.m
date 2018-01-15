@@ -96,7 +96,7 @@
     PDFDocument *pdfDocument = [[PDFDocument alloc] init];
     __block BOOL isFinishedGenerating = NO;
     [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
-//        [savePanel orderOut:nil];
+        [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
             //导出 PDF
             if (isFinishedGenerating) {
@@ -107,7 +107,7 @@
             
         }
     }];
-    //生成 PDF（考虑放在另一个线程）
+    //后台生成 PDF
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 //        __block BOOL isFinishiedExporting = YES;
         __block NSURL *url = nil;
@@ -121,7 +121,7 @@
         }
         isFinishedGenerating = YES;
         if (url != nil) {
-             [pdfDocument writeToURL:[savePanel URL]];
+             [pdfDocument writeToURL:url];
         }
     });
 }
