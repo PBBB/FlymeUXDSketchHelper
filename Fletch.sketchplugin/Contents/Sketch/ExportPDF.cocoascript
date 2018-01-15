@@ -8,5 +8,18 @@ var exportPDF = function (context) {
   var ga = new Analytics(context);
 
   var pdfExporter = [[PBPDFExporter alloc] init];
+
+  //定义 Delegate 所需要的方法
+  COScript.currentCOScript().setShouldKeepAround_(true);
+  var pdfExporterDelegate = new MochaJSDelegate();
+  pdfExporterDelegate.setHandlerForSelector("didFinishExportingWithType:", function(type){
+  	//类型 0 是点击保存的时候后台已经生成完成，类型 1 是后台生成后才导出成功
+  	if (type == "0") {
+  		ga.sendEvent('ExportPDF', 'Success', 'DoneGeneratingBeforeClickingSave');
+  	} else if (type == "1") {
+  		ga.sendEvent('ExportPDF', 'Success', 'DoneGeneratingAfterClickingSave');
+  	}
+  });
+  pdfExporter.delegate = (pdfExporterDelegate.getClassInstance());
   [pdfExporter exportPDF:context withPDFExporterClass:MSPDFBookExporter TextLayerClass:MSTextLayer ArtboardGroupClass:MSArtboardGroup];
 }

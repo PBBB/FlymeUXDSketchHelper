@@ -103,7 +103,7 @@
             //导出 PDF
             if (isFinishedGenerating) {
                 [pdfDocument writeToURL:[savePanel URL]];
-                [delegate didFinishExportingWithType:0];
+                [delegate didFinishExportingWithType:@"0"];
             } else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
             }
@@ -125,7 +125,7 @@
         isFinishedGenerating = YES;
         if (url != nil) {
             [pdfDocument writeToURL:url];
-            [delegate didFinishExportingWithType:1];
+            [delegate didFinishExportingWithType:@"1"];
         }
     });
 }
