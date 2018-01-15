@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PDFExportDelegate.h"
 @class MSArtboardGroup;
 
 @interface PBPDFExporter : NSObject
 
+@property (nonatomic, retain) PDFExportDelegate *delegate;
 - (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass
                     TextLayerClass: (Class)MSTextLayerClass
                     ArtboardGroupClass: (Class)MSArtboardGroupClass;

@@ -97,6 +97,8 @@ var addDocumentArtboard = function (context) {
 
   //定位至新添加的画板
   zoomToArtboard(context, newDocumentArtboard);
+  
+  ga.sendEvent('AddDocumentArtboard', 'Success', 'Success');
 }
 
 //获得文档画板，倒序排列

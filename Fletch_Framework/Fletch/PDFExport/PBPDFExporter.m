@@ -19,6 +19,8 @@
 @implementation PBPDFExporter
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+@synthesize delegate;
+
 - (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass
    TextLayerClass: (Class)MSTextLayerClass ArtboardGroupClass: (Class)MSArtboardGroupClass {
 
@@ -92,7 +94,7 @@
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setNameFieldStringValue:fileName];
     [savePanel setAllowedFileTypes:@[@"pdf"]];
-    [savePanel setMessage:@"若文件过大，导出时请耐心等候"];
+    [savePanel setMessage:@"导出较大文件时请耐心等候"];
     PDFDocument *pdfDocument = [[PDFDocument alloc] init];
     __block BOOL isFinishedGenerating = NO;
     [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
@@ -101,6 +103,7 @@
             //导出 PDF
             if (isFinishedGenerating) {
                 [pdfDocument writeToURL:[savePanel URL]];
+                [delegate didFinishExportingWithType:0];
             } else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
             }
@@ -121,7 +124,8 @@
         }
         isFinishedGenerating = YES;
         if (url != nil) {
-             [pdfDocument writeToURL:url];
+            [pdfDocument writeToURL:url];
+            [delegate didFinishExportingWithType:1];
         }
     });
 }
