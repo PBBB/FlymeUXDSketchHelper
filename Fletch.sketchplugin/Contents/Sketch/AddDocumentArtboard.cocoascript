@@ -51,6 +51,8 @@ var addDocumentArtboard = function (context) {
         if (sublayers[i].layers()[j].isMemberOfClass(MSTextLayer)) {
           sublayers[i].layers()[j].setName("说明");
           sublayers[i].layers()[j].setStringValue("- 界面逻辑说明");
+          sublayers[i].layers()[j].frame().setWidth(360);
+          sublayers[i].layers()[j].adjustFrameToFit();
           uiDescriptionLayers.push(sublayers[i].layers()[j]);
           setLayerVisibility(sublayers[i].layers()[j], true);
         } else if (sublayers[i].layers()[j].isMemberOfClass(MSSymbolInstance)){

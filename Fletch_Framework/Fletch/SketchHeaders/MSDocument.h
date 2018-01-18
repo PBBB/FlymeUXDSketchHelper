@@ -13,5 +13,6 @@
 
 - (MSDocumentWindow * _Nonnull)window;
 - (MSPage * _Nonnull)currentPage;
+- (void)showMessage:(NSString *_Nonnull)message;
 
 @end

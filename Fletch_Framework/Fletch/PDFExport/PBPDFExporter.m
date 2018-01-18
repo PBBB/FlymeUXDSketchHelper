@@ -104,6 +104,7 @@
             if (isFinishedGenerating) {
                 [pdfDocument writeToURL:[savePanel URL]];
                 [delegate didFinishExportingWithType:@"0"];
+                [document showMessage:@"✅ 导出成功"];
             } else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
             }
@@ -126,6 +127,9 @@
         if (url != nil) {
             [pdfDocument writeToURL:url];
             [delegate didFinishExportingWithType:@"1"];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [document showMessage:@"✅ 导出成功"];
+            });
         }
     });
 }
