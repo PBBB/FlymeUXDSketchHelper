@@ -161,8 +161,8 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     numberAndNotesTextLayer.setStyleAttributes(attributes);
     numberAndNotesTextLayer.changeListType(textList);
     numberAndNotesTextLayer.setTextBehaviour(1);
-    numberAndNotesTextLayer.adjustFrameToFit();
     numberAndNotesTextLayer.frame().setWidth(539);
+    numberAndNotesTextLayer.adjustFrameToFit();
 
     return numberAndNotesTextLayer;
   }
