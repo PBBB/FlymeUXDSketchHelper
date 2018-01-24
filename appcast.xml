@@ -6,92 +6,18 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v1.0</title>
+        <title>v1.4.0</title>
         <description>
           <![CDATA[
             <ul>
-              <li>初版，支持一键更新文档页码</li>
+              <li>新增“添加线框画板”功能</li>
+              <li>新增“导出 PDF”功能</li>
+              <li>各种 bug 修复及细节优化</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Sat, 29 July 2017 21:29:00 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.zip" type="application/octet-stream" sparkle:version="1.0"/>
-      </item>
-      <item>
-        <title>v1.0.1</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>更新页码的同时会调整它与页面标题的间距</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Tue, 01 Aug 2017 20:53:14 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.0.1.zip" type="application/octet-stream" sparkle:version="1.0.1"/>
-      </item>
-      <item>
-        <title>v1.1.0</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>1. 更新页码，以及封面目录、更新日期</li>
-              <li>2. 增加旧版文档模板兼容处理，减少出错概率</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Mon, 07 Aug 2017 20:12:43 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.1.0.zip" type="application/octet-stream" sparkle:version="1.1.0"/>
-      </item>
-      <item>
-        <title>v1.2.0</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>1. 新增“添加更新记录”功能</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Thu, 21 Sep 2017 14:18:27 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/archive/v1.2.0.zip" type="application/octet-stream" sparkle:version="1.2.0"/>
-      </item>
-      <item>
-        <title>v1.2.1</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>1. 添加更新记录时可选合并同一天的记录</li>
-              <li>2. 添加更新记录窗口不再会被 Sketch 面板挡住，且整个面板可拖动</li>
-              <li>3. 更现代的外观</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Thu, 02 Nov 2017 15:42:13 +0800</pubDate>
-      <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/1.2.1" type="application/octet-stream" sparkle:version="1.2.1"/>
-      </item>
-      <item>
-        <title>v1.2.2</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>1. 修复了添加更新记录事件不会上报的问题</li>
-              <li>2. 去除了两行调试代码</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Fri, 03 Nov 2017 11:08:53 +0800</pubDate>
-      <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/1.2.2" type="application/octet-stream" sparkle:version="1.2.2"/>
-      </item>
-      <item>
-        <title>v1.2.3</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>修复了升级 Sketch 48 后闪退的问题</li>
-            </ul>
-          ]]>
-        </description>
-      <pubDate>Thu, 07 Dec 2017 14:01:33 +0800</pubDate>
-      <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/1.2.3" type="application/octet-stream" sparkle:version="1.2.3"/>
+      <pubDate>Wed, 24 Jan 2018 11:04:07 +0800</pubDate>
+      <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/1.4.0" type="application/octet-stream" sparkle:version="1.0"/>
       </item>
   </channel>
 </rss>
