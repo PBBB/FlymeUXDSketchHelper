@@ -331,11 +331,6 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
 
 // 添加成功后，定位至概述画板，并选中最新一组历史记录来告知结果，取代之前的 Toast
 function zoomToResult (context, overviewArtboard, latestHistoryLayersGroup){
-  var canvasView = context.document.currentContentViewController().contentDrawView();
-  var originalRect = overviewArtboard.frame().rect();
-  var zoomRect = CGRectMake(originalRect.origin.x - 200, originalRect.origin.y - 200, originalRect.size.width + 400, originalRect.size.height + 400);
-  // [canvasView centerRect:zoomRect animated:false];
-  [canvasView zoomToFitRect:zoomRect];
   context.document.currentPage().changeSelectionBySelectingLayers([latestHistoryLayersGroup]);
 
   //给 Sketch 或苹方的 bug 填坑，模拟键盘事件
@@ -353,6 +348,13 @@ function zoomToResult (context, overviewArtboard, latestHistoryLayersGroup){
   CGEventPost(kCGHIDEventTap, deleteEvent);
   CGEventPost(kCGHIDEventTap, escapeEvent);
   CGEventPost(kCGHIDEventTap, escapeEvent);
+
+  var canvasView = context.document.currentContentViewController().contentDrawView();
+  var originalRect = overviewArtboard.frame().rect();
+  var zoomRect = CGRectMake(originalRect.origin.x - 200, originalRect.origin.y - 200, originalRect.size.width + 400, originalRect.size.height + 400);
+  // [canvasView centerRect:zoomRect animated:false];
+  [canvasView zoomToFitRect:zoomRect];
+
 }
 
 function updateDateInCover (context, dateString) {
