@@ -166,12 +166,12 @@ var updateCatalog = function (context) {
         lastTitle = result.data[page];
     }
 
-    // 如果目录大于 16，提示暂不支持
+    // 如果目录大于 36，提示暂不支持
     var cataloglength = Object.keys(catalog).length;
-    if (cataloglength > 16) {
+    if (cataloglength > 36) {
         var alert = [[NSAlert alloc] init];
         [alert setMessageText:"页码更新成功，目录更新失败"];
-        [alert setInformativeText:"暂不支持超过 16 条的目录"];
+        [alert setInformativeText:"暂不支持超过 36 条的目录"];
         [alert addButtonWithTitle:"确定"];
         [alert beginSheetModalForWindow:context.document.window() completionHandler:nil];
         // [NSApp displayDialog: "暂不支持超过 16 条的目录" withTitle: "页码更新成功，目录更新失败"];
@@ -231,18 +231,16 @@ var updateCatalog = function (context) {
         return layerGroups;
     }
 
-    // 5、6、9 条目录时，每组目录 3 条，其他情况下都是 4 条
-    switch (cataloglength) {
-        case 5:
-        case 6:
-        case 9:
+    // 5、6、9 条目录时，每组目录 3 条，其他 16 条以内都是 4 条；超过 16 条就按四列的容量来排
+    if (cataloglength == 5 || cataloglength == 6 || cataloglength == 9) {
         catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, 3);
-        break;
-
-        default:
+    } else if (cataloglength <= 16) {
         catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, 4);
-        break;
+    } else {
+        var linesInRow = catalogTextLayers % 4 == 0 ? cataloglength / 4 : Math.floor(cataloglength / 4) + 1;
+        catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, linesInRow);
     }
+    
 
     // 设定每个组的位置，并置入封面画板
     catalogTextLayerGroups[0].frame().setX((coverArtboard.frame().width() - catalogTextLayerGroups[catalogTextLayerGroups.length - 1].frame().width() - 691 * (catalogTextLayerGroups.length - 1)) / 2);
@@ -250,7 +248,14 @@ var updateCatalog = function (context) {
         if (i>=1) {
             catalogTextLayerGroups[i].frame().setX(catalogTextLayerGroups[0].frame().x() + 691 * i);
         }
-        catalogTextLayerGroups[i].frame().setY(1132);
+        //小于等于 4 行（即总数小于等于 16 时），从固定的 Y 坐标开始向下排
+        if (cataloglength <= 16) {
+           catalogTextLayerGroups[i].frame().setY(1132); 
+       } else {
+        //大于 4 行时，目录从原来四行的位置的基础上上下延伸
+           catalogTextLayerGroups[i].frame().setY(1132 + 407 / 2 - catalogTextLayerGroups[0].frame().height() / 2);  
+       }
+        
     }
     coverArtboard.addLayers(catalogTextLayerGroups);
 
