@@ -6,18 +6,17 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v1.4.0</title>
+        <title>v1.4.1</title>
         <description>
           <![CDATA[
             <ul>
-              <li>新增“添加线框画板”功能</li>
-              <li>新增“导出 PDF”功能</li>
-              <li>各种 bug 修复及细节优化</li>
+              <li>更新封面功能支持目录条数上限从 16 提升到 36</li>
+              <li>添加更新记录功能做了点鬼畜优化，规避了 Sketch 的 bug</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Wed, 24 Jan 2018 11:04:07 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/1.4.0/Fletch.1.4.0.zip" type="application/octet-stream" sparkle:version="1.4.0"/>
+      <pubDate>Mon, 12 Mar 2018 11:22:57 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/1.4.1/Fletch.1.4.1.zip" type="application/octet-stream" sparkle:version="1.4.1"/>
       </item>
   </channel>
 </rss>
