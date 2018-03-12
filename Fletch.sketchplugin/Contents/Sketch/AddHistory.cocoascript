@@ -331,14 +331,20 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
 
 // 添加成功后，定位至概述画板，并选中最新一组历史记录来告知结果，取代之前的 Toast
 function zoomToResult (context, overviewArtboard, latestHistoryLayersGroup){
-  context.document.currentPage().changeSelectionBySelectingLayers([latestHistoryLayersGroup]);
+  var subLayers = latestHistoryLayersGroup.layers();
+  for (var i = 0 ; i < subLayers.length; i++) {
+    if (subLayers[i].isMemberOfClass(MSTextLayer) && subLayers[i].fontSize() == 24) {
+      context.document.currentPage().changeSelectionBySelectingLayers([ subLayers[i] ]);
+      break;
+    }
+  }
+  
 
   //给 Sketch 或苹方的 bug 填坑，模拟键盘事件
   var returnEvent = CGEventCreateKeyboardEvent(null, 0x24, true);
   var downEvent = CGEventCreateKeyboardEvent(null, 0x7D, true);
   var deleteEvent = CGEventCreateKeyboardEvent(null, 0x33, true);
   var escapeEvent = CGEventCreateKeyboardEvent(null, 0x35, true);
-  CGEventPost(kCGHIDEventTap, returnEvent);
   CGEventPost(kCGHIDEventTap, returnEvent);
   CGEventPost(kCGHIDEventTap, downEvent);
   CGEventPost(kCGHIDEventTap, returnEvent);
