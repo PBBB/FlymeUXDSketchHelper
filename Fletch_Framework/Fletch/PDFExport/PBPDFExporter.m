@@ -95,22 +95,27 @@
     [savePanel setNameFieldStringValue:fileName];
     [savePanel setAllowedFileTypes:@[@"pdf"]];
     [savePanel setMessage:@"导出较大文件时请耐心等候"];
-    PDFDocument *pdfDocument = [[PDFDocument alloc] init];
+//    PDFDocument *pdfDocument = [[PDFDocument alloc] init];
     __block BOOL isFinishedGenerating = NO;
     [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
         [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
-            //导出 PDF
+            //如果点击 OK 之后后台工作都准备好，那么直接合成文件
+            PBLog(@"save panel url: %@", [savePanel URL]);
+            /*
             if (isFinishedGenerating) {
-                [pdfDocument writeToURL:[savePanel URL]];
+//                [pdfDocument writeToURL:[savePanel URL]];
                 [delegate didFinishExportingWithType:@"0"];
                 [document showMessage:@"✅ 导出成功"];
             } else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
-            }
+            }*/
             
+        } else {
+            //如果点击取消，最好清理缓存文件以及停止导出的进程
         }
     }];
+    
     //后台生成 PDF
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 //        __block BOOL isFinishiedExporting = YES;
@@ -119,19 +124,46 @@
             url = [note userInfo][@"URL"];
 //            isFinishiedExporting = NO;
         }];
+
         for (int i = 0; i < [sortedArtboardArray count]; i++) {
+            //从画板生成 PDFPage
             PDFPage *pdfPage = [MSPDFBookExporterClass pdfFromArtboard:sortedArtboardArray[i]];
-            [pdfDocument insertPage:pdfPage atIndex:[pdfDocument pageCount]];
+            //每一页一个文档
+            PDFDocument *pdfDocument = [[PDFDocument alloc] init];
+            [pdfDocument insertPage:pdfPage atIndex:0];
+            //每一页都导出一个 PDF 文件，放在缓存文件夹
+            NSString *TmpPath = NSTemporaryDirectory();
+            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
+            BOOL success = [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
+            PBLog(@"Tmp file exported to URL: %@, success: %hhd", tmpFileURLString, success);
+            //执行压缩命令
+            NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d.pdf", TmpPath, i];
+            NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d_compressed.pdf", TmpPath, i];
+            NSTask *task = [[NSTask alloc] init];
+            [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
+            [task setArguments:@[@"-l", @"-c",[NSString stringWithFormat:@"gs -dPDFSETTINGS=/printer -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
+                                               tmpCompressedFileURLStringForTerminal, tmpFileURLStringForTerminal]]];
+            NSError *compressTaskError = nil;
+            [task launchAndReturnError: &compressTaskError];
+            //TO DO: 需要考虑没有找到命令的情况
+            PBLog(@"compress task launch, id: %d", i);
         }
+        PBLog(@"out of loop");
+        //待所有压缩命令完成后，将 PDF 文件合并，保存在保存框选择的 URL
         isFinishedGenerating = YES;
         if (url != nil) {
-            [pdfDocument writeToURL:url];
+//            [pdfDocument writeToURL:url];
             [delegate didFinishExportingWithType:@"1"];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [document showMessage:@"✅ 导出成功"];
             });
         }
     });
+    
+    //接收压缩任务完成的通知（目前未生效）
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSTaskDidTerminateNotification object:self queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        PBLog(@"finished: %@", [note object]);
+    }];
 }
 
 
