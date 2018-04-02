@@ -1,5 +1,5 @@
 {
-  "name": "🎈 Fletch",
+  "name": "Fletch",
   "description": "",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
@@ -65,6 +65,7 @@
       "addHistory",
       "updateCatalog",
       "exportPDF"
-    ]
+    ],
+    "title":"🎈 Fletch"
   }
 }

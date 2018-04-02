@@ -90,13 +90,36 @@
     NSString *fileName = appName == nil ? [NSString stringWithFormat: @"功能概述_交互文档_%@", dateString]
     : [NSString stringWithFormat: @"%@_交互文档_%@", [appName stringByReplacingOccurrencesOfString:@" " withString:@""], dateString];
     
+    //用数组保存压缩任务
+    NSMutableArray <NSTask *> *CompressionTaskArray = [[NSMutableArray alloc] init];
+    
+    //接收任务完成所发出的通知，并合并文件
+    NSString *const TaskCompletionNotificationName = @"TaskCompletionNotification";
+//    NSString *const SaveFileURLReceivedNotificationName = @"SaveFileURLReceived";
+//    NSString *const AllTaskCompletionNotificationName = @"AllTaskCompletionNotification";
+    __block BOOL allCompressionTaskFinished = NO;
+    __block NSURL *saveFileURL = nil;
+    __block int finishedArtboardsCount = 0;
+    [[NSNotificationCenter defaultCenter] addObserverForName:TaskCompletionNotificationName object:self queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        finishedArtboardsCount++;
+        PBLog(@"task notification received: %@", [note userInfo]);
+        if (finishedArtboardsCount == [sortedArtboardArray count]) {
+            PBLog(@"All compression tasks finished.");
+            allCompressionTaskFinished = YES;
+            if (saveFileURL != nil) {
+                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]];
+                [self->delegate didFinishExportingWithType:@"1"];
+            }
+//            [[NSNotificationCenter defaultCenter] postNotificationName:AllTaskCompletionNotificationName object:self userInfo:nil];
+        }
+    }];
+    
+    
     //弹出保存对话框
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setNameFieldStringValue:fileName];
     [savePanel setAllowedFileTypes:@[@"pdf"]];
     [savePanel setMessage:@"导出较大文件时请耐心等候"];
-//    PDFDocument *pdfDocument = [[PDFDocument alloc] init];
-    __block BOOL isFinishedGenerating = NO;
     [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
         [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
@@ -110,6 +133,13 @@
             } else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
             }*/
+            saveFileURL = [savePanel URL];
+            if (allCompressionTaskFinished) {
+                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]];
+                [self->delegate didFinishExportingWithType:@"0"];
+            } else {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:SaveFileURLReceivedNotificationName object:self userInfo:@{@"URL" : [savePanel URL]}];
+            }
             
         } else {
             //如果点击取消，最好清理缓存文件以及停止导出的进程
@@ -118,13 +148,6 @@
     
     //后台生成 PDF
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//        __block BOOL isFinishiedExporting = YES;
-        __block NSURL *url = nil;
-        [[NSNotificationCenter defaultCenter] addObserverForName:@"SaveFileURLReceived" object:self queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            url = [note userInfo][@"URL"];
-//            isFinishiedExporting = NO;
-        }];
-
         for (int i = 0; i < [sortedArtboardArray count]; i++) {
             //从画板生成 PDFPage
             PDFPage *pdfPage = [MSPDFBookExporterClass pdfFromArtboard:sortedArtboardArray[i]];
@@ -140,30 +163,37 @@
             NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d.pdf", TmpPath, i];
             NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d_compressed.pdf", TmpPath, i];
             NSTask *task = [[NSTask alloc] init];
+            [CompressionTaskArray addObject:task];
             [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
-            [task setArguments:@[@"-l", @"-c",[NSString stringWithFormat:@"gs -dPDFSETTINGS=/printer -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
+            [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"gs -dPDFSETTINGS=/printer -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
                                                tmpCompressedFileURLStringForTerminal, tmpFileURLStringForTerminal]]];
             NSError *compressTaskError = nil;
+            //任务完成后发送通知
+            [task setTerminationHandler:^(NSTask * _Nonnull someTask) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:TaskCompletionNotificationName object:self userInfo:@{@"id" : [NSNumber numberWithInt:i]}];
+            }];
             [task launchAndReturnError: &compressTaskError];
+
             //TO DO: 需要考虑没有找到命令的情况
             PBLog(@"compress task launch, id: %d", i);
         }
-        PBLog(@"out of loop");
-        //待所有压缩命令完成后，将 PDF 文件合并，保存在保存框选择的 URL
-        isFinishedGenerating = YES;
-        if (url != nil) {
-//            [pdfDocument writeToURL:url];
-            [delegate didFinishExportingWithType:@"1"];
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [document showMessage:@"✅ 导出成功"];
-            });
-        }
     });
-    
-    //接收压缩任务完成的通知（目前未生效）
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSTaskDidTerminateNotification object:self queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        PBLog(@"finished: %@", [note object]);
-    }];
+}
+
+- (void) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount {
+    NSString *urlString = [[url absoluteString] stringByRemovingPercentEncoding];
+    NSTask *task = [[NSTask alloc] init];
+    [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
+    NSMutableString *inputFileURLStrings = [[NSMutableString alloc] init];
+    NSString *TmpPath = NSTemporaryDirectory();
+    for (int i = 0; i < pageCount; i++) {
+        [inputFileURLStrings appendString:[NSString stringWithFormat:@"%@%d_compressed.pdf ", TmpPath, i]];
+    }
+    NSString *outputfileURLString = [urlString substringFromIndex:7];
+    [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"pdftk %@cat output %@", inputFileURLStrings, outputfileURLString]]];
+    NSError *compressTaskError = nil;
+    PBLog(@"inputFileURLStrings: %@, outputfileURLString: %@", inputFileURLStrings, outputfileURLString);
+    [task launchAndReturnError: &compressTaskError];
 }
 
 
