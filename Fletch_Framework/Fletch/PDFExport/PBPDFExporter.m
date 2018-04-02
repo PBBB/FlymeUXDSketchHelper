@@ -191,48 +191,10 @@
                 
             }];
             [task launchAndReturnError: &compressTaskError];
-            
-            //TO DO: 需要考虑没有找到命令的情况
             PBLog(@"compress task launch, id: %d", i);
         }
     });
 }
-
-//- (void) combinePDFDocument2ToURL:(NSURL *) url pageCount: (NSUInteger) pageCount inWindow: (MSDocumentWindow *) window {
-//    NSString *urlString = [[url absoluteString] stringByRemovingPercentEncoding];
-//    NSTask *task = [[NSTask alloc] init];
-//    [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
-//    NSMutableString *inputFileURLStrings = [[NSMutableString alloc] init];
-//    NSString *TmpPath = NSTemporaryDirectory();
-//    for (int i = 0; i < pageCount; i++) {
-//        [inputFileURLStrings appendString:[NSString stringWithFormat:@"%@%d_compressed.pdf ", TmpPath, i]];
-//    }
-//    NSString *outputfileURLString = [urlString substringFromIndex:7];
-//    [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"pdftkk %@cat output %@", inputFileURLStrings, outputfileURLString]]];
-//    //检查命令是否存在
-//    NSPipe *outPipe = [[NSPipe alloc] init];
-//    [task setStandardError:outPipe];
-//    NSFileHandle *fileHandle = [outPipe fileHandleForReading];
-//   
-//    [task setTerminationHandler:^(NSTask * _Nonnull someTask) {
-//        NSData *data = [fileHandle readDataToEndOfFile];
-//        NSString *grepOutput = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        if ([grepOutput containsString:@"command not found"]) {
-//            PBLog(@"pdftk not found");
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSAlert *alert = [[NSAlert alloc] init];
-//                [alert addButtonWithTitle:@"确定"];
-//                [alert setMessageText:@"未找到 pdftk"];
-//                [alert setInformativeText:@"PDF 压缩功能需要 pdftk，请在终端中执行命令“brew install https://raw.githubusercontent.com/turforlag/homebrew-cervezas/master/pdftk.rb”以安装 pdftk"];
-//                [alert beginSheetModalForWindow:window completionHandler:nil];
-//            });
-//        }
-//    }];
-//    
-//    NSError *compressTaskError = nil;
-//    PBLog(@"inputFileURLStrings: %@, outputfileURLString: %@", inputFileURLStrings, outputfileURLString);
-//    [task launchAndReturnError: &compressTaskError];
-//}
 
 - (void) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount inWindow: (MSDocumentWindow *) window {
     PDFDocument *pdfDocument = nil;
