@@ -95,8 +95,6 @@
     
     //接收任务完成所发出的通知，并合并文件
     NSString *const TaskCompletionNotificationName = @"TaskCompletionNotification";
-//    NSString *const SaveFileURLReceivedNotificationName = @"SaveFileURLReceived";
-//    NSString *const AllTaskCompletionNotificationName = @"AllTaskCompletionNotification";
     __block BOOL allCompressionTaskFinished = NO;
     __block NSURL *saveFileURL = nil;
     __block int finishedArtboardsCount = 0;
@@ -107,13 +105,11 @@
             PBLog(@"All compression tasks finished.");
             allCompressionTaskFinished = YES;
             if (saveFileURL != nil) {
-                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]];
+                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] inWindow:window];
                 [self->delegate didFinishExportingWithType:@"1"];
             }
-//            [[NSNotificationCenter defaultCenter] postNotificationName:AllTaskCompletionNotificationName object:self userInfo:nil];
         }
     }];
-    
     
     //弹出保存对话框
     NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -124,18 +120,9 @@
         [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
             //如果点击 OK 之后后台工作都准备好，那么直接合成文件
-            PBLog(@"save panel url: %@", [savePanel URL]);
-            /*
-            if (isFinishedGenerating) {
-//                [pdfDocument writeToURL:[savePanel URL]];
-                [delegate didFinishExportingWithType:@"0"];
-                [document showMessage:@"✅ 导出成功"];
-            } else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"SaveFileURLReceived" object:self userInfo:@{@"URL" : [savePanel URL]}];
-            }*/
             saveFileURL = [savePanel URL];
             if (allCompressionTaskFinished) {
-                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]];
+                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] inWindow:window];
                 [self->delegate didFinishExportingWithType:@"0"];
             } else {
 //                [[NSNotificationCenter defaultCenter] postNotificationName:SaveFileURLReceivedNotificationName object:self userInfo:@{@"URL" : [savePanel URL]}];
@@ -143,6 +130,9 @@
             
         } else {
             //如果点击取消，最好清理缓存文件以及停止导出的进程
+            for (int i = 0; i < [CompressionTaskArray count]; i++) {
+                [CompressionTaskArray[i] terminate];
+            }
         }
     }];
     
@@ -165,35 +155,98 @@
             NSTask *task = [[NSTask alloc] init];
             [CompressionTaskArray addObject:task];
             [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
-            [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"gs -dPDFSETTINGS=/printer -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
+            [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"gs -dPDFSETTINGS=/ebook -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
                                                tmpCompressedFileURLStringForTerminal, tmpFileURLStringForTerminal]]];
             NSError *compressTaskError = nil;
+            //第一个任务记录输出，检查命令是否存在
+            NSPipe *outPipe = nil;
+            NSFileHandle *fileHandle = nil;
+            if (i == 0) {
+                outPipe = [[NSPipe alloc] init];
+                [task setStandardError:outPipe];
+                fileHandle = [outPipe fileHandleForReading];
+            }
             //任务完成后发送通知
             [task setTerminationHandler:^(NSTask * _Nonnull someTask) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:TaskCompletionNotificationName object:self userInfo:@{@"id" : [NSNumber numberWithInt:i]}];
+                if (i == 0) {
+                    NSData *data = [fileHandle readDataToEndOfFile];
+                    NSString *grepOutput = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    if ([grepOutput containsString:@"command not found"]) {
+                        //没有找到命令，提示用户，并且不发送导出成功的消息
+                        PBLog(@"grepOutput: %@", grepOutput);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [savePanel cancel:nil];
+                            NSAlert *alert = [[NSAlert alloc] init];
+                            [alert addButtonWithTitle:@"确定"];
+                            [alert setMessageText:@"未找到 GhostScript"];
+                            [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请在终端中执行命令“brew install ghostscript”以安装 GhostScript。\n\n若提示“brew: command not found”，则需要先执行“/usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"”（注：命令不包含中文引号）"];
+                            [alert beginSheetModalForWindow:window completionHandler:nil];
+                        });
+                    } else {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:TaskCompletionNotificationName object:self userInfo:@{@"id" : [NSNumber numberWithInt:i]}];
+                    }
+                } else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:TaskCompletionNotificationName object:self userInfo:@{@"id" : [NSNumber numberWithInt:i]}];
+                }
+                
             }];
             [task launchAndReturnError: &compressTaskError];
-
+            
             //TO DO: 需要考虑没有找到命令的情况
             PBLog(@"compress task launch, id: %d", i);
         }
     });
 }
 
-- (void) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount {
-    NSString *urlString = [[url absoluteString] stringByRemovingPercentEncoding];
-    NSTask *task = [[NSTask alloc] init];
-    [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
-    NSMutableString *inputFileURLStrings = [[NSMutableString alloc] init];
+//- (void) combinePDFDocument2ToURL:(NSURL *) url pageCount: (NSUInteger) pageCount inWindow: (MSDocumentWindow *) window {
+//    NSString *urlString = [[url absoluteString] stringByRemovingPercentEncoding];
+//    NSTask *task = [[NSTask alloc] init];
+//    [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
+//    NSMutableString *inputFileURLStrings = [[NSMutableString alloc] init];
+//    NSString *TmpPath = NSTemporaryDirectory();
+//    for (int i = 0; i < pageCount; i++) {
+//        [inputFileURLStrings appendString:[NSString stringWithFormat:@"%@%d_compressed.pdf ", TmpPath, i]];
+//    }
+//    NSString *outputfileURLString = [urlString substringFromIndex:7];
+//    [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"pdftkk %@cat output %@", inputFileURLStrings, outputfileURLString]]];
+//    //检查命令是否存在
+//    NSPipe *outPipe = [[NSPipe alloc] init];
+//    [task setStandardError:outPipe];
+//    NSFileHandle *fileHandle = [outPipe fileHandleForReading];
+//   
+//    [task setTerminationHandler:^(NSTask * _Nonnull someTask) {
+//        NSData *data = [fileHandle readDataToEndOfFile];
+//        NSString *grepOutput = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        if ([grepOutput containsString:@"command not found"]) {
+//            PBLog(@"pdftk not found");
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSAlert *alert = [[NSAlert alloc] init];
+//                [alert addButtonWithTitle:@"确定"];
+//                [alert setMessageText:@"未找到 pdftk"];
+//                [alert setInformativeText:@"PDF 压缩功能需要 pdftk，请在终端中执行命令“brew install https://raw.githubusercontent.com/turforlag/homebrew-cervezas/master/pdftk.rb”以安装 pdftk"];
+//                [alert beginSheetModalForWindow:window completionHandler:nil];
+//            });
+//        }
+//    }];
+//    
+//    NSError *compressTaskError = nil;
+//    PBLog(@"inputFileURLStrings: %@, outputfileURLString: %@", inputFileURLStrings, outputfileURLString);
+//    [task launchAndReturnError: &compressTaskError];
+//}
+
+- (void) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount inWindow: (MSDocumentWindow *) window {
+    PDFDocument *pdfDocument = nil;
     NSString *TmpPath = NSTemporaryDirectory();
     for (int i = 0; i < pageCount; i++) {
-        [inputFileURLStrings appendString:[NSString stringWithFormat:@"%@%d_compressed.pdf ", TmpPath, i]];
+        NSString *filePath = [NSString stringWithFormat:@"file://%@%d_compressed.pdf", TmpPath, i];
+        if (i == 0) {
+            pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:filePath]];
+        } else {
+            PDFDocument *tmpDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:filePath]];
+            [pdfDocument insertPage:[tmpDocument pageAtIndex:0] atIndex:[pdfDocument pageCount]];
+        }
     }
-    NSString *outputfileURLString = [urlString substringFromIndex:7];
-    [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"pdftk %@cat output %@", inputFileURLStrings, outputfileURLString]]];
-    NSError *compressTaskError = nil;
-    PBLog(@"inputFileURLStrings: %@, outputfileURLString: %@", inputFileURLStrings, outputfileURLString);
-    [task launchAndReturnError: &compressTaskError];
+    [pdfDocument writeToURL:url];
 }
 
 
