@@ -208,7 +208,7 @@
                             NSAlert *alert = [[NSAlert alloc] init];
                             [alert addButtonWithTitle:@"确定"];
                             [alert setMessageText:@"未找到 GhostScript"];
-                            [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请在终端中执行命令“brew install ghostscript”以安装 GhostScript。\n\n若提示“brew: command not found”，则需要先执行“/usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"”（注：命令不包含中文引号）"];
+                            [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请前往 http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg 下载并安装"];
                             [alert beginSheetModalForWindow:window completionHandler:nil];
                         });
                     } else {
