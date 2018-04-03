@@ -15,6 +15,7 @@
 #import "MSPDFBookExporter.h"
 #import "MSRect.h"
 #import "MSArtboardGroup.h"
+#import "PDFExportProgressWindowController.h"
 
 @implementation PBPDFExporter
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -95,17 +96,28 @@
     
     //接收任务完成所发出的通知，并合并文件
     NSString *const TaskCompletionNotificationName = @"TaskCompletionNotification";
+    NSString *const TaskCanceledByUserNotificationName = @"TaskCanceledByUserNotification";
     __block BOOL allCompressionTaskFinished = NO;
+    __block BOOL userCanceledTask = NO;
     __block NSURL *saveFileURL = nil;
     __block int finishedArtboardsCount = 0;
+    __block PDFExportProgressWindowController *progressWC; //用来显示导出进度
     [[NSNotificationCenter defaultCenter] addObserverForName:TaskCompletionNotificationName object:self queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        if (userCanceledTask) {return;}
         finishedArtboardsCount++;
+        if (progressWC) {
+            [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
+        }
         PBLog(@"task notification received: %@", [note userInfo]);
         if (finishedArtboardsCount == [sortedArtboardArray count]) {
             PBLog(@"All compression tasks finished.");
             allCompressionTaskFinished = YES;
             if (saveFileURL != nil) {
+                if (progressWC) {
+                    [progressWC close];
+                }
                 [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] inWindow:window];
+                [document showMessage:@"✅ 导出成功"];
                 [self->delegate didFinishExportingWithType:@"1"];
             }
         }
@@ -123,9 +135,25 @@
             saveFileURL = [savePanel URL];
             if (allCompressionTaskFinished) {
                 [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] inWindow:window];
+                [document showMessage:@"✅ 导出成功"];
                 [self->delegate didFinishExportingWithType:@"0"];
             } else {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:SaveFileURLReceivedNotificationName object:self userInfo:@{@"URL" : [savePanel URL]}];
+                progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
+                NSPoint progressOrigin;
+                progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
+                progressOrigin.y = window.frame.origin.y + 30;
+                [[progressWC window] setFrameOrigin:progressOrigin];
+                [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
+                //接收通知，用户取消之后就停掉导出进程
+                [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+                    PBLog(@"user canceled");
+                    userCanceledTask = YES;
+                    for (int i = 0; i < [CompressionTaskArray count]; i++) {
+                        [CompressionTaskArray[i] terminate];
+                    }
+                    [progressWC close];
+                }];
+                [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
             }
             
         } else {
@@ -133,6 +161,7 @@
             for (int i = 0; i < [CompressionTaskArray count]; i++) {
                 [CompressionTaskArray[i] terminate];
             }
+            
         }
     }];
     

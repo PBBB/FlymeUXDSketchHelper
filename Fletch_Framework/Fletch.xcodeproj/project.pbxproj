@@ -21,6 +21,9 @@
 		2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */; };
 		2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */; };
 		2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */; };
+		2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BCB2BF4207320D8003469BD /* PDFExportProgressWindowController.h */; };
+		2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCB2BF5207320D8003469BD /* PDFExportProgressWindowController.m */; };
+		2BCB2BF9207320D8003469BD /* PDFExportProgressWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BCB2BF6207320D8003469BD /* PDFExportProgressWindowController.xib */; };
 		2BE505901F5930E500083521 /* Fletch.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BE5058E1F5930E500083521 /* Fletch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BFF0657200B7DD900075D14 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1B6C34200A6D7D00511E45 /* Quartz.framework */; };
 		2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0642200B756C00075D14 /* MSArtboardGroup.h */; };
@@ -64,6 +67,9 @@
 		2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddHistoryDelegate.h; sourceTree = "<group>"; };
 		2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBUpdateNotesTextView.h; sourceTree = "<group>"; };
 		2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBUpdateNotesTextView.m; sourceTree = "<group>"; };
+		2BCB2BF4207320D8003469BD /* PDFExportProgressWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportProgressWindowController.h; sourceTree = "<group>"; };
+		2BCB2BF5207320D8003469BD /* PDFExportProgressWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFExportProgressWindowController.m; sourceTree = "<group>"; };
+		2BCB2BF6207320D8003469BD /* PDFExportProgressWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDFExportProgressWindowController.xib; sourceTree = "<group>"; };
 		2BE5058B1F5930E500083521 /* Fletch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fletch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE5058E1F5930E500083521 /* Fletch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fletch.h; sourceTree = "<group>"; };
 		2BE5058F1F5930E500083521 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,6 +113,9 @@
 				2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */,
 				2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */,
 				2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */,
+				2BCB2BF4207320D8003469BD /* PDFExportProgressWindowController.h */,
+				2BCB2BF5207320D8003469BD /* PDFExportProgressWindowController.m */,
+				2BCB2BF6207320D8003469BD /* PDFExportProgressWindowController.xib */,
 			);
 			path = PDFExport;
 			sourceTree = "<group>";
@@ -193,6 +202,7 @@
 				2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */,
 				2BFF065B200B7F5600075D14 /* MSDocument.h in Headers */,
 				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
+				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
 				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
 				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
@@ -272,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */,
+				2BCB2BF9207320D8003469BD /* PDFExportProgressWindowController.xib in Resources */,
 				2BBE4D9C1F5CEE4E005ACB47 /* AddHistoryWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +297,7 @@
 				2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */,
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
+				2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */,
 				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
