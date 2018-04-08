@@ -108,9 +108,7 @@
         if (progressWC) {
             [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
         }
-        PBLog(@"task notification received: %@", [note userInfo]);
         if (finishedArtboardsCount == [sortedArtboardArray count]) {
-            PBLog(@"All compression tasks finished.");
             allCompressionTaskFinished = YES;
             if (saveFileURL != nil) {
                 if (progressWC) {
@@ -146,7 +144,6 @@
                 [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
                 //接收通知，用户取消之后就停掉导出进程
                 [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                    PBLog(@"user canceled");
                     userCanceledTask = YES;
                     for (int i = 0; i < [CompressionTaskArray count]; i++) {
                         [CompressionTaskArray[i] terminate];
@@ -183,14 +180,17 @@
             //每一页都导出一个 PDF 文件，放在缓存文件夹
             NSString *TmpPath = NSTemporaryDirectory();
             NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
-            BOOL success = [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
-            PBLog(@"Tmp file exported to URL: %@, success: %hhd", tmpFileURLString, success);
+            [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
             //执行压缩命令
             NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d.pdf", TmpPath, i];
             NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d_compressed.pdf", TmpPath, i];
             NSTask *task = [[NSTask alloc] init];
             [CompressionTaskArray addObject:task];
-            [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
+            if (@available(macOS 10.13, *)) {
+                [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
+            } else {
+                [task setLaunchPath:@"file:///bin/bash"];
+            }
             [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"gs -dPDFSETTINGS=/ebook -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
                                                tmpCompressedFileURLStringForTerminal, tmpFileURLStringForTerminal]]];
             NSError *compressTaskError = nil;
@@ -209,7 +209,6 @@
                     NSString *grepOutput = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                     if ([grepOutput containsString:@"command not found"]) {
                         //没有找到命令，提示用户，并且不发送导出成功的消息
-                        PBLog(@"grepOutput: %@", grepOutput);
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [savePanel cancel:nil];
                             NSAlert *alert = [[NSAlert alloc] init];
@@ -218,7 +217,6 @@
                             [alert setMessageText:@"请先安装 GhostScript"];
                             [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请先下载并安装"];
                             [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
-                                PBLog(@"returnCode: %ld", (long)returnCode);
                                 switch (returnCode) {
                                     case NSAlertFirstButtonReturn:
                                         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg"]];
@@ -240,8 +238,11 @@
                 }
                 
             }];
-            [task launchAndReturnError: &compressTaskError];
-            PBLog(@"compress task launch, id: %d", i);
+            if (@available(macOS 10.13, *)) {
+                [task launchAndReturnError: &compressTaskError];
+            } else {
+                [task launch];
+            }
         }
     });
 }
