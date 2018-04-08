@@ -213,10 +213,24 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [savePanel cancel:nil];
                             NSAlert *alert = [[NSAlert alloc] init];
-                            [alert addButtonWithTitle:@"确定"];
-                            [alert setMessageText:@"未找到 GhostScript"];
-                            [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请前往 http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg 下载并安装"];
-                            [alert beginSheetModalForWindow:window completionHandler:nil];
+                            [alert addButtonWithTitle:@"去下载"];
+                            [alert addButtonWithTitle:@"取消"];
+                            [alert setMessageText:@"请先安装 GhostScript"];
+                            [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请先下载并安装"];
+                            [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
+                                PBLog(@"returnCode: %ld", (long)returnCode);
+                                switch (returnCode) {
+                                    case NSAlertFirstButtonReturn:
+                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg"]];
+                                        [window endSheet:[alert window]];
+                                        break;
+                                    case NSAlertSecondButtonReturn:
+                                        [window endSheet:[alert window]];
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }];
                         });
                     } else {
                         [[NSNotificationCenter defaultCenter] postNotificationName:TaskCompletionNotificationName object:self userInfo:@{@"id" : [NSNumber numberWithInt:i]}];
