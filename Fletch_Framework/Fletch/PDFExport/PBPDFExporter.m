@@ -127,7 +127,7 @@
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setNameFieldStringValue:fileName];
     [savePanel setAllowedFileTypes:@[@"pdf"]];
-    [savePanel setMessage:@"导出较大文件时请耐心等候"];
+//    [savePanel setMessage:@"导出较大文件时请耐心等候"];
     [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
         [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
@@ -154,6 +154,13 @@
                     [progressWC close];
                 }];
                 [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
+                //接收通知，根据父窗口的尺寸变化，调整自己的位置
+                [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+                    NSPoint progressOrigin;
+                    progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
+                    progressOrigin.y = window.frame.origin.y + 30;
+                    [[progressWC window] setFrameOrigin:progressOrigin];
+                }];
             }
             
         } else {

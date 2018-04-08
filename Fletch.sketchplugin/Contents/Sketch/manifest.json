@@ -49,7 +49,7 @@
       
     },
     {
-      "name": "导出并压缩 PDF（Beta）...",
+      "name": "导出 PDF...",
       "identifier": "exportPDF",
       "shortcut": "ctrl shift e",
       "script": "ExportPDF.cocoascript",
