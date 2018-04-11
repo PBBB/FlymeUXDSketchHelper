@@ -189,7 +189,7 @@
             if (@available(macOS 10.13, *)) {
                 [task setExecutableURL:[NSURL URLWithString:@"file:///bin/bash"]];
             } else {
-                [task setLaunchPath:@"file:///bin/bash"];
+                [task setLaunchPath:@"/bin/bash"];
             }
             [task setArguments:@[@"-l", @"-c", [NSString stringWithFormat:@"gs -dPDFSETTINGS=/ebook -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%@ -dBATCH %@",
                                                tmpCompressedFileURLStringForTerminal, tmpFileURLStringForTerminal]]];

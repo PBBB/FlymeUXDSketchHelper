@@ -195,11 +195,11 @@ var showHideUIFramePanel = function (context) {
   [hideUIFramePanelWC showWindow:self];
 
   //关闭面板后需要移除对面板的引用
-  var closeButton = [hideUIFramePanelWC window].standardWindowButton(NSWindowCloseButton);
-  closeButton.setCOSJSTargetFunction(function(sender){
-    removeHelperLayersInArtboards(artboardsWithUIFrame);
-    finishOperationInWindowController(hideUIFramePanelWC);
-  });
+  // var closeButton = [hideUIFramePanelWC window].standardWindowButton(NSWindowCloseButton);
+  // closeButton.setCOSJSTargetFunction(function(sender){
+  //   removeHelperLayersInArtboards(artboardsWithUIFrame);
+  //   finishOperationInWindowController(hideUIFramePanelWC);
+  // });
 
   threadDictionary[identifier] = hideUIFramePanelWC;
 
