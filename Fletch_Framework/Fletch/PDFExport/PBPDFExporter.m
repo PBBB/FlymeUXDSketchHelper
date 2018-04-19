@@ -114,9 +114,22 @@
                 if (progressWC) {
                     [progressWC close];
                 }
-                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] inWindow:window];
-                [document showMessage:@"✅ 导出成功"];
-                [self->delegate didFinishExportingWithType:@"1"];
+                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [document showMessage:@"✅ 导出成功"];
+                    });
+                    [self->delegate didFinishExportingWithType:@"DoneGeneratingAfterClickingSave" count:0];
+                }
+                else {
+                    //如果有部分页面压缩失败则进行提示
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSAlert *alert = [[NSAlert alloc] init];
+                        [alert addButtonWithTitle:@"确定"];
+                        [alert setMessageText:@"导出成功，但部分页面压缩失败"];
+                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF "];
+                        [alert beginSheetModalForWindow:window completionHandler:nil];
+                    });
+                }
             }
         }
     }];
@@ -132,9 +145,21 @@
             //如果点击 OK 之后后台工作都准备好，那么直接合成文件
             saveFileURL = [savePanel URL];
             if (allCompressionTaskFinished) {
-                [self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] inWindow:window];
-                [document showMessage:@"✅ 导出成功"];
-                [self->delegate didFinishExportingWithType:@"0"];
+                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [document showMessage:@"✅ 导出成功"];
+                    });
+                    [self->delegate didFinishExportingWithType:@"DoneGeneratingBeforeClickingSave" count:0];
+                } else {
+                    //如果有部分页面压缩失败则进行提示
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSAlert *alert = [[NSAlert alloc] init];
+                        [alert addButtonWithTitle:@"确定"];
+                        [alert setMessageText:@"导出成功，但部分页面压缩失败"];
+                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF "];
+                        [alert beginSheetModalForWindow:window completionHandler:nil];
+                    });
+                }
             } else {
                 progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
                 NSPoint progressOrigin;
@@ -159,13 +184,11 @@
                     [[progressWC window] setFrameOrigin:progressOrigin];
                 }];
             }
-            
         } else {
             //如果点击取消，最好清理缓存文件以及停止导出的进程
             for (int i = 0; i < [CompressionTaskArray count]; i++) {
                 [CompressionTaskArray[i] terminate];
             }
-            
         }
     }];
     
@@ -247,19 +270,35 @@
     });
 }
 
-- (void) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount inWindow: (MSDocumentWindow *) window {
+- (BOOL) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount {
     PDFDocument *pdfDocument = nil;
     NSString *TmpPath = NSTemporaryDirectory();
+    NSMutableArray<NSNumber *> *failedPagesArray = [NSMutableArray<NSNumber *> array];
     for (int i = 0; i < pageCount; i++) {
-        NSString *filePath = [NSString stringWithFormat:@"file://%@%d_compressed.pdf", TmpPath, i];
+        NSString *compressedFilePath = [NSString stringWithFormat:@"file://%@%d_compressed.pdf", TmpPath, i];
+        NSString *originalFilePath = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
         if (i == 0) {
-            pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:filePath]];
+            pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:compressedFilePath]];
+            if ([pdfDocument pageCount] == 0){
+                pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:originalFilePath]];
+                [failedPagesArray addObject: [NSNumber numberWithInt:i]];
+            }
         } else {
-            PDFDocument *tmpDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:filePath]];
+            PDFDocument *tmpDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:compressedFilePath]];
+            if ([tmpDocument pageCount] == 0){
+                tmpDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:originalFilePath]];
+                [failedPagesArray addObject: [NSNumber numberWithInt:i]];
+            }
             [pdfDocument insertPage:[tmpDocument pageAtIndex:0] atIndex:[pdfDocument pageCount]];
         }
     }
     [pdfDocument writeToURL:url];
+    if ([failedPagesArray count] > 0) {
+        [self->delegate didFinishExportingWithType:@"FailedCompressing" count: [NSNumber numberWithUnsignedInteger:[failedPagesArray count]]];
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 
