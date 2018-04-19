@@ -155,8 +155,8 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSAlert *alert = [[NSAlert alloc] init];
                         [alert addButtonWithTitle:@"确定"];
-                        [alert setMessageText:@"导出成功，但部分页面压缩失败"];
-                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF "];
+                        [alert setMessageText:@"导出成功"];
+                        [alert setInformativeText:@"部分页面未被压缩，你可以使用其他软件再次压缩导出后的 PDF"];
                         [alert beginSheetModalForWindow:window completionHandler:nil];
                     });
                 }
