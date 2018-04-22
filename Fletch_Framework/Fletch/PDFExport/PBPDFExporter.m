@@ -107,6 +107,11 @@
         finishedArtboardsCount++;
         if (progressWC) {
             [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
+//            进度条不能直接做动画，坑爹
+//            [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+//                [context setDuration:0.2];
+//                [[[progressWC pdfExportProgressIndicator] animator] setDoubleValue: (double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
+//            } completionHandler:nil];
         }
         if (finishedArtboardsCount == [sortedArtboardArray count]) {
             allCompressionTaskFinished = YES;
@@ -167,6 +172,11 @@
                 progressOrigin.y = window.frame.origin.y + 30;
                 [[progressWC window] setFrameOrigin:progressOrigin];
                 [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
+//                进度条不能直接做动画，坑爹
+//                [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+//                    [context setDuration:0.2];
+//                    [[[progressWC pdfExportProgressIndicator] animator] setDoubleValue: (double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
+//                } completionHandler:nil];
                 //接收通知，用户取消之后就停掉导出进程
                 [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
                     userCanceledTask = YES;
