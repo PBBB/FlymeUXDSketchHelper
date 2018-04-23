@@ -10,6 +10,7 @@
 
 @interface PDFExportProgressWindowController : NSWindowController
 @property (weak) IBOutlet NSProgressIndicator *pdfExportProgressIndicator;
+@property (weak) IBOutlet NSTextField *exportLabel;
 @end
 
 

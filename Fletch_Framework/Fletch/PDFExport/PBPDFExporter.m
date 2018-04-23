@@ -116,11 +116,15 @@
         if (finishedArtboardsCount == [sortedArtboardArray count]) {
             allCompressionTaskFinished = YES;
             if (saveFileURL != nil) {
-                if (progressWC) {
-                    [progressWC close];
-                }
+                // 之前是全部压缩完成后就关闭进度面板，但是和最后的导出成功之间可能有延迟
+//                if (progressWC) {
+//                    [[progressWC pdfExportProgressIndicator] setIndeterminate:YES];
+//                    [[progressWC pdfExportProgressIndicator] startAnimation:nil];
+//                    [[progressWC exportLabel] setStringValue:@"即将完成…"];
+//                }
                 if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        [progressWC close];
                         [document showMessage:@"✅ 导出成功"];
                     });
                     [self->delegate didFinishExportingWithType:@"DoneGeneratingAfterClickingSave" count:0];

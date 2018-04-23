@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PDFExportProgressWindowController">
             <connections>
+                <outlet property="exportLabel" destination="skp-46-6nA" id="4tG-qg-x0k"/>
                 <outlet property="pdfExportProgressIndicator" destination="uF0-IU-H8N" id="F6g-OQ-h7t"/>
                 <outlet property="window" destination="WQh-dz-hRo" id="Uma-zx-jhy"/>
             </connections>
@@ -27,8 +28,8 @@
                         <rect key="frame" x="20" y="41" width="112" height="12"/>
                     </progressIndicator>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="skp-46-6nA">
-                        <rect key="frame" x="26" y="16" width="123" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="正在后台导出 PDF..." id="R5I-lW-mfP">
+                        <rect key="frame" x="24" y="16" width="127" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="正在后台导出 PDF..." id="R5I-lW-mfP">
                             <font key="font" usesAppearanceFont="YES"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
