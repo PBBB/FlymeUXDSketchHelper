@@ -5,6 +5,7 @@
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
   "version": "1.5.0",
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
+  "icon": "../Resources/icons/icon.png",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
   "compatibleVersion": "48",
   "bundleVersion": 1,

@@ -1,5 +1,4 @@
 
-
 var showHideUIFramePanel = function (context) {
 
   @import 'Fletch.framework/FletchSketchHelper.js'
@@ -67,16 +66,27 @@ var showHideUIFramePanel = function (context) {
         		}
 				uiNameLayers[i].push(artboardsWithUIFrame[i].layers()[j].layers()[k]);
         	}
-         }
+        }
         continue;
       }
     }
+    //如果这个画板的不同图层数量不一致，则提示并且退出执行
+    if (frameLayers[i].length != uiNameLayers[i].length || uiNameLayers[i].length != uiDescriptionLayers[i].length) {
+      var alert = [[NSAlert alloc] init];
+      [alert setMessageText:"画板“"+ artboardsWithUIFrame[i].name() +"”中有缺失的图层"];
+      [alert setInformativeText:"界面整体描述、界面框和界面说明的数量需要保持匹配，请先确保这些图层没有被删掉"];
+      [alert addButtonWithTitle:"确定"];
+      [alert beginSheetModalForWindow:context.document.window() completionHandler:nil];
+      ga.sendEvent('ShowOrHideUIFrameOrDescription', 'Fail', 'LayersCountMismatch')
+      return;
+    }
   }
+
   //图层按位置排序
   for (var i = 0; i < artboardsWithUIFrame.length; i++) {
-	frameLayers[i].sort(compareLayers);
-	uiNameLayers[i].sort(compareLayers);
-	uiDescriptionLayers[i].sort(compareUIDescriptionLayers);
+  	frameLayers[i].sort(compareLayers);
+  	uiNameLayers[i].sort(compareLayers);
+  	uiDescriptionLayers[i].sort(compareUIDescriptionLayers);
   }
   
 
@@ -235,7 +245,7 @@ var showHideUIFramePanel = function (context) {
   		var pointOfDescriptionRelativeToArtboard = parentOfDescription.convertPoint_toLayer_(CGPointMake(uiDescriptionLayers[i][j].frame().x(),uiDescriptionLayers[i][j].frame().y()), artboardsWithUIFrame[i]);
   		//计算说明框的宽高
   		var uiDescriptionWidth = Math.max(uiDescriptionLayers[i][j].frame().width() + 10 * 2, uiFrameWidth);
-  		var originalUIDescriptionHeight = pointOfDescriptionRelativeToArtboard.y - pointOfFrameRelativeToArtboard.y - uiFrameHeight + uiDescriptionLayers[i][j].frame().height() + 20; //高度额外加 20 是为了方便点击
+  		var originalUIDescriptionHeight = pointOfDescriptionRelativeToArtboard.y - pointOfFrameRelativeToArtboard.y - uiFrameHeight + uiDescriptionLayers[i][j].frame().height() + 8;
   		var uiDescriptionHeight = Math.min(originalUIDescriptionHeight, 230);
   		//画框
   		var isFrameHiddenOrTransparent = isLayerHiddenOrTransparent(uiNameLayers[i][j]);
