@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */; };
 		2B1237871F5937BF0010ABDC /* FletchSketchHelper.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1237841F5936C90010ABDC /* FletchSketchHelper.js */; };
+		2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */; };
+		2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */; };
+		2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */; };
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
@@ -55,6 +58,9 @@
 		2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameDelegate.h; sourceTree = "<group>"; };
 		2B1237841F5936C90010ABDC /* FletchSketchHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FletchSketchHelper.js; sourceTree = "<group>"; };
 		2B1B6C34200A6D7D00511E45 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarWindowController.h; sourceTree = "<group>"; };
+		2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarWindowController.m; sourceTree = "<group>"; };
+		2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PBToolbarWindowController.xib; sourceTree = "<group>"; };
 		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
@@ -105,6 +111,16 @@
 				2B1B6C34200A6D7D00511E45 /* Quartz.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2B1D0EFE20D1020000242DB4 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */,
+				2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */,
+				2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */,
+			);
+			path = Toolbar;
 			sourceTree = "<group>";
 		};
 		2B231BA92009B85B003E1625 /* PDFExport */ = {
@@ -168,6 +184,7 @@
 				2BB0906F1FC6A9710065F0D3 /* AddHistory */,
 				2BB090701FC6A9990065F0D3 /* ShowHideUIFrame */,
 				2B231BA92009B85B003E1625 /* PDFExport */,
+				2B1D0EFE20D1020000242DB4 /* Toolbar */,
 				2BFF063E200B755600075D14 /* SketchHeaders */,
 				2B1237841F5936C90010ABDC /* FletchSketchHelper.js */,
 				2BE5058F1F5930E500083521 /* Info.plist */,
@@ -205,6 +222,7 @@
 				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
 				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
+				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
 				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
 				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
 				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
@@ -282,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */,
+				2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */,
 				2BCB2BF9207320D8003469BD /* PDFExportProgressWindowController.xib in Resources */,
 				2BBE4D9C1F5CEE4E005ACB47 /* AddHistoryWindowController.xib in Resources */,
 			);
@@ -299,6 +318,7 @@
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
 				2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */,
 				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
+				2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,7 +375,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -408,7 +428,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -430,6 +450,7 @@
 				INFOPLIST_FILE = Fletch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbb.study.Fletch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -452,6 +473,7 @@
 				INFOPLIST_FILE = Fletch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbb.study.Fletch;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -19,7 +19,7 @@
     [super windowDidLoad];
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-    [[self window] setBackgroundColor:NSColor.whiteColor];
+//    [[self window] setBackgroundColor:NSColor.whiteColor];
     [[self window] setMovableByWindowBackground:YES];
     [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
     [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
@@ -58,7 +58,7 @@
                                    @"date" : _datePicker.dateValue,
                                    @"author" : _authorTextField.stringValue,
                                    @"notes" : finalUpdateNotes,
-                                   @"willConbineHistoryOfSameDay" : self.combineHistoryCheckbox.state == NSOnState ? @(YES) : @(NO)
+                                   @"willConbineHistoryOfSameDay" : self.combineHistoryCheckbox.state == NSControlStateValueOn ? @(YES) : @(NO)
                                    };
         
 //        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:finalUpdateNotes CombineHistoryOfSameDay:willConbineHistoryOfSameDay];
