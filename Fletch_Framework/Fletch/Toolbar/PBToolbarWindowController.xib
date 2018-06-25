@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14269.12" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14269.14" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,7 +16,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1285" y="903" width="300" height="72"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1200"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="100" height="72"/>
             <value key="maxSize" type="size" width="1000" height="72"/>
             <view key="contentView" id="ERk-mW-m92">
@@ -36,7 +36,7 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="F750B791-7C23-4C5E-AD1D-0E91E0848AA6" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="AFU-Hc-Zdv">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="86E30156-002E-4397-8880-86C270740EFF" label="显示/隐藏界面框" paletteLabel="显示/隐藏界面框" tag="-1" image="NSBonjour" autovalidates="NO" id="Lk5-gz-hp0"/>
+                    <toolbarItem implicitItemIdentifier="86E30156-002E-4397-8880-86C270740EFF" explicitItemIdentifier="PBToolbarCommandAddHistory" label="添加更新记录" paletteLabel="添加更新记录" tag="-1" image="NSAddTemplate" autovalidates="NO" id="Lk5-gz-hp0"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" explicitItemIdentifier="what" id="1CI-Wf-vzd"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="BlX-1x-C3d"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="MkS-ds-tCr"/>
@@ -50,6 +50,9 @@
                     <toolbarItem reference="QAQ-y6-sr2"/>
                     <toolbarItem reference="MkS-ds-tCr"/>
                 </defaultToolbarItems>
+                <connections>
+                    <outlet property="delegate" destination="-2" id="ksy-NQ-6zB"/>
+                </connections>
             </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="6yE-Ei-vpq"/>
@@ -58,6 +61,6 @@
         </window>
     </objects>
     <resources>
-        <image name="NSBonjour" width="32" height="32"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
     </resources>
 </document>

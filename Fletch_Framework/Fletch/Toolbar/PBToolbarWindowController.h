@@ -7,10 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PBToolbarDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PBToolbarWindowController : NSWindowController
+@interface PBToolbarWindowController : NSWindowController <NSToolbarDelegate>
+@property (nonatomic, retain) PBToolbarDelegate *delegate;
 
 @end
 

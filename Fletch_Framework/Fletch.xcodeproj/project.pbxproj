@@ -15,6 +15,7 @@
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
+		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
 		2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */; };
 		2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */; };
 		2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */; };
@@ -64,6 +65,7 @@
 		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
+		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
 		2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameWindowController.h; sourceTree = "<group>"; };
 		2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowHideUIFrameWindowController.m; sourceTree = "<group>"; };
 		2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowHideUIFrameWindowController.xib; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 		2B1D0EFE20D1020000242DB4 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
+				2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */,
 				2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */,
 				2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */,
 				2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */,
@@ -227,6 +230,7 @@
 				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
 				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
 				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
+				2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */,
 				2BFF0660200B7F5600075D14 /* MSPDFBookExporter.h in Headers */,
 				2BFF0661200B7F5600075D14 /* MSRect.h in Headers */,
 				2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */,

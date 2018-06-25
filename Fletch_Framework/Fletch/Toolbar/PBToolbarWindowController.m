@@ -7,6 +7,7 @@
 //
 
 #import "PBToolbarWindowController.h"
+#import "PBToolbarDelegate.h"
 
 @interface PBToolbarWindowController ()
 
@@ -14,6 +15,7 @@
 
 @implementation PBToolbarWindowController
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+@synthesize delegate;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
@@ -22,6 +24,26 @@
     [[self window] setMovableByWindowBackground:YES];
     [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
     [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
+}
+//- (IBAction)didClickToolbarItem:(NSToolbarItem *)sender {
+//    PBLog(@"%@ clicked", sender);
+//    [delegate willRunCommand:PBToolbarCommandAddHistory];
+//}
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
+    PBLog(@"start set command");
+    NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+    if ([itemIdentifier  isEqual: @"PBToolbarCommandAddHistory"]) {
+        PBLog(@"set command");
+        [toolbarItem setTarget:self];
+        [toolbarItem setAction:@selector(runCommand:)];
+    }
+    return toolbarItem;
+}
+
+- (void) runCommand: (NSToolbarItem *) toolbarItem {
+    PBLog(@"run command");
+    [delegate willRunCommand:PBToolbarCommandAddHistory];
 }
 
 @end
