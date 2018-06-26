@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PBToolbarWindowController : NSWindowController <NSToolbarDelegate>
 @property (nonatomic, retain) PBToolbarDelegate *delegate;
-
 @end
 
 NS_ASSUME_NONNULL_END

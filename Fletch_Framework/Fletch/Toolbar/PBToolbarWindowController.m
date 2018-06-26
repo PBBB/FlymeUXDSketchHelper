@@ -30,20 +30,31 @@
 //    [delegate willRunCommand:PBToolbarCommandAddHistory];
 //}
 
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
-    PBLog(@"start set command");
-    NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-    if ([itemIdentifier  isEqual: @"PBToolbarCommandAddHistory"]) {
-        PBLog(@"set command");
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(runCommand:)];
-    }
-    return toolbarItem;
-}
+//- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
+//    PBLog(@"start set command");
+//    NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+//    if ([itemIdentifier  isEqual: @"PBToolbarCommandAddHistory"]) {
+//        PBLog(@"set command");
+//        [toolbarItem setTarget:self];
+//        [toolbarItem setAction:@selector(runCommand:)];
+//    }
+//    return toolbarItem;
+//}
 
-- (void) runCommand: (NSToolbarItem *) toolbarItem {
+//- (void)toolbarWillAddItem:(NSNotification *)notification {
+//    NSToolbarItem *toolbarItem = [notification userInfo][@"item"];
+//    if ([toolbarItem.itemIdentifier  isEqual: @"PBToolbarCommandAddHistory"]) {
+//        PBLog(@"set command");
+//        [toolbarItem setTarget:self];
+//        [toolbarItem setAction:@selector(runCommand:)];
+//        [toolbarItem validate];
+//        PBLog(@"set command complete");
+//    }
+//}
+
+- (void) runCommand: (NSToolbarItem *) sender {
     PBLog(@"run command");
-    [delegate willRunCommand:PBToolbarCommandAddHistory];
+//    [delegate willRunCommand:PBToolbarCommandAddHistory];
 }
 
 @end

@@ -23,7 +23,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="300" height="72"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <visualEffectView hidden="YES" blendingMode="behindWindow" material="underWindowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="PZq-hY-RGf">
+                    <visualEffectView blendingMode="behindWindow" material="underWindowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="PZq-hY-RGf">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="72"/>
                     </visualEffectView>
                 </subviews>
@@ -34,33 +34,10 @@
                     <constraint firstItem="PZq-hY-RGf" firstAttribute="leading" secondItem="ERk-mW-m92" secondAttribute="leading" id="yM2-M7-G3l"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="F750B791-7C23-4C5E-AD1D-0E91E0848AA6" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="AFU-Hc-Zdv">
-                <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="86E30156-002E-4397-8880-86C270740EFF" explicitItemIdentifier="PBToolbarCommandAddHistory" label="添加更新记录" paletteLabel="添加更新记录" tag="-1" image="NSAddTemplate" autovalidates="NO" id="Lk5-gz-hp0"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" explicitItemIdentifier="what" id="1CI-Wf-vzd"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="BlX-1x-C3d"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="MkS-ds-tCr"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="feE-9R-DZG"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="QAQ-y6-sr2"/>
-                </allowedToolbarItems>
-                <defaultToolbarItems>
-                    <toolbarItem reference="Lk5-gz-hp0"/>
-                    <toolbarItem reference="1CI-Wf-vzd"/>
-                    <toolbarItem reference="BlX-1x-C3d"/>
-                    <toolbarItem reference="QAQ-y6-sr2"/>
-                    <toolbarItem reference="MkS-ds-tCr"/>
-                </defaultToolbarItems>
-                <connections>
-                    <outlet property="delegate" destination="-2" id="ksy-NQ-6zB"/>
-                </connections>
-            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="6yE-Ei-vpq"/>
             </connections>
             <point key="canvasLocation" x="133" y="102"/>
         </window>
     </objects>
-    <resources>
-        <image name="NSAddTemplate" width="11" height="11"/>
-    </resources>
 </document>
