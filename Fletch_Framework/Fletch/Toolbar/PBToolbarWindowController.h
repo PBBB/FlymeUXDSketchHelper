@@ -9,10 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "PBToolbarDelegate.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface PBToolbarWindowController : NSWindowController <NSToolbarDelegate>
+@interface PBToolbarWindowController : NSWindowController <NSToolbarDelegate, NSToolbarItemValidation>
 @property (nonatomic, retain) PBToolbarDelegate *delegate;
+@property (nonatomic, retain) NSToolbar *toolbar;
+- (void)runToolbarCommand:(NSToolbarItem *)sender;
 @end
-
-NS_ASSUME_NONNULL_END
