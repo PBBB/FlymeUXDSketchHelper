@@ -1,6 +1,6 @@
 @import 'Libraries/ga.js'
 
-var addDocumentArtboard = function (context) {
+var addDocumentArtboard = function (context, shouldKeepAround = true) {
 
   //初始化 GA
   var ga = new Analytics(context);

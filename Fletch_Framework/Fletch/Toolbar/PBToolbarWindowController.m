@@ -45,7 +45,6 @@
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(runToolbarCommand:)];
         [toolbarItem setTag:0];
-        PBLog(@"set command complete");
     } else {
         toolbarItem = nil;
     }
@@ -70,12 +69,7 @@
 }
 
 - (void)runToolbarCommand:(NSToolbarItem *)sender {
-    PBLog(@"run command");
-//    [delegate willRunCommand:PBToolbarCommandAddHistory];
-}
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)item {
-    return YES;
+    [delegate willRunCommand:@"PBToolbarCommandAddHistory"];
 }
 
 @end

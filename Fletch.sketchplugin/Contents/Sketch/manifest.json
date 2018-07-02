@@ -56,6 +56,14 @@
       "script": "ExportPDF.cocoascript",
       "handler": "exportPDF"
       
+    },
+    {
+      "name": "显示工具栏",
+      "identifier": "showToolbar",
+      "shortcut": "ctrl shift t",
+      "script": "ShowToolbar.cocoascript",
+      "handler": "showToolbar"
+      
     }
   ],
   "menu": {
@@ -65,7 +73,8 @@
       "-",
       "addHistory",
       "updateCatalog",
-      "exportPDF"
+      "exportPDF",
+      "showToolbar"
     ],
     "title":"🎈 Fletch"
   }

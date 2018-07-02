@@ -2,7 +2,7 @@
 @import 'Libraries/MochaJSDelegate.js'
 @import 'Libraries/ga.js'
 
-var exportPDF = function (context) {
+var exportPDF = function (context, shouldKeepAround = true) {
 
   //初始化 GA
   var ga = new Analytics(context);
@@ -10,7 +10,9 @@ var exportPDF = function (context) {
   var pdfExporter = [[PBPDFExporter alloc] init];
 
   //定义 Delegate 所需要的方法
-  COScript.currentCOScript().setShouldKeepAround_(true);
+  if (shouldKeepAround) {
+    COScript.currentCOScript().setShouldKeepAround_(true);
+  }
   var pdfExporterDelegate = new MochaJSDelegate();
   pdfExporterDelegate.setHandlerForSelector("didFinishExportingWithType:count:", function(type, count){
   	//类型 0 是点击保存的时候后台已经生成完成，类型 1 是后台生成后才导出成功

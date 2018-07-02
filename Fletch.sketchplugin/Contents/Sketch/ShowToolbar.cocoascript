@@ -1,0 +1,31 @@
+@import 'Fletch.framework/FletchSketchHelper.js';
+@import 'Libraries/MochaJSDelegate.js';
+@import 'Libraries/ga.js';
+@import 'AddHistory.cocoascript';
+@import 'ExportPDF.cocoascript';
+@import 'UpdateCatalog.cocoascript';
+@import 'HideUIFramePanel.cocoascript';
+@import 'AddDocumentArtboard.cocoascript';
+
+var showToolbar = function (context) {
+
+  //生成弹出的窗口，设定 Delegate
+  COScript.currentCOScript().setShouldKeepAround_(true);
+  var toolbarWC = [[PBToolbarWindowController alloc] initWithWindowNibName:@"PBToolbarWindowController"];
+  var toolbarDelegate = new MochaJSDelegate();
+  toolbarDelegate.setHandlerForSelector("willRunCommand:", function(command){
+    log("run command:");
+    // addHistory(context, false);
+    addHistory(uploadContext(context),false);
+    log("after addHistory");
+  });
+  toolbarWC.delegate = (toolbarDelegate.getClassInstance());
+  [toolbarWC showWindow:self];
+}
+
+function uploadContext(context) {
+    var contextNow = context;
+    contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
+    contextNow.selection = context.document.selectedLayers().layers();
+    return contextNow;
+}

@@ -1,5 +1,5 @@
 
-var showHideUIFramePanel = function (context) {
+var showHideUIFramePanel = function (context, shouldKeepAround = true) {
 
   @import 'Fletch.framework/FletchSketchHelper.js'
   @import 'Libraries/MochaJSDelegate.js'
@@ -103,7 +103,9 @@ var showHideUIFramePanel = function (context) {
   var ga = new Analytics(context);
 
   //定义 Delegate 所需要的方法
-  COScript.currentCOScript().setShouldKeepAround_(true);
+  if (shouldKeepAround) {
+    COScript.currentCOScript().setShouldKeepAround_(true);
+  }
   var hideUIFramePanelDelegate = new MochaJSDelegate();
   hideUIFramePanelDelegate.setHandlerForSelector("didClickFinishOperationInWindowController:", function(hideUIFramePanelWC){
     removeHelperLayersInArtboards(artboardsWithUIFrame);

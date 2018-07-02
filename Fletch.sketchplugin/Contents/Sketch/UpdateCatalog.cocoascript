@@ -1,6 +1,6 @@
 @import 'Libraries/ga.js'
 
-function prepareSelectedArtboards (context) {
+function prepareSelectedArtboards (context, shouldKeepAround = true) {
   var selection = context.selection;
   
   // 提取所选画板
