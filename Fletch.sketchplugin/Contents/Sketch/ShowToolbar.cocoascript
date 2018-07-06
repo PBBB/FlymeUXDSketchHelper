@@ -8,19 +8,15 @@
 @import 'AddDocumentArtboard.cocoascript';
 
 var showToolbar = function (context) {
-
   //生成弹出的窗口，设定 Delegate
   COScript.currentCOScript().setShouldKeepAround_(true);
-  var toolbarWC = [[PBToolbarWindowController alloc] initWithWindowNibName:@"PBToolbarWindowController"];
+  var toolbarHelper = [[PBToolbarHelper alloc] init];
   var toolbarDelegate = new MochaJSDelegate();
   toolbarDelegate.setHandlerForSelector("willRunCommand:", function(command){
-    log("run command:");
-    // addHistory(context, false);
     addHistory(uploadContext(context),false);
-    log("after addHistory");
   });
-  toolbarWC.delegate = (toolbarDelegate.getClassInstance());
-  [toolbarWC showWindow:self];
+  toolbarHelper.delegate = (toolbarDelegate.getClassInstance());
+  [toolbarHelper showToolbar:context];
 }
 
 function uploadContext(context) {

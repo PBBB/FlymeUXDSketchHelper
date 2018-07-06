@@ -24,11 +24,19 @@
     [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
     [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
     
+    //获取关闭按钮，点击后通知 js 执行相应的清理
+    [[[self window] standardWindowButton:NSWindowCloseButton] setTarget:self];
+    [[[self window] standardWindowButton:NSWindowCloseButton] setAction:@selector(willCloseWindow)];
+    
     _datePicker.dateValue = [NSDate dateWithTimeIntervalSinceNow:0];
     [_datePicker setTimeZone: [NSTimeZone localTimeZone]];
     _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] setLevel: NSFloatingWindowLevel];
     [[self window] makeFirstResponder:_updateNotesTextView];
+}
+
+-(void)willCloseWindow {
+    [delegate willCloseWindow];
 }
 
 // 将弹窗中的数据用 Delegate 传过去，因为目前还没有找到在 Framework 里直接操作文档的方法

@@ -7,7 +7,7 @@
 //
 
 #import "PBToolbarWindowController.h"
-#import "PBToolbarDelegate.h"
+#import "PBToolbarHelper.h"
 
 @interface PBToolbarWindowController ()
 
@@ -15,7 +15,7 @@
 
 @implementation PBToolbarWindowController
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-@synthesize delegate, toolbar;
+@synthesize helper, toolbar;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
@@ -26,6 +26,7 @@
     [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
     toolbar = [[NSToolbar alloc] initWithIdentifier:@"PBToolbar"];
     [toolbar setAllowsUserCustomization:YES];
+    [toolbar setShowsBaselineSeparator:NO];
     [toolbar setDelegate:self];
     [toolbar setSizeMode:NSToolbarSizeModeRegular];
     [self.window setToolbar:toolbar];
@@ -69,7 +70,8 @@
 }
 
 - (void)runToolbarCommand:(NSToolbarItem *)sender {
-    [delegate willRunCommand:@"PBToolbarCommandAddHistory"];
+//    [self.helper.delegate willRunCommand:@"PBToolbarCommandAddHistory"];
+    PBLog(@"frame: %@", NSStringFromRect([self.contentViewController.view frame]));
 }
 
 @end

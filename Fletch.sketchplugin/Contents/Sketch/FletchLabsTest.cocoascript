@@ -1,0 +1,7 @@
+
+function fletchLabsTest (context, shouldKeepAround = true) {
+    var alert = [[NSAlert alloc] init];
+    [alert setMessageText:"这是实验室测试"];
+    [alert addButtonWithTitle:"确定"];
+    [alert beginSheetModalForWindow:context.document.window() completionHandler:nil];
+}

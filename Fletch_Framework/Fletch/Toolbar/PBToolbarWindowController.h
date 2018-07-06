@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PBToolbarDelegate.h"
+@class PBToolbarHelper;
 
 @interface PBToolbarWindowController : NSWindowController <NSToolbarDelegate>
-@property (nonatomic, retain) PBToolbarDelegate *delegate;
+@property (weak) PBToolbarHelper *helper;
 @property (nonatomic, retain) NSToolbar *toolbar;
 - (void)runToolbarCommand:(NSToolbarItem *)sender;
 @end

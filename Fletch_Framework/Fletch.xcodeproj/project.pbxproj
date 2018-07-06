@@ -9,13 +9,16 @@
 /* Begin PBXBuildFile section */
 		2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */; };
 		2B1237871F5937BF0010ABDC /* FletchSketchHelper.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1237841F5936C90010ABDC /* FletchSketchHelper.js */; };
-		2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */; };
 		2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */; };
 		2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */; };
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
 		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
+		2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */; };
+		2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */; };
+		2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */; };
 		2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */; };
 		2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */; };
 		2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */; };
@@ -66,6 +69,9 @@
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
+		2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarHelper.h; sourceTree = "<group>"; };
+		2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarHelper.m; sourceTree = "<group>"; };
+		2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPluginBundle.h; sourceTree = "<group>"; };
 		2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameWindowController.h; sourceTree = "<group>"; };
 		2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowHideUIFrameWindowController.m; sourceTree = "<group>"; };
 		2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowHideUIFrameWindowController.xib; sourceTree = "<group>"; };
@@ -119,6 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */,
+				2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */,
+				2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */,
 				2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */,
 				2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */,
 				2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */,
@@ -205,6 +213,7 @@
 				2BFF0640200B756C00075D14 /* MSLayerGroup.h */,
 				2BFF0645200B756C00075D14 /* MSPage.h */,
 				2BFF0644200B756C00075D14 /* MSPDFBookExporter.h */,
+				2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */,
 				2BFF0646200B756D00075D14 /* MSRect.h */,
 				2BFF0647200B756D00075D14 /* MSStyledLayer.h */,
 				2BFF0648200B756D00075D14 /* MSTextLayer.h */,
@@ -223,10 +232,12 @@
 				2BFF065B200B7F5600075D14 /* MSDocument.h in Headers */,
 				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
 				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
+				2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */,
 				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
 				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
 				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
+				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,
 				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
 				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
 				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
@@ -323,6 +334,7 @@
 				2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */,
 				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
 				2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */,
+				2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

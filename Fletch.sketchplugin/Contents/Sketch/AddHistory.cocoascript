@@ -29,6 +29,7 @@ function addHistory(context, shouldKeepAround = true) {
   historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithInfo:", function(addHistoryWC, userInfo){
     generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga);
   });
+
   //生成弹出的窗口，设定 Delegate
   var historyWC = [[AddHistoryWindowController alloc] initWithWindowNibName:@"AddHistoryWindowController"];
   historyWC.delegate = (historyDelegate.getClassInstance());
@@ -43,14 +44,9 @@ function addHistory(context, shouldKeepAround = true) {
   [historyWC showWindow:self];
 
   //关闭窗口后需要移除对窗口的引用
-  historyDelegate.setHandlerForSelector("window", function (addHistoryWC) {
-
-  });
-  var closeButton = [historyWC window].standardWindowButton(NSWindowCloseButton);
-  closeButton.setCOSJSTargetFunction(function(sender){
+  historyDelegate.setHandlerForSelector("willCloseWindow", function(){
     closeAddHistoryWindow(historyWC);
   });
-  log(closeButton);
 
   threadDictionary[identifier] = historyWC;
 }
@@ -400,15 +396,11 @@ function updateDateInCover (context, dateString) {
 }
 
 function closeAddHistoryWindow (addHistoryWC){
-  log("close1");
   [addHistoryWC close];
-log("close2");
   // 移除对窗口的引用
   var threadDictionary = NSThread.mainThread().threadDictionary();
   var identifier = "com.flyme.uxd.pbb.sketch-helper.addHistory";
   threadDictionary.removeObjectForKey(identifier);
-log("close3");
   // 停止插件运行
   COScript.currentCOScript().setShouldKeepAround_(false);
-  log("close4");
 }

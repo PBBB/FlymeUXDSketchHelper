@@ -13,6 +13,7 @@
     {
       "name": "更新目录",
       "identifier": "updateCatalog",
+      "isTool":"true",
       "shortcut": "ctrl shift c",
       "script": "UpdateCatalog.cocoascript",
       "handler": "updateCatalog"
@@ -20,6 +21,7 @@
     {
       "name": "添加更新记录...",
       "identifier": "addHistory",
+      "isTool":"true",
       "shortcut": "ctrl shift h",
       "script": "AddHistory.cocoascript",
       "handler": "addHistory"
@@ -27,6 +29,7 @@
     {
       "name": "显示 / 隐藏界面框...",
       "identifier": "hideUIFramePanel",
+      "isTool":"true",
       "shortcut": "ctrl shift f",
       "script": "HideUIFramePanel.cocoascript",
       "handler": "showHideUIFramePanel"
@@ -34,6 +37,7 @@
     {
       "name": "显示 / 隐藏界面框 - 事件",
       "identifier": "hideUIFrameOnSelection",
+      "isTool":"false",
       "script": "HideUIFrameOnSelection.cocoascript",
       "handlers": {
         "actions": {
@@ -44,6 +48,7 @@
     {
       "name": "添加线框画板",
       "identifier": "addDocumentArtboard",
+      "isTool":"true",
       "shortcut": "ctrl shift d",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "addDocumentArtboard"
@@ -52,6 +57,7 @@
     {
       "name": "导出 PDF...",
       "identifier": "exportPDF",
+      "isTool":"true",
       "shortcut": "ctrl shift e",
       "script": "ExportPDF.cocoascript",
       "handler": "exportPDF"
@@ -60,10 +66,18 @@
     {
       "name": "显示工具栏",
       "identifier": "showToolbar",
+      "isTool":"false",
       "shortcut": "ctrl shift t",
       "script": "ShowToolbar.cocoascript",
       "handler": "showToolbar"
-      
+    },
+    {
+      "name": "实验室测试",
+      "identifier": "fletchLabsTest",
+      "isTool":"true",
+      "shortcut": "ctrl shift l",
+      "script": "FletchLabsTest.cocoascript",
+      "handler": "fletchLabsTest"
     }
   ],
   "menu": {
@@ -74,6 +88,14 @@
       "addHistory",
       "updateCatalog",
       "exportPDF",
+      "-",
+      {
+        "title":"Fletch 实验室",
+        "items": [
+          "fletchLabsTest"
+        ]
+      },
+      "-",
       "showToolbar"
     ],
     "title":"🎈 Fletch"
