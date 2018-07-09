@@ -9,8 +9,10 @@
 #import <Cocoa/Cocoa.h>
 @class PBToolbarHelper;
 
-@interface PBToolbarWindowController : NSWindowController <NSToolbarDelegate>
+@interface PBToolbarWindowController : NSWindowController <NSWindowDelegate, NSToolbarDelegate>
 @property (weak) PBToolbarHelper *helper;
 @property (nonatomic, retain) NSToolbar *toolbar;
+@property (weak) IBOutlet NSView *backgroudView;
 - (void)runToolbarCommand:(NSToolbarItem *)sender;
+- (void)shakeWindow;
 @end

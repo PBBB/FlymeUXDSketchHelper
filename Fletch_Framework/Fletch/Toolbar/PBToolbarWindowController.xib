@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PBToolbarWindowController">
             <connections>
+                <outlet property="backgroudView" destination="5OR-NS-DE3" id="7ap-FX-Dwh"/>
                 <outlet property="window" destination="BdS-Mo-Un0" id="SQy-0w-DiM"/>
             </connections>
         </customObject>
@@ -15,23 +16,23 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="BdS-Mo-Un0" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1285" y="903" width="300" height="0.0"/>
+            <rect key="contentRect" x="1285" y="903" width="338" height="2"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
-            <value key="minSize" type="size" width="100" height="0.0"/>
-            <value key="maxSize" type="size" width="1000" height="0.0"/>
+            <value key="minSize" type="size" width="100" height="2"/>
+            <value key="maxSize" type="size" width="1000" height="2"/>
             <view key="contentView" id="ERk-mW-m92">
-                <rect key="frame" x="0.0" y="0.0" width="300" height="0.0"/>
+                <rect key="frame" x="0.0" y="0.0" width="338" height="2"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <visualEffectView hidden="YES" blendingMode="behindWindow" material="underWindowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="PZq-hY-RGf">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="0.0"/>
-                    </visualEffectView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="5OR-NS-DE3">
+                        <rect key="frame" x="0.0" y="0.0" width="338" height="2"/>
+                    </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="PZq-hY-RGf" secondAttribute="bottom" id="HMo-Dp-KJB"/>
-                    <constraint firstAttribute="trailing" secondItem="PZq-hY-RGf" secondAttribute="trailing" id="K2j-Xe-H24"/>
-                    <constraint firstItem="PZq-hY-RGf" firstAttribute="top" secondItem="ERk-mW-m92" secondAttribute="top" id="sCg-CT-O35"/>
-                    <constraint firstItem="PZq-hY-RGf" firstAttribute="leading" secondItem="ERk-mW-m92" secondAttribute="leading" id="yM2-M7-G3l"/>
+                    <constraint firstAttribute="trailing" secondItem="5OR-NS-DE3" secondAttribute="trailing" id="Cci-Bo-fj9"/>
+                    <constraint firstAttribute="bottom" secondItem="5OR-NS-DE3" secondAttribute="bottom" id="Q92-cL-ejU"/>
+                    <constraint firstItem="5OR-NS-DE3" firstAttribute="leading" secondItem="ERk-mW-m92" secondAttribute="leading" id="Yth-Jv-4Au"/>
+                    <constraint firstItem="5OR-NS-DE3" firstAttribute="top" secondItem="ERk-mW-m92" secondAttribute="top" id="i9c-dC-p50"/>
                 </constraints>
             </view>
             <connections>

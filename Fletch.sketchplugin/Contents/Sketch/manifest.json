@@ -28,7 +28,7 @@
     },
     {
       "name": "显示 / 隐藏界面框...",
-      "identifier": "hideUIFramePanel",
+      "identifier": "showHideUIFramePanel",
       "isTool":"true",
       "shortcut": "ctrl shift f",
       "script": "HideUIFramePanel.cocoascript",
@@ -83,7 +83,7 @@
   "menu": {
     "items": [
       "addDocumentArtboard",
-      "hideUIFramePanel",
+      "showHideUIFramePanel",
       "-",
       "addHistory",
       "updateCatalog",

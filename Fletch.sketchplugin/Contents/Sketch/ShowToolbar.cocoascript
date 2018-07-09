@@ -12,8 +12,9 @@ var showToolbar = function (context) {
   COScript.currentCOScript().setShouldKeepAround_(true);
   var toolbarHelper = [[PBToolbarHelper alloc] init];
   var toolbarDelegate = new MochaJSDelegate();
-  toolbarDelegate.setHandlerForSelector("willRunCommand:", function(command){
-    addHistory(uploadContext(context),false);
+  toolbarDelegate.setHandlerForSelector("runToolbarCommand:", function(command){
+    // addHistory(uploadContext(context),false);
+    eval(command+"(uploadContext(context),false)");
   });
   toolbarHelper.delegate = (toolbarDelegate.getClassInstance());
   [toolbarHelper showToolbar:context];
@@ -21,7 +22,7 @@ var showToolbar = function (context) {
 
 function uploadContext(context) {
     var contextNow = context;
-    contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
+    // contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
     contextNow.selection = context.document.selectedLayers().layers();
     return contextNow;
 }

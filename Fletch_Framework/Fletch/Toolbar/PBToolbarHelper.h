@@ -11,10 +11,20 @@
 #import "PBToolbarDelegate.h"
 
 @interface PBToolbarHelper : NSObject
-@property (nonatomic, retain) PBToolbarWindowController *toolbarWC;
+
+@property (nonatomic, retain, readonly) PBToolbarWindowController *toolbarWC;
 @property (nonatomic, retain) PBToolbarDelegate *delegate;
-@property (nonatomic, retain) NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *toolbarInfo;
+//@property (nonatomic, retain, readonly) NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *toolbarInfo;
+@property (nonatomic, retain, readonly) NSMutableArray<NSDictionary<NSString *, NSString *> *> *toolbarCommands;
+@property (nonatomic, retain, readonly) NSMutableArray<NSDictionary<NSString *, NSString *> *> *toolbarLabsCommands;
+
 - (void)showToolbar: (NSDictionary *)context;
+-(NSArray<NSToolbarItemIdentifier> *) defaultToolbarItemIdentifiers;
+-(NSArray<NSToolbarItemIdentifier> *) allowedToolbarItemIdentifiers;
+- (NSString *) commandNameOfIdentifier: (NSToolbarItemIdentifier) identifier;
+- (NSString *) commandIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier;
+- (NSString *) commandImagePathOfIdentifier: (NSToolbarItemIdentifier) identifier;
+
 
 @end
 

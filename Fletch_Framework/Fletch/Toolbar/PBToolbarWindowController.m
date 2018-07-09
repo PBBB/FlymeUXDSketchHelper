@@ -8,6 +8,7 @@
 
 #import "PBToolbarWindowController.h"
 #import "PBToolbarHelper.h"
+#import <Quartz/Quartz.h>
 
 @interface PBToolbarWindowController ()
 
@@ -20,58 +21,78 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    // 简单初始化窗口
     [[self window] setMovableByWindowBackground:YES];
     [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
     [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
+    [[self window] setDelegate:self];
+    
+    // 增加了一个 View，目的是让窗口的高度不为 0（为 0 的时候窗口拉伸有问题，而且窗口圆角有问题）
+    [[self backgroudView] setWantsLayer:YES];
+    [[[self backgroudView] layer] setBackgroundColor:[[NSColor colorWithRed:209.0/255.0 green:208.0/255.0 blue:209.0/255.0 alpha:1.0] CGColor]];
+    
+    // 初始化工具栏
     toolbar = [[NSToolbar alloc] initWithIdentifier:@"PBToolbar"];
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setShowsBaselineSeparator:NO];
     [toolbar setDelegate:self];
-    [toolbar setSizeMode:NSToolbarSizeModeRegular];
+    [toolbar setSizeMode:NSToolbarSizeModeSmall];
     [self.window setToolbar:toolbar];
     
 }
-//- (IBAction)didClickToolbarItem:(NSToolbarItem *)sender {
-//    PBLog(@"%@ clicked", sender);
-//    [delegate willRunCommand:PBToolbarCommandAddHistory];
-//}
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
     NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-    if ([itemIdentifier  isEqual: @"PBToolbarCommandAddHistory"]) {
-        [toolbarItem setLabel:@"添加更新记录"];
-        [toolbarItem setPaletteLabel:@"添加更新记录"];
+    if (![itemIdentifier  isEqual: NSToolbarSeparatorItemIdentifier]) {
+        NSString *commandName = [helper commandNameOfIdentifier:itemIdentifier];
+        [toolbarItem setLabel:commandName];
+        [toolbarItem setPaletteLabel:commandName];
         [toolbarItem setImage: [NSImage imageNamed:NSImageNameAddTemplate]];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(runToolbarCommand:)];
-        [toolbarItem setTag:0];
-    } else {
-        toolbarItem = nil;
     }
     return toolbarItem;
 }
 
-//- (void)toolbarWillAddItem:(NSNotification *)notification {
-//    NSToolbarItem *toolbarItem = [notification userInfo][@"item"];
-//    if ([toolbarItem.itemIdentifier  isEqual: @"PBToolbarCommandAddHistory"]) {
-//        [toolbarItem setTarget:self];
-//        [toolbarItem setAction:@selector(runToolbarCommand:)];
-//        PBLog(@"set command complete in will");
-//    }
-//}
-
 - (NSArray<NSToolbarItemIdentifier> *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    return @[@"PBToolbarCommandAddHistory"];
+    return [helper defaultToolbarItemIdentifiers];
 }
 
 - (NSArray<NSToolbarItemIdentifier> *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return @[@"PBToolbarCommandAddHistory"];
+    return [helper allowedToolbarItemIdentifiers];
 }
 
 - (void)runToolbarCommand:(NSToolbarItem *)sender {
-//    [self.helper.delegate willRunCommand:@"PBToolbarCommandAddHistory"];
-    PBLog(@"frame: %@", NSStringFromRect([self.contentViewController.view frame]));
+    [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:[sender itemIdentifier]]];
+}
+
+// 窗口关闭时移除引用
+- (void)windowWillClose:(NSNotification *)notification{
+    NSMutableDictionary *threadDictionary = [[NSThread mainThread] threadDictionary];
+    NSString *threadIdentifier = @"com.flyme.uxd.pbb.sketch-helper.toolbar";
+    [threadDictionary removeObjectForKey:threadIdentifier];
+}
+
+-(void)shakeWindow {
+    static int numberOfShakes = 3;
+    static float durationOfShake = 0.5f;
+    static float vigourOfShake = 0.05f;
+    
+    CGRect frame=[self.window frame];
+    CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
+    
+    CGMutablePathRef shakePath = CGPathCreateMutable();
+    CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
+    for (NSInteger index = 0; index < numberOfShakes; index++){
+        CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigourOfShake, NSMinY(frame));
+        CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigourOfShake, NSMinY(frame));
+    }
+    CGPathCloseSubpath(shakePath);
+    shakeAnimation.path = shakePath;
+    shakeAnimation.duration = durationOfShake;
+    
+    [self.window setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
+    [[self.window animator] setFrameOrigin:[self.window frame].origin];
 }
 
 @end

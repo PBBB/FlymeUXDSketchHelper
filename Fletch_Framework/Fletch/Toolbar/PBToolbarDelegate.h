@@ -8,7 +8,7 @@
 
 @interface PBToolbarDelegate : NSObject
 
-- (void)willRunCommand: (NSString *)command;
+- (void)runToolbarCommand: (NSString *)commandIdentifier;
 
 @end
 
