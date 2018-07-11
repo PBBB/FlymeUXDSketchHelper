@@ -16,9 +16,14 @@
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
 		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
+		2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */; };
+		2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */; };
 		2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */; };
 		2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */; };
 		2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */; };
+		2BA8AE9420F5E1C7003888DB /* PBCatalogUpdaterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA8AE9320F5E1C7003888DB /* PBCatalogUpdaterDelegate.h */; };
+		2BA8AE9720F5E1F2003888DB /* PBCatalogUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA8AE9520F5E1F2003888DB /* PBCatalogUpdater.h */; };
+		2BA8AE9820F5E1F2003888DB /* PBCatalogUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8AE9620F5E1F2003888DB /* PBCatalogUpdater.m */; };
 		2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */; };
 		2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */; };
 		2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */; };
@@ -69,9 +74,14 @@
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
+		2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolInstance.h; sourceTree = "<group>"; };
+		2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolMaster.h; sourceTree = "<group>"; };
 		2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarHelper.h; sourceTree = "<group>"; };
 		2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarHelper.m; sourceTree = "<group>"; };
 		2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPluginBundle.h; sourceTree = "<group>"; };
+		2BA8AE9320F5E1C7003888DB /* PBCatalogUpdaterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBCatalogUpdaterDelegate.h; sourceTree = "<group>"; };
+		2BA8AE9520F5E1F2003888DB /* PBCatalogUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBCatalogUpdater.h; sourceTree = "<group>"; };
+		2BA8AE9620F5E1F2003888DB /* PBCatalogUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBCatalogUpdater.m; sourceTree = "<group>"; };
 		2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowHideUIFrameWindowController.h; sourceTree = "<group>"; };
 		2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowHideUIFrameWindowController.m; sourceTree = "<group>"; };
 		2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowHideUIFrameWindowController.xib; sourceTree = "<group>"; };
@@ -147,6 +157,16 @@
 			path = PDFExport;
 			sourceTree = "<group>";
 		};
+		2BA8AE9220F5E192003888DB /* UpdateCatalog */ = {
+			isa = PBXGroup;
+			children = (
+				2BA8AE9320F5E1C7003888DB /* PBCatalogUpdaterDelegate.h */,
+				2BA8AE9520F5E1F2003888DB /* PBCatalogUpdater.h */,
+				2BA8AE9620F5E1F2003888DB /* PBCatalogUpdater.m */,
+			);
+			path = UpdateCatalog;
+			sourceTree = "<group>";
+		};
 		2BB0906F1FC6A9710065F0D3 /* AddHistory */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				2BE5058E1F5930E500083521 /* Fletch.h */,
+				2BA8AE9220F5E192003888DB /* UpdateCatalog */,
 				2BB0906F1FC6A9710065F0D3 /* AddHistory */,
 				2BB090701FC6A9990065F0D3 /* ShowHideUIFrame */,
 				2B231BA92009B85B003E1625 /* PDFExport */,
@@ -216,6 +237,8 @@
 				2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */,
 				2BFF0646200B756D00075D14 /* MSRect.h */,
 				2BFF0647200B756D00075D14 /* MSStyledLayer.h */,
+				2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */,
+				2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */,
 				2BFF0648200B756D00075D14 /* MSTextLayer.h */,
 			);
 			path = SketchHeaders;
@@ -238,6 +261,7 @@
 				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
 				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
 				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,
+				2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */,
 				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
 				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
 				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
@@ -249,6 +273,9 @@
 				2BFF065C200B7F5600075D14 /* MSDocumentWindow.h in Headers */,
 				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
 				2BFF065F200B7F5600075D14 /* MSPage.h in Headers */,
+				2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */,
+				2BA8AE9720F5E1F2003888DB /* PBCatalogUpdater.h in Headers */,
+				2BA8AE9420F5E1C7003888DB /* PBCatalogUpdaterDelegate.h in Headers */,
 				2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
 			);
@@ -335,6 +362,7 @@
 				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
 				2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */,
 				2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */,
+				2BA8AE9820F5E1F2003888DB /* PBCatalogUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

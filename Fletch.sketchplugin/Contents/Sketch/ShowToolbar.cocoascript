@@ -4,6 +4,7 @@
 @import 'AddHistory.cocoascript';
 @import 'ExportPDF.cocoascript';
 @import 'UpdateCatalog.cocoascript';
+@import 'UpdateCatalog_OLD.cocoascript';
 @import 'HideUIFramePanel.cocoascript';
 @import 'AddDocumentArtboard.cocoascript';
 
@@ -14,6 +15,7 @@ var showToolbar = function (context) {
   var toolbarDelegate = new MochaJSDelegate();
   toolbarDelegate.setHandlerForSelector("runToolbarCommand:", function(command){
     // addHistory(uploadContext(context),false);
+    log(command);
     eval(command+"(uploadContext(context),false)");
   });
   toolbarHelper.delegate = (toolbarDelegate.getClassInstance());

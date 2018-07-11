@@ -10,7 +10,10 @@
 
 @interface MSLayer : NSObject
 
-@property (retain, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *name;
 @property (retain, nonatomic) MSRect *frame;
+@property (readonly, nonatomic) NSString *objectID;
+
+- (NSArray<MSLayer *> *)childrenIncludingSelf:(BOOL)includingSelf;
 
 @end

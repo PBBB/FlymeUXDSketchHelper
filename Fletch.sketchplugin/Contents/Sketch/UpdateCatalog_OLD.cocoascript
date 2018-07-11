@@ -1,24 +1,10 @@
 @import 'Libraries/ga.js'
-@import 'Fletch.framework/FletchSketchHelper.js';
-@import 'Libraries/MochaJSDelegate.js';
 
-var updateCatalog = function (context, shouldKeepAround = true) {
+var UpdateCatalog_OLD = function (context, shouldKeepAround = true) {
     //初始化 GA
     var ga = new Analytics(context);
-
-    var catalogUpdater = [[PBCatalogUpdater alloc] init];
-    var catalogUpdaterDelegate = new MochaJSDelegate();
-    catalogUpdaterDelegate.setHandlerForSelector("didUpdateCatalogWithResult:", function(result){
-    // addHistory(uploadContext(context),false);
-    log(result);
-  });
-    catalogUpdater.delegate = (catalogUpdaterDelegate.getClassInstance());
-    [catalogUpdater updateCatalogWithContext:context MSArtboardGroupClass:MSArtboardGroup MSSymbolInstanceClass:MSSymbolInstance];
-
-
-
-
     var selectedArtboards = prepareSelectedArtboards(context);
+    log(selectedArtboards);
     var result = updatePageNumbersOfArtboards(context, selectedArtboards);
     if (!result.isSuccess) { return }
     // 处理重复标题，生成目录数据
