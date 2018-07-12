@@ -1,10 +1,9 @@
 @import 'Libraries/ga.js'
 
-var UpdateCatalog_OLD = function (context, shouldKeepAround = true) {
+var updateCatalog_OLD = function (context, shouldKeepAround = true) {
     //初始化 GA
     var ga = new Analytics(context);
     var selectedArtboards = prepareSelectedArtboards(context);
-    log(selectedArtboards);
     var result = updatePageNumbersOfArtboards(context, selectedArtboards);
     if (!result.isSuccess) { return }
     // 处理重复标题，生成目录数据
@@ -88,7 +87,7 @@ var UpdateCatalog_OLD = function (context, shouldKeepAround = true) {
     } else if (cataloglength <= 16) {
         catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, 4);
     } else {
-        var linesInRow = catalogTextLayers % 4 == 0 ? cataloglength / 4 : Math.floor(cataloglength / 4) + 1;
+        var linesInRow = cataloglength % 4 == 0 ? cataloglength / 4 : Math.floor(cataloglength / 4) + 1;
         catalogTextLayerGroups = genetateGroupsFromLayers(catalogTextLayers, linesInRow);
     }
     
@@ -148,7 +147,6 @@ function prepareSelectedArtboards (context) {
 
   // 将画板按照画布中的位置排序
   selectedArtboards.sort(compareArtboards);
-  log("sort");
   return selectedArtboards;
 }
 
@@ -273,7 +271,6 @@ var updatePageNumbers = function (context) {
 }
 
 function compareArtboards (firstAB, secondAB) {
-    log("compare");
     if (Math.abs(firstAB.frame().y() - secondAB.frame().y()) < firstAB.frame().height()) {
         return firstAB.frame().x() - secondAB.frame().x();
     } else {

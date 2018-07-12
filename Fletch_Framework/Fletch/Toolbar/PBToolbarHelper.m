@@ -34,7 +34,7 @@
     
     if (threadDictionary[threadIdentifier]) {
         [(PBToolbarWindowController *)threadDictionary[threadIdentifier] shakeWindow];
-        PBLog(@"toolbar frame: %@", NSStringFromRect([[(PBToolbarWindowController *)threadDictionary[threadIdentifier] window] frame]));
+//        PBLog(@"toolbar frame: %@", NSStringFromRect([[(PBToolbarWindowController *)threadDictionary[threadIdentifier] window] frame]));
         return;
     }
     

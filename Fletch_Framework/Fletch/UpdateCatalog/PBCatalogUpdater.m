@@ -16,7 +16,7 @@
 @implementation PBCatalogUpdater
 @synthesize delegate;
 
-- (void) updateCatalogWithContext: (NSDictionary *)context MSArtboardGroupClass: (Class)MSArtboardGroupClass MSSymbolInstanceClass: (Class)MSSymbolInstanceClass {
+- (void) updateCatalogWithContext: (NSDictionary *)context MSArtboardGroupClass: (Class)MSArtboardGroupClass MSSymbolInstanceClass: (Class)MSSymbolInstanceClass  MSImmutableColorClass:(Class)MSImmutableColorClass MSTextLayerClass:(Class)MSTextLayerClass MSLayerGroupClass:(Class)MSLayerGroupClass{
     
     MSDocument *document = context[@"document"];
     MSDocumentWindow * _Nonnull window = [document window];
@@ -62,7 +62,7 @@
     NSMutableDictionary<NSString *, NSString *> *layerIDsForPageNumber = nil;
     
     // 记录图层名，用于生成目录
-    NSMutableArray<NSString *> *layerNamesArray = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *artboardNamesArray = [[NSMutableArray alloc] init];
     
     // 从第三个画板开始，找到页码图层并更新内容
     for (int i = 0; i < selectedArtboards.count; i++) {
@@ -124,7 +124,7 @@
                 return;
             }
             // 记录页面标题
-            [layerNamesArray addObject:[pageTitleLayer stringValue]];
+            [artboardNamesArray addObject:[pageTitleLayer stringValue]];
             
             // 设定页码值
             NSMutableDictionary<NSString *, NSString *> *pageData = [[NSMutableDictionary alloc] init];
@@ -140,22 +140,25 @@
         }
     }
     
-    // 处理重复标题，生成目录数据
+    // 处理重复标题
     NSString * __block tempName = nil;
-    [layerNamesArray enumerateObjectsUsingBlock:^(NSString * _Nonnull layerName, NSUInteger idx, BOOL * _Nonnull stop) {
+    [artboardNamesArray enumerateObjectsUsingBlock:^(NSString * _Nonnull layerName, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx == 0) {
             tempName = layerName;
         } else if ([layerName isEqualToString:tempName]) {
             tempName = layerName;
-            layerNamesArray[idx] = @"";
+            artboardNamesArray[idx] = @"";
         } else {
             tempName = layerName;
         }
     }];
-    [layerNamesArray removeObject:@""];
+    
+    // 用新数组来计算目录总数。保留空字符串是为了保证页码关系
+    NSMutableArray *artboardNamesArrayToCount = [NSMutableArray arrayWithArray:artboardNamesArray];
+    [artboardNamesArrayToCount removeObject:@""];
     
     // 如果目录大于 36，提示暂不支持
-    if (layerNamesArray.count > 36) {
+    if (artboardNamesArrayToCount.count > 36) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"页码更新成功，目录更新失败"];
         [alert setInformativeText:@"暂不支持超过 36 条的目录"];
@@ -170,7 +173,121 @@
     }
     
     // 清理旧目录，以及获取日期图层
+    MSArtboardGroup *coverArtboard = selectedArtboards[0];
+    NSArray<MSLayer *> *layersInCoverArtboard = [coverArtboard childrenIncludingSelf:NO];
+    MSTextLayer *dateLayer = nil;
+    for (MSLayer *layer in layersInCoverArtboard) {
+        if ([[layer name] isEqualToString:@"目录一"] ||
+            [[layer name] isEqualToString:@"目录二"] ||
+            [[layer name] isEqualToString:@"目录三"] ||
+            [[layer name] isEqualToString:@"目录四"]) {
+            [layer removeFromParent];
+        } else if ([[layer name] containsString:@"最后更新"]) {
+            dateLayer = (MSTextLayer *)layer;
+        }
+    }
     
+    // 生成新目录文字图层
+    NSMutableArray<MSTextLayer *> * __block catalogTextLayers = [[NSMutableArray alloc] init];
+    [artboardNamesArray enumerateObjectsUsingBlock:^(NSString * _Nonnull layerName, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![layerName isEqualToString:@""]) {
+            
+            // 拼接文本
+            MSTextLayer *textLayer = [[MSTextLayerClass alloc] init];
+            NSString *catalogString = [NSString stringWithFormat:@"%lu %@", (unsigned long)idx + 3, layerName];
+            [textLayer setStringValue:catalogString];
+            [textLayer setName:catalogString];
+            
+            // 设定样式
+            NSFont *font = [NSFont fontWithName:@"PingFangSC-Medium" size:40.0];
+            MSImmutableColor *textColor = [MSImmutableColorClass colorWithRed:0.29 green:0.29 blue:0.29 alpha:1.0];
+            [textLayer setFont:font];
+            [textLayer setTextColor:textColor];
+            [textLayer adjustFrameToFit];
+            
+            [catalogTextLayers addObject:textLayer];
+        }
+        
+    }];
+    
+    // 设定目录文字图层的纵向间距
+    [catalogTextLayers enumerateObjectsUsingBlock:^(MSTextLayer * _Nonnull textLayer, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx > 0) {
+           [[textLayer frame] setY:([catalogTextLayers[idx-1] frame].y + 117.0)];
+        }
+    }];
+    
+    // 用于存放目录图层组
+    NSArray<MSLayerGroup *> *catalogTextLayerGroups = nil;
+    int groupSize = 4;
+    
+    // 5、6、9 条目录时，每组目录 3 条，其他 16 条以内都是 4 条；超过 16 条就按四列的容量来排
+    if (catalogTextLayers.count == 5 || catalogTextLayers.count == 6 || catalogTextLayers.count == 9) {
+        groupSize = 3;
+    } else if (catalogTextLayers.count <= 16) {
+        groupSize = 4;
+    } else {
+        groupSize = (int)ceil((double)catalogTextLayers.count / 4.0);
+    }
+    
+    catalogTextLayerGroups = [self genetateGroupsFromLayers:catalogTextLayers groupSize:groupSize withMSLayerGroupClass:MSLayerGroupClass];
+    
+    // 设定每个组的位置，并置入封面画板
+    catalogTextLayerGroups[0].frame.x = (coverArtboard.frame.width - catalogTextLayerGroups.lastObject.frame.width - 691.0 * (catalogTextLayerGroups.count - 1)) / 2;
+    [catalogTextLayerGroups enumerateObjectsUsingBlock:^(MSLayerGroup * _Nonnull layerGroup, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx > 0) {
+            layerGroup.frame.x = catalogTextLayerGroups[0].frame.x + 691 * idx;
+        }
+        
+        //小于等于 4 行（即总数小于等于 16 时），从固定的 Y 坐标开始向下排
+        if (catalogTextLayers.count <= 16) {
+            layerGroup.frame.y = 1132.0;
+        } else {
+            //大于 4 行时，目录从原来四行的位置的基础上上下延伸
+            layerGroup.frame.y = 1132.0 + 407.0 / 2.0 - catalogTextLayerGroups[0].frame.height / 2;
+        }
+    }];
+    [coverArtboard addLayers:catalogTextLayerGroups];
+    
+    // 更新日期
+    if (dateLayer) {
+        NSDate *dateNow = [NSDate date];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear fromDate:dateNow];
+        NSString *dateInfo = [NSString stringWithFormat:@"最后更新 %lu年%lu月%lu日",components.year, components.month, components.day];
+        [dateLayer setTextAlignment: 0]; // 设置左对齐
+        [dateLayer setStringValue:dateInfo];
+        [dateLayer setName:dateInfo];
+    } else {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"页码及目录更新成功，日期更新失败"];
+        [alert setInformativeText:@"请更新至最新版交互文档模板"];
+        [alert addButtonWithTitle:@"确定"];
+        [alert beginSheetModalForWindow:window completionHandler:nil];
+    }
+    [delegate didUpdateCatalogWithResult:@{@"category":@"UpdateCatalog",
+                                           @"action":@"Success",
+                                           @"label":@"Success",
+                                           @"value":[NSString stringWithFormat:@"%lu", (unsigned long)catalogTextLayers.count]
+                                           }];
+    [document showMessage:@"✅ 页码及目录更新成功"];
+}
+
+// 根据目录文字图层，以及每一组的图层数量来将目录图层文字分组
+- (NSArray<MSLayerGroup *> *) genetateGroupsFromLayers: (NSArray<MSLayer *> *)layers groupSize:(int)groupSize withMSLayerGroupClass: (Class)MSLayerGroupClass {
+    NSMutableArray<MSLayerGroup *> *layerGroups = [[NSMutableArray alloc] init];
+    NSArray *names = @[@"目录一", @"目录二", @"目录三", @"目录四"];
+    int numberOfGroups = (int)ceil((double)layers.count / (double)groupSize);
+    for (int i = 0; i < numberOfGroups; i++) {
+        MSLayerGroup *layerGroup = [[MSLayerGroupClass alloc] init];
+        [layerGroup setName:names[i]];
+        
+        //选出每个目录下包含的图层
+        NSRange range = NSMakeRange(i*groupSize, MIN((i+1)*groupSize, layers.count) - i*groupSize);
+        [layerGroup addLayers: [layers subarrayWithRange:range]];
+        [layerGroup resizeToFitChildrenWithOption:0];
+        [layerGroups addObject:layerGroup];
+    }
+    return layerGroups;
 }
 
 @end

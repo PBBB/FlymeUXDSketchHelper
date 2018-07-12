@@ -15,10 +15,11 @@
 #import "MSDocumentWindow.h"
 #import "MSTextLayer.h"
 #import "MSSymbolInstance.h"
+#import "MSImmutableColor.h"
 
 
 @interface PBCatalogUpdater : NSObject
 @property(nonatomic, retain) PBCatalogUpdaterDelegate *delegate;
 
-- (void) updateCatalogWithContext: (NSDictionary *)context MSArtboardGroupClass: (Class)MSArtboardGroupClass MSSymbolInstanceClass: (Class)MSSymbolInstanceClass;
+- (void) updateCatalogWithContext:(NSDictionary *)context MSArtboardGroupClass:(Class)MSArtboardGroupClass MSSymbolInstanceClass:(Class)MSSymbolInstanceClass MSImmutableColorClass:(Class)MSImmutableColorClass MSTextLayerClass:(Class)MSTextLayerClass MSLayerGroupClass:(Class)MSLayerGroupClass;
 @end

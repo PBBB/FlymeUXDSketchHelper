@@ -4,7 +4,7 @@
 @import 'AddHistory.cocoascript';
 @import 'ExportPDF.cocoascript';
 @import 'UpdateCatalog.cocoascript';
-@import 'UpdateCatalog_OLD.cocoascript';
+// @import 'UpdateCatalog_OLD.cocoascript';
 @import 'HideUIFramePanel.cocoascript';
 @import 'AddDocumentArtboard.cocoascript';
 

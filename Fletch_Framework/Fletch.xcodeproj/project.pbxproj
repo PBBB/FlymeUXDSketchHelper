@@ -18,6 +18,7 @@
 		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
 		2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */; };
 		2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */; };
+		2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */; };
 		2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */; };
 		2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */; };
 		2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */; };
@@ -76,6 +77,7 @@
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
 		2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolInstance.h; sourceTree = "<group>"; };
 		2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolMaster.h; sourceTree = "<group>"; };
+		2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSImmutableColor.h; sourceTree = "<group>"; };
 		2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarHelper.h; sourceTree = "<group>"; };
 		2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarHelper.m; sourceTree = "<group>"; };
 		2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPluginBundle.h; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				2BFF0642200B756C00075D14 /* MSArtboardGroup.h */,
 				2BFF0643200B756C00075D14 /* MSDocument.h */,
 				2BFF0641200B756C00075D14 /* MSDocumentWindow.h */,
+				2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */,
 				2BFF063F200B756C00075D14 /* MSLayer.h */,
 				2BFF0640200B756C00075D14 /* MSLayerGroup.h */,
 				2BFF0645200B756C00075D14 /* MSPage.h */,
@@ -258,6 +261,7 @@
 				2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */,
 				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
+				2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */,
 				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
 				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
 				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,

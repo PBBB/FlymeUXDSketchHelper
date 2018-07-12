@@ -15,5 +15,6 @@
 @property (readonly, nonatomic) NSString *objectID;
 
 - (NSArray<MSLayer *> *)childrenIncludingSelf:(BOOL)includingSelf;
+- (void)removeFromParent;
 
 @end
