@@ -19,7 +19,7 @@
 - (void) updateCatalogWithContext: (NSDictionary *)context MSArtboardGroupClass: (Class)MSArtboardGroupClass MSSymbolInstanceClass: (Class)MSSymbolInstanceClass  MSImmutableColorClass:(Class)MSImmutableColorClass MSTextLayerClass:(Class)MSTextLayerClass MSLayerGroupClass:(Class)MSLayerGroupClass{
     
     MSDocument *document = context[@"document"];
-    MSDocumentWindow * _Nonnull window = [document window];
+    MSDocumentWindow * _Nonnull documentWindow = [document window];
     
     // 提取所选画板
     NSArray *selection = context[@"selection"];
@@ -40,7 +40,7 @@
         [alert setMessageText:@"页码更新失败"];
         [alert setInformativeText:@"请选择文档的所有画板（包括封面和概述）"];
         [alert addButtonWithTitle:@"确定"];
-        [alert beginSheetModalForWindow:window completionHandler:nil];
+        [alert beginSheetModalForWindow:documentWindow completionHandler:nil];
         [delegate didUpdateCatalogWithResult:@{@"category":@"UpdateCatalog",
                                                @"action":@"Fail",
                                                @"label":@"NoSelection",
@@ -115,7 +115,7 @@
                 [alert setMessageText:@"页码更新失败"];
                 [alert setInformativeText:@"请检查文档是否符合以下条件：\n1. 文档所有画板（包括封面和概述）都被选中，并按从上到下、从左到右的顺序排列\n2. 从第三个画板开始，功能概述的图层名需为“功能概述”，页码的图层名需为“交互图例 / 页码”"];
                 [alert addButtonWithTitle:@"确定"];
-                [alert beginSheetModalForWindow:window completionHandler:nil];
+                [alert beginSheetModalForWindow:documentWindow completionHandler:nil];
                 [delegate didUpdateCatalogWithResult:@{@"category":@"UpdateCatalog",
                                                        @"action":@"Fail",
                                                        @"label":@"NoPageTitleOrPageNumber",
@@ -163,7 +163,7 @@
         [alert setMessageText:@"页码更新成功，目录更新失败"];
         [alert setInformativeText:@"暂不支持超过 36 条的目录"];
         [alert addButtonWithTitle:@"确定"];
-        [alert beginSheetModalForWindow:window completionHandler:nil];
+        [alert beginSheetModalForWindow:documentWindow completionHandler:nil];
         [delegate didUpdateCatalogWithResult:@{@"category":@"UpdateCatalog",
                                                @"action":@"Fail",
                                                @"label":@"TooManyPages",
@@ -262,7 +262,7 @@
         [alert setMessageText:@"页码及目录更新成功，日期更新失败"];
         [alert setInformativeText:@"请更新至最新版交互文档模板"];
         [alert addButtonWithTitle:@"确定"];
-        [alert beginSheetModalForWindow:window completionHandler:nil];
+        [alert beginSheetModalForWindow:documentWindow completionHandler:nil];
     }
     [delegate didUpdateCatalogWithResult:@{@"category":@"UpdateCatalog",
                                            @"action":@"Success",

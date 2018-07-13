@@ -22,7 +22,30 @@
     }
     MSDocument *document = context[@"document"];
     MSDocumentWindow *documentWindow = [document window];
-    [documentWindow addChildWindow:[toolbarWC window] ordered:NSWindowAbove];
+    
+    // 获取上次工具栏的位置，如果没有的话就放在右上角
+    CGFloat tabbarHeight = 24.0;
+    CGFloat toolbarHeightRegular = 70.0;
+    CGFloat toolbarHeightIconOnly = 58.0;
+
+    NSPoint toolbarOrigin = NSMakePoint(0.0, 0.0);
+    BOOL isToolbarHeightRegular = documentWindow.toolbar.displayMode == NSToolbarDisplayModeIconAndLabel;
+    CGFloat toolbarHeight = isToolbarHeightRegular ? toolbarHeightRegular : toolbarHeightIconOnly;
+    
+    toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - toolbarWC.window.frame.size.width - 215.0;
+    if (documentWindow.tabGroup.tabBarVisible) {
+        toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height - toolbarHeight - tabbarHeight;
+    } else {
+        toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height - toolbarHeight;
+    }
+    [[toolbarWC window] setFrameOrigin:toolbarOrigin];
+//    [documentWindow addChildWindow:[toolbarWC window] ordered:NSWindowAbove];
+    [toolbarWC showWindow:self];
+    
+    // 根据窗口缩放计算工具栏位置
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        PBLog(@"resized");
+    }];
     [[toolbarWC window] makeKeyWindow];
 }
 

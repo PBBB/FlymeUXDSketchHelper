@@ -81,6 +81,7 @@
     },
     {
       "name": "实验室测试",
+      "fullName": "实验室测试",
       "identifier": "fletchLabsTest",
       "isTool":"true",
       "shortcut": "ctrl shift l",

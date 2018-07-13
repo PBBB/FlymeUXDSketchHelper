@@ -38,7 +38,6 @@
     [toolbar setDelegate:self];
     [toolbar setSizeMode:NSToolbarSizeModeSmall];
     [self.window setToolbar:toolbar];
-    
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {

@@ -24,7 +24,7 @@ var showToolbar = function (context) {
 
 function uploadContext(context) {
     var contextNow = context;
-    // contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
+    contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
     contextNow.selection = context.document.selectedLayers().layers();
     return contextNow;
 }
