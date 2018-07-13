@@ -1,6 +1,14 @@
 @import 'Libraries/ga.js'
 
-var addDocumentArtboard = function (context, shouldKeepAround = true) {
+var add_16_9_DocumentArtboard = function (context, shouldKeepAround = true) {
+  addDocumentArtboard(context, "16_9");
+}
+
+var add_18_9_DocumentArtboard = function (context, shouldKeepAround = true) {
+  addDocumentArtboard(context, "18_9");
+}
+
+var addDocumentArtboard = function (context, aspectRatio) {
 
   //初始化 GA
   var ga = new Analytics(context);
@@ -51,7 +59,13 @@ var addDocumentArtboard = function (context, shouldKeepAround = true) {
         if (sublayers[i].layers()[j].isMemberOfClass(MSTextLayer)) {
           sublayers[i].layers()[j].setName("说明");
           sublayers[i].layers()[j].setStringValue("- 界面逻辑说明");
-          sublayers[i].layers()[j].frame().setWidth(360);
+
+          if (aspectRatio == "18_9") {
+            sublayers[i].layers()[j].frame().setWidth(500);
+          } else {
+            sublayers[i].layers()[j].frame().setWidth(360);
+          }
+          
           sublayers[i].layers()[j].adjustFrameToFit();
           uiDescriptionLayers.push(sublayers[i].layers()[j]);
           setLayerVisibility(sublayers[i].layers()[j], true);
@@ -62,18 +76,32 @@ var addDocumentArtboard = function (context, shouldKeepAround = true) {
       }
       setLayerVisibility(sublayers[i], true);
       sublayers[i].frame().setX(149);
-      sublayers[i].frame().setY(184);
+      if (aspectRatio == "18_9") {
+            sublayers[i].frame().setY(154);
+          } else {
+            sublayers[i].frame().setY(184);
+      }
+      
     } else if (sublayers[i].name() == "框架" && sublayers[i].isMemberOfClass(MSLayerGroup)) {
       for (var j = 0; j < sublayers[i].layers().length; j++) {
+        if (aspectRatio == "18_9") {
+          sublayers[i].layers()[j].frame().setHeight(720);
+          sublayers[i].layers()[j].frame().setY(j<5 ? 0 : 982);
+        } else {
+          sublayers[i].layers()[j].frame().setHeight(640);
+          sublayers[i].layers()[j].frame().setY(j<5 ? 0 : 942);
+        }
         sublayers[i].layers()[j].frame().setWidth(360);
-        sublayers[i].layers()[j].frame().setHeight(640);
         sublayers[i].layers()[j].frame().setX(j%5 * 580);
-        sublayers[i].layers()[j].frame().setY(j<5 ? 0 : 942);
         setLayerVisibility(sublayers[i].layers()[j], true);
       }
       setLayerVisibility(sublayers[i], true);
       sublayers[i].frame().setX(150);
-      sublayers[i].frame().setY(229);
+      if (aspectRatio == "18_9") {
+        sublayers[i].frame().setY(199);
+      } else {
+        sublayers[i].frame().setY(229);
+      }
     } else {
       sublayers[i].removeFromParent();
     }
@@ -88,13 +116,21 @@ var addDocumentArtboard = function (context, shouldKeepAround = true) {
     uiNameData[layerIDs.uiOrderLetter_ID.toString()] = letters[i];
     uiNameLayers[i].overrides = uiNameData;
     uiNameLayers[i].frame().setX(i%5 * 580);
-    uiNameLayers[i].frame().setY(i<5 ? 0 : 942);
+    if (aspectRatio == "18_9") {
+      uiNameLayers[i].frame().setY(i<5 ? 0 : 982);
+    } else {
+      uiNameLayers[i].frame().setY(i<5 ? 0 : 942);
+    }
   }
 
   //修改界面逻辑说明的位置
   for (var i = 0; i < uiDescriptionLayers.length; i++) {
     uiDescriptionLayers[i].frame().setX(i%5 * 580);
-    uiDescriptionLayers[i].frame().setY(i<5 ? 703 : 1645);
+    if (aspectRatio == "18_9") {
+      uiDescriptionLayers[i].frame().setY(i<5 ? 776 : 1758);
+    } else {
+      uiDescriptionLayers[i].frame().setY(i<5 ? 703 : 1645);
+    }
   }
 
   //定位至新添加的画板

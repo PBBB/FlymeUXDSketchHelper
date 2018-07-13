@@ -1,6 +1,6 @@
 {
   "name": "Fletch",
-  "description": "",
+  "description": "少一些时间编辑文档，多一些时间斟酌设计",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
   "version": "2.0.0",
@@ -54,12 +54,19 @@
       }
     },
     {
-      "name": "添加线框画板",
-      "identifier": "addDocumentArtboard",
-      "isTool":"true",
-      "shortcut": "ctrl shift d",
+      "name": "16:9",
+      "fullName": "添加 16:9 线框画板",
+      "identifier": "add_16_9_DocumentArtboard",
       "script": "AddDocumentArtboard.cocoascript",
-      "handler": "addDocumentArtboard"
+      "handler": "add_16_9_DocumentArtboard"
+      
+    },
+    {
+      "name": "18:9",
+      "fullName": "添加 18:9 线框画板",
+      "identifier": "add_18_9_DocumentArtboard",
+      "script": "AddDocumentArtboard.cocoascript",
+      "handler": "add_18_9_DocumentArtboard"
       
     },
     {
@@ -91,7 +98,13 @@
   ],
   "menu": {
     "items": [
-      "addDocumentArtboard",
+      {
+        "title": "添加线框画板",
+        "items": [
+            "add_16_9_DocumentArtboard",
+            "add_18_9_DocumentArtboard"
+        ]
+    },
       "showHideUIFramePanel",
       "-",
       "addHistory",
