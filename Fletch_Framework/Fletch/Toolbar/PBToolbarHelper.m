@@ -14,7 +14,7 @@
 
 @implementation PBToolbarHelper
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-@synthesize toolbarWC, delegate, toolbarCommands, toolbarLabsCommands;
+@synthesize toolbarWC, delegate, toolbarCommands, toolbarSecondaryCommands;
 
 - (void)showToolbar:(NSDictionary *)context {
     if (!toolbarWC) {
@@ -46,7 +46,7 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         PBLog(@"resized");
     }];
-    [[toolbarWC window] makeKeyWindow];
+    [[toolbarWC window] makeKeyAndOrderFront:nil];
 }
 
 -(void) setupToolbarWC:(NSDictionary *)context {
@@ -85,28 +85,34 @@
     // 获得 manifest 中的 menu，并按顺序加入数组
     NSArray *pluginMenus = pluginManifest[@"menu"][@"items"];
     toolbarCommands = [[NSMutableArray alloc] init];
-    toolbarLabsCommands = [[NSMutableArray alloc] init];
+    toolbarSecondaryCommands = [[NSMutableArray alloc] init];
     for (id pluginMenu in pluginMenus) {
         NSString *pluginMenuASCIIString = [self ASCIIStringFromUnicodeString:[pluginMenu description]];
-        // 首先将实验室分离出来
-        if ([pluginMenuASCIIString containsString: @"Fletch 实验室"]){
-            NSArray *labCommandMenus = (NSArray *)(((NSDictionary *)pluginMenu)[@"items"]);
-            for (NSString *labCommandMenu in labCommandMenus) {
-                [toolbarLabsCommands addObject:toolCommands[labCommandMenu]];
+        
+        // 如果这一项有 "{" 那就是有二级菜单了
+        if ([pluginMenuASCIIString containsString: @"{"]){
+            // 将带二级菜单的项目进行特殊处理，让数据符合工具栏调用的需求
+            NSMutableDictionary<NSString *, id> *toolbarCommandWithSecondaryCommand = pluginMenu;
+            [toolbarCommandWithSecondaryCommand setObject:toolbarCommandWithSecondaryCommand[@"title"] forKey:@"name"];
+            [toolbarCommands addObject:toolbarCommandWithSecondaryCommand];
+            
+            //将二级菜单的子项分离出来
+            NSArray *secondaryCommandMenus = (NSArray *)(toolbarCommandWithSecondaryCommand[@"items"]);
+            for (NSString *secondaryCommandMenu in secondaryCommandMenus) {
+                [toolbarSecondaryCommands addObject:toolCommands[secondaryCommandMenu]];
             }
-        // 如果菜单有分隔符，则暂时不处理（工具栏已经没有分割线，空白又不合适）
         } else if ([pluginMenuASCIIString isEqualToString:@"-"]) {
+            // 如果菜单有分隔符，则暂时不处理（工具栏已经没有分割线，空白又不合适）
             //
 //            [toolbarCommands addObject:@{@"identifier":@"-"}];
-        // 将除了显示工具栏之外的菜单项记录进来
         } else if(![pluginMenuASCIIString isEqualToString:@"showToolbar"]) {
+            // 将除了显示工具栏之外的菜单项记录进来
             [toolbarCommands addObject:toolCommands[[pluginMenu description]]];
         }
     }
 }
 
 -(NSArray<NSToolbarItemIdentifier> *) defaultToolbarItemIdentifiers {
-    // 实验室需要自定义工具栏，暂时先不做
     NSMutableArray<NSToolbarItemIdentifier> *defaultToolbarItemIdentifiers = [[NSMutableArray alloc] init];
     for (NSDictionary<NSString *, NSString *> *toolbarCommand in toolbarCommands) {
         // 如果菜单有分隔符，则暂时不处理（工具栏已经没有分割线，空白又不合适）
@@ -124,7 +130,7 @@
 
 -(NSArray<NSToolbarItemIdentifier> *) allowedToolbarItemIdentifiers {
     NSMutableArray<NSToolbarItemIdentifier> *toolbarLabsItemIdentifiers = [[NSMutableArray alloc] init];
-    for (NSDictionary<NSString *, NSString *> *toolbarLabsCommand in toolbarLabsCommands) {
+    for (NSDictionary<NSString *, NSString *> *toolbarLabsCommand in toolbarSecondaryCommands) {
         // 实验室菜单理论上不会有分割线，不过先加入处理吧
         if ([toolbarLabsCommand[@"identifier"] isEqualToString:@"-"]) {
 //            [toolbarLabsItemIdentifiers addObject:NSToolbarSeparatorItemIdentifier];
@@ -132,18 +138,35 @@
             // 处理首字母大写，并加入前缀
             NSString *toolbarLabsCommandIdentifier = toolbarLabsCommand[@"identifier"];
             NSString *toolbarLabsCommandIdentifierWithFirstLetterCapitalized = [[NSMutableString stringWithString:[[toolbarLabsCommandIdentifier substringToIndex:1] uppercaseString]] stringByAppendingString:[toolbarLabsCommandIdentifier substringFromIndex:1]];
-            [toolbarLabsItemIdentifiers addObject:[[NSMutableString stringWithString:@"PBToolbarLabsCommand"] stringByAppendingString:toolbarLabsCommandIdentifierWithFirstLetterCapitalized]];
+            [toolbarLabsItemIdentifiers addObject:[[NSMutableString stringWithString:@"PBToolbarSecondaryCommand"] stringByAppendingString:toolbarLabsCommandIdentifierWithFirstLetterCapitalized]];
         }
     }
     NSArray<NSToolbarItemIdentifier> *allowedToolbarItemIdentifiers = [[[self defaultToolbarItemIdentifiers] arrayByAddingObjectsFromArray:toolbarLabsItemIdentifiers] arrayByAddingObjectsFromArray:@[NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier]];
     return allowedToolbarItemIdentifiers;
 }
 //通过 identifier 获取命令信息
-- (NSString *) commandNameOfIdentifier: (NSToolbarItemIdentifier) identifier {
+- (NSString *) commandIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier {
+    NSString *identifierWithFirstLetterCapitalized;
+    if ([identifier containsString:@"PBToolbarCommand"]) {
+        identifierWithFirstLetterCapitalized = [identifier substringFromIndex: 16];
+    } else if ([identifier containsString:@"PBToolbarSecondaryCommand"]) {
+        identifierWithFirstLetterCapitalized = [identifier substringFromIndex: 25];
+    }
+    NSString *pluginCommandIdentifier = [[NSMutableString stringWithString:[[identifierWithFirstLetterCapitalized substringToIndex:1] lowercaseString]] stringByAppendingString:[identifierWithFirstLetterCapitalized substringFromIndex:1]];
+    return pluginCommandIdentifier;
+}
+
+- (NSString *) commandNameOfIdentifier: (NSToolbarItemIdentifier) identifier requireFullName: (BOOL) fullName {
     NSString *pluginCommandIdentifier = [self commandIdentifierOfIdentifier:identifier];
-    for (NSDictionary<NSString *, NSString *> *toolbarCommand in [toolbarCommands arrayByAddingObjectsFromArray:toolbarLabsCommands]) {
+    for (NSDictionary<NSString *, NSString *> *toolbarCommand in [toolbarCommands arrayByAddingObjectsFromArray:toolbarSecondaryCommands]) {
         if ([toolbarCommand[@"identifier"] isEqualToString:pluginCommandIdentifier]) {
-            NSString *commandName = [toolbarCommand[@"name"] description];
+            NSString *commandName;
+            // 如果有全名字段，则取这个
+            if (fullName && toolbarCommand[@"fullName"]) {
+                commandName = [toolbarCommand[@"fullName"] description];
+            } else {
+                commandName = [toolbarCommand[@"name"] description];
+            }
             if ([commandName containsString:@"..."]) {
                 return [commandName substringToIndex:([commandName length] - 3)];
             } else {
@@ -154,15 +177,17 @@
     return NSToolbarSpaceItemIdentifier;
 }
 
-- (NSString *) commandIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier {
-    NSString *identifierWithFirstLetterCapitalized;
-    if ([identifier containsString:@"PBToolbarCommand"]) {
-        identifierWithFirstLetterCapitalized = [identifier substringFromIndex: 16];
-    } else if ([identifier containsString:@"PBToolbarLabsCommand"]) {
-        identifierWithFirstLetterCapitalized = [identifier substringFromIndex: 20];
+
+
+- (NSArray<NSString *>*) secondaryCommandsIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier {
+    NSString *pluginCommandIdentifier = [self commandIdentifierOfIdentifier:identifier];
+    for (NSDictionary<NSString *, NSString *> *toolbarCommand in toolbarCommands) {
+        if ([toolbarCommand[@"identifier"] isEqualToString: pluginCommandIdentifier]) {
+            PBLog(@"secondaryCommandsIdentifierOfIdentifier: %@", ((NSDictionary *)(toolbarCommand[pluginCommandIdentifier]))[@"items"]);
+            return ((NSDictionary *)(toolbarCommand[pluginCommandIdentifier]))[@"items"];
+        }
     }
-    NSString *pluginCommandIdentifier = [[NSMutableString stringWithString:[[identifierWithFirstLetterCapitalized substringToIndex:1] lowercaseString]] stringByAppendingString:[identifierWithFirstLetterCapitalized substringFromIndex:1]];
-    return pluginCommandIdentifier;
+    return @[];
 }
 
 - (NSString *) commandImagePathOfIdentifier: (NSToolbarItemIdentifier) identifier {

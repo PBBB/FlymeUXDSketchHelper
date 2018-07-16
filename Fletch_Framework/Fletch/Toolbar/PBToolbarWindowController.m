@@ -43,12 +43,29 @@
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
     NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
     if (![itemIdentifier  isEqual: NSToolbarSeparatorItemIdentifier]) {
-        NSString *commandName = [helper commandNameOfIdentifier:itemIdentifier];
+        // 工具栏项目命名
+        NSString *commandName = [helper commandNameOfIdentifier:itemIdentifier requireFullName:YES];
+        
         [toolbarItem setLabel:commandName];
         [toolbarItem setPaletteLabel:commandName];
-        [toolbarItem setImage: [NSImage imageNamed:NSImageNameAddTemplate]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(runToolbarCommand:)];
+        
+        // 如果是带子菜单的项目，则需要单独处理
+        if ([itemIdentifier containsString:@"Parent"]) {
+            NSPopUpButton *popUpButton = [NSPopUpButton buttonWithImage:[NSImage imageNamed:NSImageNameActionTemplate] target:nil action:nil];
+            [popUpButton addItemWithTitle:itemIdentifier];
+            [popUpButton setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
+            [popUpButton setPullsDown:YES];
+            [popUpButton setImagePosition:NSImageOnly];
+            for (NSString *secondaryCommandIdentifier in [self.helper secondaryCommandsIdentifierOfIdentifier: itemIdentifier]) {
+                [popUpButton addItemWithTitle:[helper commandNameOfIdentifier:secondaryCommandIdentifier requireFullName:NO]];
+            }
+            [toolbarItem setView:popUpButton];
+            
+        } else {
+            [toolbarItem setImage: [NSImage imageNamed:NSImageNameAddTemplate]];
+            [toolbarItem setTarget:self];
+            [toolbarItem setAction:@selector(runToolbarCommand:)];
+        }
     }
     return toolbarItem;
 }
@@ -62,7 +79,12 @@
 }
 
 - (void)runToolbarCommand:(NSToolbarItem *)sender {
-    [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:[sender itemIdentifier]]];
+    if ([[sender itemIdentifier] containsString:@"Parent"]) {
+        
+    } else {
+        [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:[sender itemIdentifier]]];
+    }
+    
 }
 
 // 窗口关闭时移除引用

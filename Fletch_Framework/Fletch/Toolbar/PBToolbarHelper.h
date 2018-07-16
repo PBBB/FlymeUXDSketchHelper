@@ -16,14 +16,15 @@
 @property (nonatomic, retain) PBToolbarDelegate *delegate;
 //@property (nonatomic, retain, readonly) NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *toolbarInfo;
 @property (nonatomic, retain, readonly) NSMutableArray<NSDictionary<NSString *, NSString *> *> *toolbarCommands;
-@property (nonatomic, retain, readonly) NSMutableArray<NSDictionary<NSString *, NSString *> *> *toolbarLabsCommands;
+@property (nonatomic, retain, readonly) NSMutableArray<NSDictionary<NSString *, NSString *> *> *toolbarSecondaryCommands;
 
 - (void)showToolbar: (NSDictionary *)context;
 -(NSArray<NSToolbarItemIdentifier> *) defaultToolbarItemIdentifiers;
 -(NSArray<NSToolbarItemIdentifier> *) allowedToolbarItemIdentifiers;
-- (NSString *) commandNameOfIdentifier: (NSToolbarItemIdentifier) identifier;
+- (NSString *) commandNameOfIdentifier: (NSToolbarItemIdentifier) identifier requireFullName: (BOOL) fullName;
 - (NSString *) commandIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier;
 - (NSString *) commandImagePathOfIdentifier: (NSToolbarItemIdentifier) identifier;
+- (NSArray<NSString *>*) secondaryCommandsIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier;
 
 
 @end

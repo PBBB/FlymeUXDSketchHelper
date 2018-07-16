@@ -57,6 +57,7 @@
       "name": "16:9",
       "fullName": "添加 16:9 线框画板",
       "identifier": "add_16_9_DocumentArtboard",
+      "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "add_16_9_DocumentArtboard"
       
@@ -65,6 +66,7 @@
       "name": "18:9",
       "fullName": "添加 18:9 线框画板",
       "identifier": "add_18_9_DocumentArtboard",
+      "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "add_18_9_DocumentArtboard"
       
@@ -85,21 +87,13 @@
       "shortcut": "ctrl shift t",
       "script": "ShowToolbar.cocoascript",
       "handler": "showToolbar"
-    },
-    {
-      "name": "实验室测试",
-      "fullName": "实验室测试",
-      "identifier": "fletchLabsTest",
-      "isTool":"true",
-      "shortcut": "ctrl shift l",
-      "script": "FletchLabsTest.cocoascript",
-      "handler": "fletchLabsTest"
     }
   ],
   "menu": {
     "items": [
       {
         "title": "添加线框画板",
+        "identifier": "addDocumentArtboard_Parent",
         "items": [
             "add_16_9_DocumentArtboard",
             "add_18_9_DocumentArtboard"
@@ -110,13 +104,6 @@
       "addHistory",
       "updateCatalog",
       "exportPDF",
-      "-",
-      {
-        "title":"Fletch 实验室",
-        "items": [
-          "fletchLabsTest"
-        ]
-      },
       "-",
       "showToolbar"
     ],
