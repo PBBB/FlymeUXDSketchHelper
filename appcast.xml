@@ -6,16 +6,16 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v1.5.0</title>
+        <title>v1.5.1</title>
         <description>
           <![CDATA[
             <ul>
-              <li>PDF 导出增加压缩功能</li>
+              <li>添加文档画板功能支持选择格子比例</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Wed, 25 Apr 2018 10:00:00 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/1.5.0/Fletch.1.5.0.zip" type="application/octet-stream" sparkle:version="1.5.0"/>
+      <pubDate>Tue, 17 Jul 2018 11:05:00 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/1.5.1/Fletch.1.5.1.zip" type="application/octet-stream" sparkle:version="1.5.1"/>
       </item>
   </channel>
 </rss>
