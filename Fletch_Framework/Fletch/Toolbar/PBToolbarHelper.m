@@ -151,6 +151,9 @@
         identifierWithFirstLetterCapitalized = [identifier substringFromIndex: 16];
     } else if ([identifier containsString:@"PBToolbarSecondaryCommand"]) {
         identifierWithFirstLetterCapitalized = [identifier substringFromIndex: 25];
+    } else {
+        // 如果 identifier 没有前缀，那么就直接返回
+        return identifier;
     }
     NSString *pluginCommandIdentifier = [[NSMutableString stringWithString:[[identifierWithFirstLetterCapitalized substringToIndex:1] lowercaseString]] stringByAppendingString:[identifierWithFirstLetterCapitalized substringFromIndex:1]];
     return pluginCommandIdentifier;
@@ -181,10 +184,9 @@
 
 - (NSArray<NSString *>*) secondaryCommandsIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier {
     NSString *pluginCommandIdentifier = [self commandIdentifierOfIdentifier:identifier];
-    for (NSDictionary<NSString *, NSString *> *toolbarCommand in toolbarCommands) {
+    for (NSDictionary<NSString *, id> *toolbarCommand in toolbarCommands) {
         if ([toolbarCommand[@"identifier"] isEqualToString: pluginCommandIdentifier]) {
-            PBLog(@"secondaryCommandsIdentifierOfIdentifier: %@", ((NSDictionary *)(toolbarCommand[pluginCommandIdentifier]))[@"items"]);
-            return ((NSDictionary *)(toolbarCommand[pluginCommandIdentifier]))[@"items"];
+            return (NSArray *)(toolbarCommand[@"items"]);
         }
     }
     return @[];

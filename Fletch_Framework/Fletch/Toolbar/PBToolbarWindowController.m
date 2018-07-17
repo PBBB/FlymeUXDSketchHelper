@@ -53,14 +53,17 @@
         if ([itemIdentifier containsString:@"Parent"]) {
             NSPopUpButton *popUpButton = [NSPopUpButton buttonWithImage:[NSImage imageNamed:NSImageNameActionTemplate] target:nil action:nil];
             [popUpButton addItemWithTitle:itemIdentifier];
+            [popUpButton setBezelStyle: NSBezelStyleTexturedRounded];
+            [popUpButton setBordered:NO];
             [popUpButton setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
             [popUpButton setPullsDown:YES];
             [popUpButton setImagePosition:NSImageOnly];
             for (NSString *secondaryCommandIdentifier in [self.helper secondaryCommandsIdentifierOfIdentifier: itemIdentifier]) {
+                PBLog(@"secondaryCommandIdentifier: %@", secondaryCommandIdentifier);
+                PBLog(@"secondaryCommandName: %@", [helper commandNameOfIdentifier:secondaryCommandIdentifier requireFullName:NO]);
                 [popUpButton addItemWithTitle:[helper commandNameOfIdentifier:secondaryCommandIdentifier requireFullName:NO]];
             }
             [toolbarItem setView:popUpButton];
-            
         } else {
             [toolbarItem setImage: [NSImage imageNamed:NSImageNameAddTemplate]];
             [toolbarItem setTarget:self];
