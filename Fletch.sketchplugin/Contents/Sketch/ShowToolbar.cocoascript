@@ -28,3 +28,16 @@ function uploadContext(context) {
     contextNow.selection = context.document.selectedLayers().layers();
     return contextNow;
 }
+
+function onOpeningDocument(context) {
+  log("open");
+  log(context.actionContext);
+  log(NSDocumentController.sharedDocumentController().documents());
+}
+
+function onClosingDocument(context) {
+  log("close");
+  log(context.actionContext);
+  log(NSDocumentController.sharedDocumentController().documents());
+
+}

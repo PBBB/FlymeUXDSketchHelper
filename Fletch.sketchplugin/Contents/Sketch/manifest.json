@@ -87,6 +87,18 @@
       "shortcut": "ctrl shift t",
       "script": "ShowToolbar.cocoascript",
       "handler": "showToolbar"
+    },
+    {
+      "name": "显示工具栏 - 事件",
+      "identifier": "ShowToolbarOnOpeningOrClosingDocument",
+      "isTool":"false",
+      "script": "ShowToolbar.cocoascript",
+      "handlers": {
+        "actions": {
+          "OpenDocument": "onOpeningDocument",
+          "CloseDocument": "onClosingDocument"
+        }
+      }
     }
   ],
   "menu": {
