@@ -51,21 +51,44 @@
         
         // 如果是带子菜单的项目，则需要单独处理
         if ([itemIdentifier containsString:@"Parent"]) {
-            NSPopUpButton *popUpButton = [NSPopUpButton buttonWithImage:[NSImage imageNamed:NSImageNameActionTemplate] target:nil action:nil];
-            [popUpButton addItemWithTitle:itemIdentifier];
+            
+            // 初始化下拉菜单控件
+            NSPopUpButton *popUpButton = [NSPopUpButton buttonWithTitle:@"" target:nil action:nil];
             [popUpButton setBezelStyle: NSBezelStyleTexturedRounded];
             [popUpButton setBordered:NO];
-            [popUpButton setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
             [popUpButton setPullsDown:YES];
+            
+            // 设定第一个项目的标题为空，这样控件才能使用它的 icon
+            [popUpButton addItemWithTitle:@""];
+            [[[popUpButton itemArray] firstObject] setImage:[NSImage imageNamed:NSImageNameBookmarksTemplate]];
+            [((NSPopUpButtonCell *)[popUpButton cell]) setArrowPosition:NSPopUpNoArrow];
             [popUpButton setImagePosition:NSImageOnly];
+            [popUpButton setImageScaling:NSImageScaleProportionallyUpOrDown];
+            
+            // 设定下拉项目的菜单，用来在它被折叠时使用
+            NSMenuItem *menuFormRepresentation = [[NSMenuItem alloc] init];
+            [menuFormRepresentation setTitle:commandName];
+            [menuFormRepresentation setImage:[NSImage imageNamed:NSImageNameBookmarksTemplate]];
+            [menuFormRepresentation setSubmenu:[[NSMenu alloc] init]];
+            
+            // 加入子菜单
             for (NSString *secondaryCommandIdentifier in [self.helper secondaryCommandsIdentifierOfIdentifier: itemIdentifier]) {
-                PBLog(@"secondaryCommandIdentifier: %@", secondaryCommandIdentifier);
-                PBLog(@"secondaryCommandName: %@", [helper commandNameOfIdentifier:secondaryCommandIdentifier requireFullName:NO]);
                 [popUpButton addItemWithTitle:[helper commandNameOfIdentifier:secondaryCommandIdentifier requireFullName:NO]];
+                
+                // 菜单传入命令 ID，方便处理的时候调用
+                [[[popUpButton itemArray] lastObject] setRepresentedObject:secondaryCommandIdentifier];
+                [[[popUpButton itemArray] lastObject] setTarget:self];
+                [[[popUpButton itemArray] lastObject] setAction:@selector(menuItemClicked:)];
+                
+                //下拉项目的菜单也需要它们作为子菜单
+                [[menuFormRepresentation submenu] addItem:[[[popUpButton itemArray] lastObject] copy]];
             }
+            
             [toolbarItem setView:popUpButton];
+            [toolbarItem setMenuFormRepresentation:menuFormRepresentation];
         } else {
-            [toolbarItem setImage: [NSImage imageNamed:NSImageNameAddTemplate]];
+             // 如果不是带子菜单的项目，处理就简单多了
+            [toolbarItem setImage: [NSImage imageNamed:NSImageNameBookmarksTemplate]];
             [toolbarItem setTarget:self];
             [toolbarItem setAction:@selector(runToolbarCommand:)];
         }
@@ -87,9 +110,13 @@
     } else {
         [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:[sender itemIdentifier]]];
     }
-    
 }
-
+                 
+- (void)menuItemClicked:(NSMenuItem *)sender {
+    PBLog(@"menuItemClicked: %@", sender);
+    [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:(NSString *)[sender representedObject]]];
+}
+                 
 // 窗口关闭时移除引用
 - (void)windowWillClose:(NSNotification *)notification{
     NSMutableDictionary *threadDictionary = [[NSThread mainThread] threadDictionary];
