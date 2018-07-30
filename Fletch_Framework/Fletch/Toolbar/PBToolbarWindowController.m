@@ -37,6 +37,7 @@
     [toolbar setShowsBaselineSeparator:NO];
     [toolbar setDelegate:self];
     [toolbar setSizeMode:NSToolbarSizeModeSmall];
+    [toolbar setAutosavesConfiguration:YES];
     [self.window setToolbar:toolbar];
 }
 
@@ -113,12 +114,12 @@
 }
                  
 - (void)menuItemClicked:(NSMenuItem *)sender {
-    PBLog(@"menuItemClicked: %@", sender);
     [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:(NSString *)[sender representedObject]]];
 }
                  
-// 窗口关闭时移除引用
+// 窗口关闭时移除引用，并记忆工具栏的宽度
 - (void)windowWillClose:(NSNotification *)notification{
+    [NSUserDefaults.standardUserDefaults setDouble:self.window.frame.size.width forKey:@"PBToolbarWidth"];
     NSMutableDictionary *threadDictionary = [[NSThread mainThread] threadDictionary];
     NSString *threadIdentifier = @"com.flyme.uxd.pbb.sketch-helper.toolbar";
     [threadDictionary removeObjectForKey:threadIdentifier];

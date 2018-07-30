@@ -23,7 +23,7 @@
     MSDocument *document = context[@"document"];
     MSDocumentWindow *documentWindow = [document window];
     
-    // 获取上次工具栏的位置，如果没有的话就放在右上角
+    // 初始化工具栏的宽高和位置
     CGFloat tabbarHeight = 24.0;
     CGFloat toolbarHeightRegular = 70.0;
     CGFloat toolbarHeightIconOnly = 58.0;
@@ -32,6 +32,12 @@
     BOOL isToolbarHeightRegular = documentWindow.toolbar.displayMode == NSToolbarDisplayModeIconAndLabel;
     CGFloat toolbarHeight = isToolbarHeightRegular ? toolbarHeightRegular : toolbarHeightIconOnly;
     
+    // 如果本地存储有工具栏宽度，就用它（未存入时，获取到的值是 0）
+    if ([NSUserDefaults.standardUserDefaults doubleForKey:@"PBToolbarWidth"] != 0.0) {
+        CGRect oldFrame = toolbarWC.window.frame;
+        CGRect newFrame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, [NSUserDefaults.standardUserDefaults doubleForKey:@"PBToolbarWidth"], oldFrame.size.height);
+        [toolbarWC.window setFrame:newFrame display:YES];
+    }
     toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - toolbarWC.window.frame.size.width - 215.0;
     if (documentWindow.tabGroup.tabBarVisible) {
         toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height - toolbarHeight - tabbarHeight;
@@ -42,10 +48,10 @@
 //    [documentWindow addChildWindow:[toolbarWC window] ordered:NSWindowAbove];
     [toolbarWC showWindow:self];
     
-    // 根据窗口缩放计算工具栏位置
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        PBLog(@"resized");
-    }];
+    // 根据窗口缩放计算工具栏位置（暂时不处理，因为工具栏与多个文档都关联）
+//    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//        PBLog(@"resized");
+//    }];
     [[toolbarWC window] makeKeyAndOrderFront:nil];
 }
 
@@ -57,7 +63,6 @@
     
     if (threadDictionary[threadIdentifier]) {
         [(PBToolbarWindowController *)threadDictionary[threadIdentifier] shakeWindow];
-//        PBLog(@"toolbar frame: %@", NSStringFromRect([[(PBToolbarWindowController *)threadDictionary[threadIdentifier] window] frame]));
         return;
     }
     
