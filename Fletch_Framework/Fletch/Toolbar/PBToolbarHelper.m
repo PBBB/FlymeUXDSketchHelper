@@ -38,8 +38,11 @@
         CGRect newFrame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, [NSUserDefaults.standardUserDefaults doubleForKey:@"PBToolbarWidth"], oldFrame.size.height);
         [toolbarWC.window setFrame:newFrame display:YES];
     }
+    
     toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - toolbarWC.window.frame.size.width - 215.0;
-    if (documentWindow.tabGroup.tabBarVisible) {
+    if (([documentWindow styleMask] & NSWindowStyleMaskFullScreen) == NSWindowStyleMaskFullScreen) {
+        toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height;
+    } else if (documentWindow.tabGroup.tabBarVisible) {
         toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height - toolbarHeight - tabbarHeight;
     } else {
         toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height - toolbarHeight;
@@ -48,10 +51,50 @@
 //    [documentWindow addChildWindow:[toolbarWC window] ordered:NSWindowAbove];
     [toolbarWC showWindow:self];
     
+    // 文档窗口进入或退出全屏时，重置工具栏位置
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidEnterFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        NSPoint toolbarOrigin = NSMakePoint(0.0, 0.0);
+        toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - self->toolbarWC.window.frame.size.width - 215.0;
+        toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - self->toolbarWC.window.frame.size.height;
+        [[self->toolbarWC window] setFrameOrigin:toolbarOrigin];
+    }];
+    
+    // 文档窗口退出全屏时，工具栏会浮在上面，所以要先隐藏工具栏
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowWillExitFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [[self->toolbarWC window] setIsVisible:NO];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidExitFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        NSPoint toolbarOrigin = NSMakePoint(0.0, 0.0);
+        toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - self->toolbarWC.window.frame.size.width - 215.0;
+        if (documentWindow.tabGroup.tabBarVisible) {
+            toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - self->toolbarWC.window.frame.size.height - toolbarHeight - tabbarHeight;
+        } else {
+            toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - self->toolbarWC.window.frame.size.height - toolbarHeight;
+        }
+        [[self->toolbarWC window] setIsVisible:YES];
+        [[self->toolbarWC window] setFrameOrigin:toolbarOrigin];
+    }];
+    
+    // 文档窗口进入或退出版本浏览时，工具栏会被关闭，而且有个很奇怪的动画
+    // 全屏下进入或退出版本浏览时，工具栏可能会出现多个实例，不知道发生了什么……所以这种情况先不处理
+//    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowWillEnterVersionBrowserNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//        [[self->toolbarWC window] setIsVisible:NO];
+//    }];
+//
+//    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidExitVersionBrowserNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//        [[self->toolbarWC window] setIsVisible:YES];
+//    }];
+    
+    
+    
     // 根据窗口缩放计算工具栏位置（暂时不处理，因为工具栏与多个文档都关联）
 //    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
 //        PBLog(@"resized");
 //    }];
+    
+    // 先激活文档窗口，否则工具栏上的操作不能生效
+    [documentWindow makeKeyAndOrderFront:nil];
     [[toolbarWC window] makeKeyAndOrderFront:nil];
 }
 
@@ -184,8 +227,6 @@
     }
     return NSToolbarSpaceItemIdentifier;
 }
-
-
 
 - (NSArray<NSString *>*) secondaryCommandsIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier {
     NSString *pluginCommandIdentifier = [self commandIdentifierOfIdentifier:identifier];

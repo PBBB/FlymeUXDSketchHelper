@@ -15,7 +15,6 @@ var showToolbar = function (context) {
   var toolbarDelegate = new MochaJSDelegate();
   toolbarDelegate.setHandlerForSelector("runToolbarCommand:", function(command){
     // addHistory(uploadContext(context),false);
-    log(command);
     eval(command+"(uploadContext(context),false)");
   });
   toolbarHelper.delegate = (toolbarDelegate.getClassInstance());
