@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Fletch</title>
+    <link>https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml</link>
+    <description></description>
+    <language>en</language>
+      <item>
+        <title>v2.0.0</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>全新工具栏</li>
+              <li>更新目录完全重写，性能提升 4.1 倍</li>
+            </ul>
+          ]]>
+        </description>
+      <pubDate>Wed, 25 Apr 2018 10:00:00 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/2.0.0/Fletch.2.0.0.zip" type="application/octet-stream" sparkle:version="2.0.0"/>
+      </item>
+  </channel>
+</rss>
