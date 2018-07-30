@@ -24,20 +24,49 @@ var showToolbar = function (context) {
 
 function uploadContext(context) {
     var contextNow = context;
+    // 工具栏需要能跨文档工作，所以要更新 context 里的相关内容
     contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
     contextNow.selection = context.document.selectedLayers().layers();
     return contextNow;
 }
 
 function onOpeningDocument(context) {
-  log("open");
-  log(context.actionContext);
-  log(NSDocumentController.sharedDocumentController().documents());
+  // 如果窗口已经存在，那么啥都不干直接退出
+  var threadDictionary = [[NSThread mainThread] threadDictionary];
+  var threadIdentifier = @"com.flyme.uxd.pbb.sketch-helper.toolbar";
+  if (threadDictionary[threadIdentifier] != null) {
+    return;
+  } else {
+    var documentOpened = context.actionContext.document;
+    // 打开之后需要等文档初始化才能获得相应信息
+    COScript.currentCOScript().scheduleWithInterval_jsFunction(0, function(){
+      var artBoardsInCurrentPage = documentOpened.currentPage().artboards();
+      for (var i = 0; i < artBoardsInCurrentPage.length; i++) {
+        // 暂时先按有没有封面画板来判断，之后看情况加其他的判断
+        if (artBoardsInCurrentPage[i].name() == "封面") {
+          // 重组 context，让它满足打开工具栏的要求
+          context.document = context.actionContext.document;
+          showToolbar(context);
+          return;
+        }
+      }
+    });
+  }
 }
 
 function onClosingDocument(context) {
-  log("close");
-  log(context.actionContext);
-  log(NSDocumentController.sharedDocumentController().documents());
-
+  // 如果窗口不存在，那么啥都不干直接退出
+  var threadDictionary = [[NSThread mainThread] threadDictionary];
+  var threadIdentifier = @"com.flyme.uxd.pbb.sketch-helper.toolbar";
+  if (threadDictionary[threadIdentifier] == null) {
+    return;
+  } else {
+    COScript.currentCOScript().scheduleWithInterval_jsFunction(0, function(){
+      // 如果所有文档都关闭了，那么自动关掉工具栏
+      // 没有做判断是否为文档是因为判断太多，可能导致每次关闭文档都有很多运算
+      if (NSDocumentController.sharedDocumentController().documents().length == 0) {
+        threadDictionary[threadIdentifier].close();
+      }
+    });
+  }
 }
