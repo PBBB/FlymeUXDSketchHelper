@@ -60,8 +60,9 @@
     }];
     
     // 文档窗口退出全屏时，工具栏会浮在上面，所以要先隐藏工具栏
+    // 隐藏工具栏再显示会导致全屏状态下关闭文档时工具栏仍然显示，所以这个处理只能先去掉了
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowWillExitFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [[self->toolbarWC window] setIsVisible:NO];
+//        [[self->toolbarWC window] orderOut:self];
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidExitFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
@@ -72,7 +73,7 @@
         } else {
             toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - self->toolbarWC.window.frame.size.height - toolbarHeight;
         }
-        [[self->toolbarWC window] setIsVisible:YES];
+//        [[self->toolbarWC window] orderFront:self];
         [[self->toolbarWC window] setFrameOrigin:toolbarOrigin];
     }];
     
@@ -105,6 +106,7 @@
     NSString *threadIdentifier = @"com.flyme.uxd.pbb.sketch-helper.toolbar";
     
     if (threadDictionary[threadIdentifier]) {
+        [[(PBToolbarWindowController *)threadDictionary[threadIdentifier] window] makeKeyAndOrderFront:nil];
         [(PBToolbarWindowController *)threadDictionary[threadIdentifier] shakeWindow];
         return;
     }
