@@ -85,13 +85,33 @@ DQ
                                     <touchBar key="touchBar" id="4jk-LB-RDb">
                                         <touchBarItems>
                                             <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="IcO-l1-j4Z"/>
-                                            <touchBarItem id="HyG-h5-GfH">
+                                            <touchBarItem id="0Wn-Xw-X8B">
+                                                <viewController key="viewController" id="bZP-Av-5Oa">
+                                                    <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gzc-1v-bTS">
+                                                        <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="push" title="今天" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vSN-6c-za0">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                </viewController>
+                                                <size key="designTimeSize" width="72" height="30"/>
+                                            </touchBarItem>
+                                            <touchBarItem id="VrK-1c-UjX">
+                                                <viewController key="viewController" id="XRk-wJ-c1M">
+                                                    <scrubber key="view" translatesAutoresizingMaskIntoConstraints="NO" id="Oa5-6G-Fha">
+                                                        <rect key="frame" x="0.0" y="0.0" width="517" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <scrubberProportionalLayout key="scrubberLayout"/>
+                                                    </scrubber>
+                                                </viewController>
+                                            </touchBarItem>
+                                            <touchBarItem identifier="PBDateScrubber" id="HyG-h5-GfH">
                                                 <viewController key="viewController" id="yPN-Rh-ZOt">
                                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SNX-4y-c1f">
-                                                        <rect key="frame" x="0.0" y="0.0" width="112" height="41"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="100" id="gQE-Ea-RZN"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="push" title="添加" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wyu-Kw-WwP">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" usesAppearanceFont="YES"/>
@@ -105,7 +125,7 @@ DQ
                                                         </connections>
                                                     </button>
                                                 </viewController>
-                                                <size key="designTimeSize" width="100" height="30"/>
+                                                <size key="designTimeSize" width="72" height="30"/>
                                             </touchBarItem>
                                         </touchBarItems>
                                     </touchBar>
