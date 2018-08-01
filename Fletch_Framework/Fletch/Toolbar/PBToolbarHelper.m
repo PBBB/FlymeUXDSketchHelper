@@ -14,10 +14,12 @@
 
 @implementation PBToolbarHelper
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-@synthesize toolbarWC, delegate, toolbarCommands, toolbarSecondaryCommands;
+@synthesize context, toolbarWC, delegate, toolbarCommands, toolbarSecondaryCommands;
 
 - (void)showToolbar:(NSDictionary *)context {
+
     if (!toolbarWC) {
+        self.context = context;
         [self setupToolbarWC:context];
     }
     MSDocument *document = context[@"document"];
@@ -241,7 +243,12 @@
 }
 
 - (NSString *) commandImagePathOfIdentifier: (NSToolbarItemIdentifier) identifier {
-    return @"";
+    NSString *pluginCommandIdentifier = [self commandIdentifierOfIdentifier:identifier];
+    MSPluginBundle *plugin = context[@"plugin"];
+    NSString *pluginIconsDirectoryURLString = [[[[[plugin url] URLByAppendingPathComponent:@"Contents"]
+                                           URLByAppendingPathComponent:@"Resources"]
+                                          URLByAppendingPathComponent:@"icons"] path];
+    return [NSString stringWithFormat:@"%@/toolbar_%@.tiff", pluginIconsDirectoryURLString, pluginCommandIdentifier];
 }
 
 

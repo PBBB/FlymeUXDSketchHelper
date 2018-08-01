@@ -8,10 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface PBToolbar : NSToolbar
 - (void) disableTextOnlyMode;
 @end
 
-NS_ASSUME_NONNULL_END

@@ -63,15 +63,28 @@
             
             // 设定第一个项目的标题为空，这样控件才能使用它的 icon
             [popUpButton addItemWithTitle:@""];
-            [[[popUpButton itemArray] firstObject] setImage:[NSImage imageNamed:NSImageNameBookmarksTemplate]];
-            [((NSPopUpButtonCell *)[popUpButton cell]) setArrowPosition:NSPopUpNoArrow];
+            
+            // 设定图片
+            NSImage *popUpButtonImage = [[NSImage alloc] initWithContentsOfFile:[helper commandImagePathOfIdentifier:itemIdentifier]];
+            [popUpButtonImage setTemplate:YES];
+            if (popUpButtonImage) {
+                [[[popUpButton itemArray] firstObject] setImage:popUpButtonImage];
+            } else {
+                [[[popUpButton itemArray] firstObject] setImage:[NSImage imageNamed:NSImageNameActionTemplate]];
+            }
+            [((NSPopUpButtonCell *)[popUpButton cell]) setArrowPosition:NSPopUpArrowAtBottom];
             [popUpButton setImagePosition:NSImageOnly];
             [popUpButton setImageScaling:NSImageScaleProportionallyUpOrDown];
             
             // 设定下拉项目的菜单，用来在它被折叠时使用
             NSMenuItem *menuFormRepresentation = [[NSMenuItem alloc] init];
             [menuFormRepresentation setTitle:commandName];
-            [menuFormRepresentation setImage:[NSImage imageNamed:NSImageNameBookmarksTemplate]];
+            
+            // 设定图片
+            NSImage *menuFormRepresentationImage = [popUpButtonImage copy];
+            [menuFormRepresentationImage setTemplate:YES];
+            [menuFormRepresentationImage setSize:NSMakeSize(16.0, 16.0)];
+            [menuFormRepresentation setImage:menuFormRepresentationImage];
             [menuFormRepresentation setSubmenu:[[NSMenu alloc] init]];
             
             // 加入子菜单
@@ -86,12 +99,20 @@
                 //下拉项目的菜单也需要它们作为子菜单
                 [[menuFormRepresentation submenu] addItem:[[[popUpButton itemArray] lastObject] copy]];
             }
-            
+            [popUpButton setFrameSize:NSMakeSize(44.0, 32.0)];
             [toolbarItem setView:popUpButton];
             [toolbarItem setMenuFormRepresentation:menuFormRepresentation];
         } else {
              // 如果不是带子菜单的项目，处理就简单多了
-            [toolbarItem setImage: [NSImage imageNamed:NSImageNameBookmarksTemplate]];
+            NSImage *toolbarItemImage = [[NSImage alloc] initWithContentsOfFile:[helper commandImagePathOfIdentifier:itemIdentifier]];
+            [toolbarItemImage setTemplate:YES];
+            
+            if (toolbarItemImage) {
+                [toolbarItem setImage: toolbarItemImage];
+            } else {
+                [toolbarItem setImage: [NSImage imageNamed:NSImageNameActionTemplate]];
+            }
+            
             [toolbarItem setTarget:self];
             [toolbarItem setAction:@selector(runToolbarCommand:)];
         }

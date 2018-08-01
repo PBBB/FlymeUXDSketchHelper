@@ -78,7 +78,11 @@ function prepareOverviewArtboard (context) {
         return selectedArtboards[0];
       }
     } else {
-      [NSApp displayDialog: "请确保当前页面只有一个名为“概述”的画板。\n如果有多个名为“概述”的画板，你可以选中希望添加更新记录的“概述”画板，并重新添加更新记录" withTitle: "未找到可添加更新记录的画板"];
+      var alert = [[NSAlert alloc] init];
+      [alert setMessageText:"未找到可添加更新记录的画板"];
+      [alert setInformativeText:"请确保当前页面只有一个名为“概述”的画板。\n如果有多个名为“概述”的画板，你可以选中希望添加更新记录的“概述”画板，并重新添加更新记录"];
+      [alert addButtonWithTitle:"确定"];
+      [alert beginSheetModalForWindow:context.document.window() completionHandler:nil];
       return null;
     }
   }
@@ -112,7 +116,11 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
   }
 
   if (historyLayerGroup == null) {
-    [NSApp displayDialog: "请确保“概述”画板里有“更新记录”图层组" withTitle: "未找到“更新记录”图层组"];
+    var alert = [[NSAlert alloc] init];
+    [alert setMessageText:"未找到“更新记录”图层组"];
+    [alert setInformativeText:"请确保“概述”画板里有“更新记录”图层组"];
+    [alert addButtonWithTitle:"确定"];
+    [alert beginSheetModalForWindow:context.document.window() completionHandler:nil];
     return false;
   }
 

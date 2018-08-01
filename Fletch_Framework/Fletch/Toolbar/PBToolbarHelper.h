@@ -13,6 +13,7 @@
 
 @interface PBToolbarHelper : NSObject
 
+@property (nonatomic, retain) NSDictionary *context;
 @property (nonatomic, retain, readonly) PBToolbarWindowController *toolbarWC;
 @property (nonatomic, retain) PBToolbarDelegate *delegate;
 //@property (nonatomic, retain, readonly) NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *toolbarInfo;

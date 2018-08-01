@@ -145,10 +145,10 @@
 				2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */,
 				2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */,
 				2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */,
-				2B5F3AD5211154990098064A /* PBToolbar.h */,
-				2B5F3AD6211154990098064A /* PBToolbar.m */,
 				2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */,
 				2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */,
+				2B5F3AD5211154990098064A /* PBToolbar.h */,
+				2B5F3AD6211154990098064A /* PBToolbar.m */,
 				2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */,
 			);
 			path = Toolbar;
