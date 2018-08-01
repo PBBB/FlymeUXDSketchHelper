@@ -32,13 +32,14 @@
     [[[self backgroudView] layer] setBackgroundColor:[[NSColor colorWithRed:209.0/255.0 green:208.0/255.0 blue:209.0/255.0 alpha:1.0] CGColor]];
     
     // 初始化工具栏
-    toolbar = [[NSToolbar alloc] initWithIdentifier:@"PBToolbar"];
+    toolbar = [[PBToolbar alloc] initWithIdentifier:@"PBToolbar"];
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setShowsBaselineSeparator:NO];
     [toolbar setDelegate:self];
     [toolbar setSizeMode:NSToolbarSizeModeSmall];
     [toolbar setAutosavesConfiguration:YES];
     [self.window setToolbar:toolbar];
+    [toolbar disableTextOnlyMode];
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
@@ -48,6 +49,7 @@
         NSString *commandName = [helper commandNameOfIdentifier:itemIdentifier requireFullName:YES];
         
         [toolbarItem setLabel:commandName];
+        [toolbarItem setToolTip:commandName];
         [toolbarItem setPaletteLabel:commandName];
         
         // 如果是带子菜单的项目，则需要单独处理

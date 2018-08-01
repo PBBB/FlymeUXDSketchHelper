@@ -15,6 +15,8 @@
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
+		2B5F3AD7211154990098064A /* PBToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B5F3AD5211154990098064A /* PBToolbar.h */; };
+		2B5F3AD8211154990098064A /* PBToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F3AD6211154990098064A /* PBToolbar.m */; };
 		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
 		2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */; };
 		2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */; };
@@ -74,6 +76,9 @@
 		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
+		2B5F3AD32110639B0098064A /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		2B5F3AD5211154990098064A /* PBToolbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbar.h; sourceTree = "<group>"; };
+		2B5F3AD6211154990098064A /* PBToolbar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbar.m; sourceTree = "<group>"; };
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
 		2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolInstance.h; sourceTree = "<group>"; };
 		2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolMaster.h; sourceTree = "<group>"; };
@@ -127,6 +132,7 @@
 		2B1B6C33200A6D7D00511E45 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B5F3AD32110639B0098064A /* UserNotifications.framework */,
 				2BFF0653200B765F00075D14 /* Cocoa.framework */,
 				2B1B6C34200A6D7D00511E45 /* Quartz.framework */,
 			);
@@ -139,6 +145,8 @@
 				2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */,
 				2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */,
 				2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */,
+				2B5F3AD5211154990098064A /* PBToolbar.h */,
+				2B5F3AD6211154990098064A /* PBToolbar.m */,
 				2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */,
 				2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */,
 				2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */,
@@ -260,6 +268,7 @@
 				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
 				2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */,
 				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
+				2B5F3AD7211154990098064A /* PBToolbar.h in Headers */,
 				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
 				2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */,
 				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
@@ -359,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B5F3AD8211154990098064A /* PBToolbar.m in Sources */,
 				2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */,
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
@@ -498,7 +508,7 @@
 				INFOPLIST_FILE = Fletch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -525,7 +535,7 @@
 				INFOPLIST_FILE = Fletch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
