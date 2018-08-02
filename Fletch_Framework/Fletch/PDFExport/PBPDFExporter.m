@@ -8,7 +8,6 @@
 
 #import "PBPDFExporter.h"
 #import <Quartz/Quartz.h>
-#import <UserNotifications/UserNotifications.h>
 #import "MSTextLayer.h"
 #import "MSPage.h"
 #import "MSDocumentWindow.h"
@@ -325,23 +324,40 @@
     // 文档内显示导出成功
     [document showMessage:@"✅ 导出成功"];
     
-    /*
+    
     // 显示通知（UserNotification 在 10.14 才有，所以等新系统发布之后再加入这个功能）
     if (@available(macOS 10.14, *)) {
-        UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
-        content.title = @"导出成功";
-        content.body = saveFileURL.absoluteString;
-        content.sound = [UNNotificationSound defaultSound];
+        // 定义类别，为通知添加操作做准备
+        UNNotificationAction *openFolderAction = [UNNotificationAction actionWithIdentifier:@"OPEN_FOLDER" title:@"打开目录" options:UNNotificationActionOptionNone];
+        UNNotificationCategory *PDFExportSuccessNotificationCategpry = [UNNotificationCategory categoryWithIdentifier:@"PDF_EXPORT_SUCCESS" actions:@[openFolderAction] intentIdentifiers:@[] hiddenPreviewsBodyPlaceholder:@"" categorySummaryFormat:nil options:UNNotificationCategoryOptionCustomDismissAction];
         
-        UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0 repeats:NO];
+        // 向通知中心注册此类通知
+        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+        [center setNotificationCategories: [NSSet setWithObject:PDFExportSuccessNotificationCategpry]];
+        [center setDelegate:self];
+        
+        // 初始化通知信息
+        UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
+        content.title = @"PDF 导出成功";
+        content.body = saveFileURL.lastPathComponent;
+        content.sound = [UNNotificationSound defaultSound];
+        content.categoryIdentifier = @"PDF_EXPORT_SUCCESS";
+        content.userInfo = @{@"FILE_URL": saveFileURL.absoluteString};
+        
+        UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.001 repeats:NO];
         UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"PBPDFExportSuccess" content:content trigger:trigger];
         
-        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
         [center addNotificationRequest:request withCompletionHandler:nil];
     } else {
         // Fallback on earlier versions
     }
-     */
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(macos(10.14)){
+    NSString *fileURLString = response.notification.request.content.userInfo[@"FILE_URL"];
+    NSURL *fileURL = [NSURL URLWithString:fileURLString];
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    completionHandler();
 }
 
 @end
