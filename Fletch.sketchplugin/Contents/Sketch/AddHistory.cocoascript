@@ -120,7 +120,7 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     [alert setMessageText:"未找到“更新记录”图层组"];
     [alert setInformativeText:"请确保“概述”画板里有“更新记录”图层组"];
     [alert addButtonWithTitle:"确定"];
-    [alert beginSheetModalForWindow:context.document.window() completionHandler:nil];
+    [alert beginSheetModalForWindow:addHistoryWC.window() completionHandler:nil];
     return false;
   }
 
