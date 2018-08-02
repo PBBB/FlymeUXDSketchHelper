@@ -92,6 +92,9 @@
     NSString *fileName = appName == nil ? [NSString stringWithFormat: @"功能概述_交互文档_%@", dateString]
     : [NSString stringWithFormat: @"%@_交互文档_%@", [appName stringByReplacingOccurrencesOfString:@" " withString:@""], dateString];
     
+    //压缩过程中使用这个额外的部分做文件名，用于避免同时导出 PDF 时文件混淆
+    NSString *extraFileNameForCompression = [NSString stringWithFormat:@"%f", currentDate.timeIntervalSince1970];
+    
     //用数组保存压缩任务
     NSMutableArray <NSTask *> *CompressionTaskArray = [[NSMutableArray alloc] init];
     
@@ -123,7 +126,7 @@
 //                    [[progressWC pdfExportProgressIndicator] startAnimation:nil];
 //                    [[progressWC exportLabel] setStringValue:@"即将完成…"];
 //                }
-                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
+                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [progressWC close];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
@@ -156,7 +159,7 @@
             //如果点击 OK 之后后台工作都准备好，那么直接合成文件
             saveFileURL = [savePanel URL];
             if (allCompressionTaskFinished) {
-                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
+                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
 //                        [document showMessage:@"✅ 导出成功"];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
@@ -219,11 +222,11 @@
             [pdfDocument insertPage:pdfPage atIndex:0];
             //每一页都导出一个 PDF 文件，放在缓存文件夹
             NSString *TmpPath = NSTemporaryDirectory();
-            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
+            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
             [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
             //执行压缩命令
-            NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d.pdf", TmpPath, i];
-            NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d_compressed.pdf", TmpPath, i];
+            NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
+            NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%@%d_compressed.pdf", TmpPath, extraFileNameForCompression, i];
             NSTask *task = [[NSTask alloc] init];
             [CompressionTaskArray addObject:task];
             if (@available(macOS 10.13, *)) {
@@ -287,13 +290,13 @@
     });
 }
 
-- (BOOL) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount {
+- (BOOL) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount extraFileName: (NSString *) extraFileNameForCompression{
     PDFDocument *pdfDocument = nil;
     NSString *TmpPath = NSTemporaryDirectory();
     NSMutableArray<NSNumber *> *failedPagesArray = [NSMutableArray<NSNumber *> array];
     for (int i = 0; i < pageCount; i++) {
-        NSString *compressedFilePath = [NSString stringWithFormat:@"file://%@%d_compressed.pdf", TmpPath, i];
-        NSString *originalFilePath = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
+        NSString *compressedFilePath = [NSString stringWithFormat:@"file://%@%@%d_compressed.pdf", TmpPath, extraFileNameForCompression, i];
+        NSString *originalFilePath = [NSString stringWithFormat:@"file://%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
         if (i == 0) {
             pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:compressedFilePath]];
             if ([pdfDocument pageCount] == 0){
