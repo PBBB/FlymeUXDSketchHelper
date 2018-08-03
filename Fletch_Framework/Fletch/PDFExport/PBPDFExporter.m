@@ -325,7 +325,7 @@
     [document showMessage:@"✅ 导出成功"];
     
     
-    // 显示通知（UserNotification 在 10.14 才有，所以等新系统发布之后再加入这个功能）
+    // 显示通知（UserNotification 在 10.14 才有，所以做了系统判断）
     if (@available(macOS 10.14, *)) {
         // 定义类别，为通知添加操作做准备
         UNNotificationAction *openFolderAction = [UNNotificationAction actionWithIdentifier:@"OPEN_FOLDER" title:@"打开目录" options:UNNotificationActionOptionNone];
@@ -340,7 +340,7 @@
         UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
         content.title = @"PDF 导出成功";
         content.body = saveFileURL.lastPathComponent;
-        content.sound = [UNNotificationSound defaultSound];
+//        content.sound = [UNNotificationSound defaultSound];
         content.categoryIdentifier = @"PDF_EXPORT_SUCCESS";
         content.userInfo = @{@"FILE_URL": saveFileURL.absoluteString};
         
@@ -354,11 +354,12 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(macos(10.14)){
-    NSString *fileURLString = response.notification.request.content.userInfo[@"FILE_URL"];
-    NSURL *fileURL = [NSURL URLWithString:fileURLString];
-    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    if ([response.actionIdentifier isEqualToString:@"OPEN_FOLDER"]) {
+        NSString *fileURLString = response.notification.request.content.userInfo[@"FILE_URL"];
+        NSURL *fileURL = [NSURL URLWithString:fileURLString];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
     completionHandler();
 }
 
 @end
-
