@@ -33,6 +33,8 @@
     _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] setLevel: NSFloatingWindowLevel];
     [[self window] makeFirstResponder:_updateNotesTextView];
+    
+//    [_authorTextField setTouchBar:self.touchBar];
 }
 
 -(void)willCloseWindow {
@@ -73,6 +75,31 @@
 //        [delegate handleHistoryinAddHistoryWindowController:self WithDate:_datePicker.dateValue Author:_authorTextField.stringValue Notes:finalUpdateNotes];
         [delegate handleHistoryinAddHistoryWindowController:self WithInfo:userInfo];
     }
+}
+
+- (NSTouchBar *)makeTouchBar {
+    NSTouchBar *mainTouchBar = [[NSTouchBar alloc] init];
+    mainTouchBar.delegate = self;
+    [mainTouchBar setDefaultItemIdentifiers:@[NSTouchBarItemIdentifierOtherItemsProxy, @"PBAddHistoryTouchBarToday", @"PBAddHistoryTouchBarDateScrubber", @"PBAddHistoryTouchBarAddHistory"]];
+    return mainTouchBar;
+}
+
+- (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier {
+    NSCustomTouchBarItem *barItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
+    
+    if ([identifier isEqualToString:@"PBAddHistoryTouchBarToday"]) {
+        NSButton *todayButton = [NSButton buttonWithTitle:@"今天" target:nil action:nil];
+        [barItem setView:todayButton];
+    } else if ([identifier isEqualToString:@"PBAddHistoryTouchBarDateScrubber"]) {
+        NSScrubber *dateScrubber = [[NSScrubber alloc] init];
+        [barItem setView:dateScrubber];
+    } else if ([identifier isEqualToString:@"PBAddHistoryTouchBarAddHistory"]) {
+        NSButton *addButton = [NSButton buttonWithTitle:@"添加" target:self action:@selector(addHistory:)];
+        [addButton setKeyEquivalent:@"\r"];
+        [addButton setKeyEquivalentModifierMask: NSEventModifierFlagCommand];
+        [barItem setView:addButton];
+    }
+    return barItem;
 }
 
 -(void)shakeWindow {

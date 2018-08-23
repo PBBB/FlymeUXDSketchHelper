@@ -20,4 +20,8 @@
     return [NSArray arrayWithObjects:NSPasteboardTypeString, nil];
 }
 
+- (NSTouchBar *)makeTouchBar {
+    return nil;
+}
+
 @end

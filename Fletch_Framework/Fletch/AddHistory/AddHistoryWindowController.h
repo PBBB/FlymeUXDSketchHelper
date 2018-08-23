@@ -11,7 +11,7 @@
 #import "AddHistoryDelegate.h"
 #import "PBUpdateNotesTextView.h"
 
-@interface AddHistoryWindowController : NSWindowController
+@interface AddHistoryWindowController : NSWindowController <NSTouchBarDelegate>
 @property (nonatomic, retain) AddHistoryDelegate *delegate;
 @property (weak) IBOutlet NSDatePicker *datePicker;
 @property (weak) IBOutlet NSTextField *authorTextField;
