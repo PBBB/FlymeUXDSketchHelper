@@ -13,7 +13,7 @@
 
 @implementation AddHistoryWindowController
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-@synthesize delegate, scrubberDataSource;
+@synthesize delegate;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
@@ -33,8 +33,6 @@
     _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] setLevel: NSFloatingWindowLevel];
     [[self window] makeFirstResponder:_updateNotesTextView];
-    
-    scrubberDataSource = [[AddHistoryDateSrubberDataSource alloc] init];
     
 //    [_authorTextField setTouchBar:self.touchBar];
 }
@@ -84,57 +82,52 @@
 - (NSTouchBar *)makeTouchBar {
     NSTouchBar *mainTouchBar = [[NSTouchBar alloc] init];
     mainTouchBar.delegate = self;
-    [mainTouchBar setDefaultItemIdentifiers:@[NSTouchBarItemIdentifierOtherItemsProxy, @"PBAddHistoryTouchBarToday", @"PBAddHistoryTouchBarDateScrubber", @"PBAddHistoryTouchBarAddHistory"]];
+    [mainTouchBar setDefaultItemIdentifiers:@[NSTouchBarItemIdentifierOtherItemsProxy, NSTouchBarItemIdentifierFlexibleSpace, @"PBAddHistoryTouchBarPreviousAndNextDay", NSTouchBarItemIdentifierFixedSpaceLarge, @"PBAddHistoryTouchBarAddHistory"]];
     return mainTouchBar;
 }
 
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier {
     NSCustomTouchBarItem *barItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
     
-    if ([identifier isEqualToString:@"PBAddHistoryTouchBarToday"]) {
-        NSButton *todayButton = [NSButton buttonWithTitle:@"今天" target:nil action:nil];
-        [barItem setView:todayButton];
-    } else if ([identifier isEqualToString:@"PBAddHistoryTouchBarDateScrubber"]) {
-        NSScrubber *dateScrubber = [[NSScrubber alloc] init];
-        dateScrubber.dataSource = self.scrubberDataSource;
-        dateScrubber.delegate = self;
-        dateScrubber.mode = NSScrubberModeFree;
-        dateScrubber.continuous = YES;
-        dateScrubber.floatsSelectionViews = YES;
-        dateScrubber.showsAdditionalContentIndicators = YES;
-        dateScrubber.scrubberLayout = [[NSScrubberProportionalLayout alloc] initWithNumberOfVisibleItems:5];
-        dateScrubber.backgroundColor = NSColor.scrubberTexturedBackgroundColor;
-        dateScrubber.itemAlignment = NSScrubberAlignmentCenter;
-        dateScrubber.selectionOverlayStyle = NSScrubberSelectionStyle.outlineOverlayStyle;
-        dateScrubber.selectionBackgroundStyle = NSScrubberSelectionStyle.roundedBackgroundStyle;
-        
-        [barItem setView:dateScrubber];
+    if ([identifier isEqualToString:@"PBAddHistoryTouchBarPreviousAndNextDay"]) {
+        //前一天和后一天
+        NSSegmentedControl *dateSegment = [NSSegmentedControl segmentedControlWithLabels:@[@"前一天", @"后一天"] trackingMode:NSSegmentSwitchTrackingMomentary target:self action:@selector(changeDateBySegmentedControl:)];
+        [barItem setView:dateSegment];
+        //设置 constraint，用来限制宽度（默认太窄）
+        NSArray<NSLayoutConstraint *> *dateSegmentConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[dateSegment(>=180)]" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"dateSegment": dateSegment}];
+        [NSLayoutConstraint activateConstraints:dateSegmentConstraints];
     } else if ([identifier isEqualToString:@"PBAddHistoryTouchBarAddHistory"]) {
+        //添加按钮
         NSButton *addButton = [NSButton buttonWithTitle:@"添加" target:self action:@selector(addHistory:)];
         [addButton setKeyEquivalent:@"\r"];
         [addButton setKeyEquivalentModifierMask: NSEventModifierFlagCommand];
         [barItem setView:addButton];
+        //设置 constraint，用来限制宽度（默认太窄）
+        NSArray<NSLayoutConstraint *> *buttonConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[button(>=110)]" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"button": addButton}];
+        [NSLayoutConstraint activateConstraints:buttonConstraints];
     }
     return barItem;
 }
 
-
-#pragma mark - Scrubber delegate
-
-- (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)selectedIndex {
-    PBLog(@"selected %ld", (long)selectedIndex);
+- (void) changeDateBySegmentedControl: (NSSegmentedControl *) segmentedControl {
+    NSDate *dateOfPicker = _datePicker.dateValue;
+    
+    //通过 NSCalendar 和 NSDateComponents 来对日期进行增减，可以避免错误以及自动计算月份
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+    switch (segmentedControl.selectedSegment) {
+        case 0:
+            [adcomps setDay: -1];
+            break;
+        case 1:
+            [adcomps setDay:1];
+            break;
+        default: break;
+    }
+    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:dateOfPicker options:0];
+    
+    [_datePicker setDateValue:newdate];
 }
-
-- (void)scrubber:(NSScrubber *)scrubber didHighlightItemAtIndex:(NSInteger)highlightedIndex {
-//    NSScrubberTextItemView *scrubberItem = [scrubber itemViewForItemAtIndex:highlightedIndex];
-//    [scrubberItem setWantsLayer:YES];
-//    [[scrubberItem layer] setBackgroundColor:NSColor.grayColor.CGColor];
-}
-
-- (void)scrubber:(NSScrubber *)scrubber didChangeVisibleRange:(NSRange)visibleRange {
-    PBLog(@"visible range %@", NSStringFromRange(visibleRange));
-}
-
 
 #pragma mark -
 

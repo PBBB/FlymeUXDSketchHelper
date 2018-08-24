@@ -19,14 +19,6 @@
       "handler": "updateCatalog"
     },
     {
-      "name": "更新目录（旧）",
-      "identifier": "updateCatalog_OLD",
-      "isTool":"true",
-      "shortcut": "ctrl shift o",
-      "script": "UpdateCatalog_OLD.cocoascript",
-      "handler": "updateCatalog_OLD"
-    },
-    {
       "name": "添加更新记录...",
       "identifier": "addHistory",
       "isTool":"true",

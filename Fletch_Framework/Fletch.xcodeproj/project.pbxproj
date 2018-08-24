@@ -14,8 +14,6 @@
 		2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */; };
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
-		2B2803A6212FA6F400895F45 /* AddHistoryDateSrubberDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B2803A4212FA6F400895F45 /* AddHistoryDateSrubberDataSource.h */; };
-		2B2803A7212FA6F400895F45 /* AddHistoryDateSrubberDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2803A5212FA6F400895F45 /* AddHistoryDateSrubberDataSource.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
 		2B5F3AD7211154990098064A /* PBToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B5F3AD5211154990098064A /* PBToolbar.h */; };
 		2B5F3AD8211154990098064A /* PBToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F3AD6211154990098064A /* PBToolbar.m */; };
@@ -77,8 +75,6 @@
 		2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PBToolbarWindowController.xib; sourceTree = "<group>"; };
 		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
-		2B2803A4212FA6F400895F45 /* AddHistoryDateSrubberDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddHistoryDateSrubberDataSource.h; sourceTree = "<group>"; };
-		2B2803A5212FA6F400895F45 /* AddHistoryDateSrubberDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddHistoryDateSrubberDataSource.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
 		2B5F3AD32110639B0098064A /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2B5F3AD5211154990098064A /* PBToolbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbar.h; sourceTree = "<group>"; };
@@ -185,8 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */,
-				2B2803A4212FA6F400895F45 /* AddHistoryDateSrubberDataSource.h */,
-				2B2803A5212FA6F400895F45 /* AddHistoryDateSrubberDataSource.m */,
 				2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */,
 				2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */,
 				2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */,
@@ -282,7 +276,6 @@
 				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,
 				2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */,
 				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
-				2B2803A6212FA6F400895F45 /* AddHistoryDateSrubberDataSource.h in Headers */,
 				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
 				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
 				2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */,
@@ -384,7 +377,6 @@
 				2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */,
 				2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */,
 				2BA8AE9820F5E1F2003888DB /* PBCatalogUpdater.m in Sources */,
-				2B2803A7212FA6F400895F45 /* AddHistoryDateSrubberDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
