@@ -10,9 +10,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "AddHistoryDelegate.h"
 #import "PBUpdateNotesTextView.h"
+#import "AddHistoryDateSrubberDataSource.h"
 
-@interface AddHistoryWindowController : NSWindowController <NSTouchBarDelegate>
+@interface AddHistoryWindowController : NSWindowController <NSTouchBarDelegate, NSScrubberDelegate>
 @property (nonatomic, retain) AddHistoryDelegate *delegate;
+@property (nonatomic, retain) AddHistoryDateSrubberDataSource *scrubberDataSource;
 @property (weak) IBOutlet NSDatePicker *datePicker;
 @property (weak) IBOutlet NSTextField *authorTextField;
 @property (unsafe_unretained) IBOutlet PBUpdateNotesTextView *updateNotesTextView;

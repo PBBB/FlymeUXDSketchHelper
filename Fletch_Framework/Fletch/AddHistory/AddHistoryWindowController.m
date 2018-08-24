@@ -13,7 +13,7 @@
 
 @implementation AddHistoryWindowController
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-@synthesize delegate;
+@synthesize delegate, scrubberDataSource;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
@@ -33,6 +33,8 @@
     _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] setLevel: NSFloatingWindowLevel];
     [[self window] makeFirstResponder:_updateNotesTextView];
+    
+    scrubberDataSource = [[AddHistoryDateSrubberDataSource alloc] init];
     
 //    [_authorTextField setTouchBar:self.touchBar];
 }
@@ -77,6 +79,8 @@
     }
 }
 
+#pragma mark - Touch Bar
+
 - (NSTouchBar *)makeTouchBar {
     NSTouchBar *mainTouchBar = [[NSTouchBar alloc] init];
     mainTouchBar.delegate = self;
@@ -92,6 +96,18 @@
         [barItem setView:todayButton];
     } else if ([identifier isEqualToString:@"PBAddHistoryTouchBarDateScrubber"]) {
         NSScrubber *dateScrubber = [[NSScrubber alloc] init];
+        dateScrubber.dataSource = self.scrubberDataSource;
+        dateScrubber.delegate = self;
+        dateScrubber.mode = NSScrubberModeFree;
+        dateScrubber.continuous = YES;
+        dateScrubber.floatsSelectionViews = YES;
+        dateScrubber.showsAdditionalContentIndicators = YES;
+        dateScrubber.scrubberLayout = [[NSScrubberProportionalLayout alloc] initWithNumberOfVisibleItems:5];
+        dateScrubber.backgroundColor = NSColor.scrubberTexturedBackgroundColor;
+        dateScrubber.itemAlignment = NSScrubberAlignmentCenter;
+        dateScrubber.selectionOverlayStyle = NSScrubberSelectionStyle.outlineOverlayStyle;
+        dateScrubber.selectionBackgroundStyle = NSScrubberSelectionStyle.roundedBackgroundStyle;
+        
         [barItem setView:dateScrubber];
     } else if ([identifier isEqualToString:@"PBAddHistoryTouchBarAddHistory"]) {
         NSButton *addButton = [NSButton buttonWithTitle:@"添加" target:self action:@selector(addHistory:)];
@@ -101,6 +117,26 @@
     }
     return barItem;
 }
+
+
+#pragma mark - Scrubber delegate
+
+- (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)selectedIndex {
+    PBLog(@"selected %ld", (long)selectedIndex);
+}
+
+- (void)scrubber:(NSScrubber *)scrubber didHighlightItemAtIndex:(NSInteger)highlightedIndex {
+//    NSScrubberTextItemView *scrubberItem = [scrubber itemViewForItemAtIndex:highlightedIndex];
+//    [scrubberItem setWantsLayer:YES];
+//    [[scrubberItem layer] setBackgroundColor:NSColor.grayColor.CGColor];
+}
+
+- (void)scrubber:(NSScrubber *)scrubber didChangeVisibleRange:(NSRange)visibleRange {
+    PBLog(@"visible range %@", NSStringFromRange(visibleRange));
+}
+
+
+#pragma mark -
 
 -(void)shakeWindow {
     static int numberOfShakes = 3;
