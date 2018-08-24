@@ -8,7 +8,8 @@
 4. 添加更新目录
 5. 显示或隐藏界面框或逻辑说明，并重排字母
 6. 添加新的文档画板
-7. 导出 PDF（多线程）
+7. 导出并压缩 PDF（多线程）
+8. 
 
 
 ## 脑洞功能，不一定做
@@ -17,6 +18,15 @@
 3. 自动生成交互连线
 4. 工具面板化（类似 Miaow） 
 5. 添加 UIKit 中的 symbol
+
+## 致谢
+感谢以下插件或文章对本插件相关功能的启发：
+1. [Sketch Plugin Xcode Template](https://blog.magicsketch.io/sketch-plugin-xcode-template-c8236a6f7fff)：使用 Xcode 来编写插件
+2. [Miaow](https://github.com/weixin/Miaow)：使用 GA 统计数据，以及工具栏实现
+3. [📕 PDF Export](https://github.com/DWilliames/PDF-export-sketch-plugin)：导出 PDF 功能
+4. [Handy Menu](https://github.com/sergeishere/HandyMenu-SketchPlugin)：工具栏调用插件命令
+
+另外还要感谢 [Richard Koch](https://pages.uoregon.edu/koch/) 制作的 GhostScript 的 pkg 安装包，插件内在需要使用 GhostScript 时提供了此页面的链接。
 
 ## 其他
 1. 插件带有数据统计功能，仅用于功能分析，不会记录或上传任何私人信息
