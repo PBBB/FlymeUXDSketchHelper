@@ -33,8 +33,6 @@
     _updateNotesTextView.placeholderString = @"每行一条更新记录，无需输入序号";
     [[self window] setLevel: NSFloatingWindowLevel];
     [[self window] makeFirstResponder:_updateNotesTextView];
-    
-//    [_authorTextField setTouchBar:self.touchBar];
 }
 
 -(void)willCloseWindow {
@@ -103,7 +101,7 @@
         [addButton setKeyEquivalentModifierMask: NSEventModifierFlagCommand];
         [barItem setView:addButton];
         //设置 constraint，用来限制宽度（默认太窄）
-        NSArray<NSLayoutConstraint *> *buttonConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[button(>=110)]" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"button": addButton}];
+        NSArray<NSLayoutConstraint *> *buttonConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[button(>=108)]" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"button": addButton}];
         [NSLayoutConstraint activateConstraints:buttonConstraints];
     }
     return barItem;
