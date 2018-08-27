@@ -21,13 +21,13 @@
 @property (nonatomic, retain, readonly) NSMutableArray<NSDictionary<NSString *, NSString *> *> *toolbarSecondaryCommands;
 
 - (void)showToolbar: (NSDictionary *)context;
--(NSArray<NSToolbarItemIdentifier> *) defaultToolbarItemIdentifiers;
--(NSArray<NSToolbarItemIdentifier> *) allowedToolbarItemIdentifiers;
+- (NSArray<NSToolbarItemIdentifier> *) defaultToolbarItemIdentifiers;
+- (NSArray<NSToolbarItemIdentifier> *) allowedToolbarItemIdentifiers;
 - (NSString *) commandNameOfIdentifier: (NSToolbarItemIdentifier) identifier requireFullName: (BOOL) fullName;
 - (NSString *) commandIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier;
 - (NSString *) commandImagePathOfIdentifier: (NSToolbarItemIdentifier) identifier;
 - (NSArray<NSString *>*) secondaryCommandsIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier;
-
+- (void) didClickToolbarWithIdentifier: (NSToolbarItemIdentifier) toolbarIdentifier;
 
 @end
 

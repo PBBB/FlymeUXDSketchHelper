@@ -1,10 +1,10 @@
 @import 'Libraries/ga.js'
 
-var add_16_9_DocumentArtboard = function (context, shouldKeepAround = true) {
+var add_16_9_DocumentArtboard = function (context) {
   addDocumentArtboard(context, "16_9");
 }
 
-var add_18_9_DocumentArtboard = function (context, shouldKeepAround = true) {
+var add_18_9_DocumentArtboard = function (context) {
   addDocumentArtboard(context, "18_9");
 }
 

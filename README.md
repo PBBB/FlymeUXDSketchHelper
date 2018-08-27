@@ -1,15 +1,12 @@
 # Fletch
 
-
 ## 功能列表
-1. 一键修改文档内页码（当前页码及总页码）
-2. 插件更新机制（使用 Sketch 自带机制）
-3. 自动生成目录和日期
-4. 添加更新目录
-5. 显示或隐藏界面框或逻辑说明，并重排字母
-6. 添加新的文档画板
-7. 导出并压缩 PDF（多线程）
-
+1. 自动更新页码、目录和日期
+2. 添加更新记录
+3. 显示或隐藏界面框或逻辑说明，并重排字母
+4. 添加新的文档画板
+5. 导出并压缩 PDF（多线程）
+6. 支持自定义的工具栏
 
 ## 脑洞功能，不一定做
 1. 从一个文档格子中复制到另一个文档格子时，保持相同的相对文档格子的位置
@@ -24,7 +21,7 @@
 3. [📕 PDF Export](https://github.com/DWilliames/PDF-export-sketch-plugin)：导出 PDF 功能
 4. [Handy Menu](https://github.com/sergeishere/HandyMenu-SketchPlugin)：工具栏调用插件命令
 
-另外还要感谢 [Richard Koch](https://pages.uoregon.edu/koch/) 制作的 GhostScript 的 pkg 安装包，插件内在需要使用 GhostScript 时提供了此页面的链接。
+另外还要感谢 [Richard Koch](https://pages.uoregon.edu/koch/) 制作的 GhostScript 的 pkg 安装包，插件内在需要使用 GhostScript 时提供了此页面中的下载链接。
 
 ## 其他
 1. 插件带有数据统计功能，仅用于功能分析，不会记录或上传任何私人信息

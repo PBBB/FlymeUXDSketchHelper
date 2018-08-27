@@ -40,7 +40,14 @@
     [toolbar setAutosavesConfiguration:YES];
     [self.window setToolbar:toolbar];
     [toolbar disableTextOnlyMode];
+    
+    // 监听自定义工具栏的事件，并交给 helper 处理
+    [NSNotificationCenter.defaultCenter addObserverForName:@"PBToolbarDidRunCustomizationPalette" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [self.helper.delegate didRunCustomizationPalette];
+    }];
 }
+
+#pragma mark - Toolbar delegate
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
     NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
@@ -128,17 +135,20 @@
     return [helper allowedToolbarItemIdentifiers];
 }
 
+#pragma mark - Toolbar clicked
 - (void)runToolbarCommand:(NSToolbarItem *)sender {
     if ([[sender itemIdentifier] containsString:@"Parent"]) {
         
     } else {
-        [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:[sender itemIdentifier]]];
+        [self.helper didClickToolbarWithIdentifier:[sender itemIdentifier]];
     }
 }
-                 
+
 - (void)menuItemClicked:(NSMenuItem *)sender {
-    [self.helper.delegate runToolbarCommand: [helper commandIdentifierOfIdentifier:(NSString *)[sender representedObject]]];
+    [self.helper didClickToolbarWithIdentifier:[sender representedObject]];
 }
+
+#pragma mark -
                  
 // 窗口关闭时移除引用，并记忆工具栏的宽度
 - (void)windowWillClose:(NSNotification *)notification{

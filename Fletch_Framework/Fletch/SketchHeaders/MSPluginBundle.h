@@ -6,8 +6,10 @@
 //  Copyright © 2018年 pbb. All rights reserved.
 //
 
-@interface MSPluginBundle : NSObject
+@class MSPluginCommand;
 
+@interface MSPluginBundle : NSObject
 @property (nonatomic, retain) NSURL *url;
+@property(readonly, copy, nonatomic) NSDictionary<NSString *, MSPluginCommand *> *commands;
 
 @end

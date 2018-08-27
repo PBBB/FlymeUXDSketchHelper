@@ -1,12 +1,6 @@
 @import 'Fletch.framework/FletchSketchHelper.js';
 @import 'Libraries/MochaJSDelegate.js';
 @import 'Libraries/ga.js';
-@import 'AddHistory.cocoascript';
-@import 'ExportPDF.cocoascript';
-@import 'UpdateCatalog.cocoascript';
-// @import 'UpdateCatalog_OLD.cocoascript';
-@import 'HideUIFramePanel.cocoascript';
-@import 'AddDocumentArtboard.cocoascript';
 
 var showToolbar = function (context) {
   //生成弹出的窗口，设定 Delegate
@@ -14,19 +8,13 @@ var showToolbar = function (context) {
   var toolbarHelper = [[PBToolbarHelper alloc] init];
   var toolbarDelegate = new MochaJSDelegate();
   toolbarDelegate.setHandlerForSelector("runToolbarCommand:", function(command){
-    // addHistory(uploadContext(context),false);
-    eval(command+"(uploadContext(context),false)");
+    ga.sendEvent('PBToolbar', 'Click', command);
+  });
+  toolbarDelegate.setHandlerForSelector("didRunCustomizationPalette:", function(){
+    ga.sendEvent('PBToolbar', 'Customize', 'RunCustomizationPalette');
   });
   toolbarHelper.delegate = (toolbarDelegate.getClassInstance());
   [toolbarHelper showToolbar:context];
-}
-
-function uploadContext(context) {
-    var contextNow = context;
-    // 工具栏需要能跨文档工作，所以要更新 context 里的相关内容
-    contextNow.document = NSDocumentController.sharedDocumentController().currentDocument();
-    contextNow.selection = context.document.selectedLayers().layers();
-    return contextNow;
 }
 
 function onOpeningDocument(context) {

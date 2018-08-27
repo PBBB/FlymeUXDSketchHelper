@@ -10,6 +10,7 @@
 #import "MSDocument.h"
 #import "MSDocumentWindow.h"
 #import "MSPluginBundle.h"
+#import "AppController.h"
 
 
 @implementation PBToolbarHelper
@@ -164,6 +165,8 @@
     }
 }
 
+#pragma mark - Toolbar identifiers
+
 -(NSArray<NSToolbarItemIdentifier> *) defaultToolbarItemIdentifiers {
     NSMutableArray<NSToolbarItemIdentifier> *defaultToolbarItemIdentifiers = [[NSMutableArray alloc] init];
     for (NSDictionary<NSString *, NSString *> *toolbarCommand in toolbarCommands) {
@@ -196,6 +199,9 @@
     NSArray<NSToolbarItemIdentifier> *allowedToolbarItemIdentifiers = [[[self defaultToolbarItemIdentifiers] arrayByAddingObjectsFromArray:toolbarLabsItemIdentifiers] arrayByAddingObjectsFromArray:@[NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier]];
     return allowedToolbarItemIdentifiers;
 }
+
+#pragma mark - Toolbar info from identifier
+
 //通过 identifier 获取命令信息
 - (NSString *) commandIdentifierOfIdentifier: (NSToolbarItemIdentifier) identifier {
     NSString *identifierWithFirstLetterCapitalized;
@@ -251,10 +257,29 @@
     return [NSString stringWithFormat:@"%@/toolbar_%@.tiff", pluginIconsDirectoryURLString, pluginCommandIdentifier];
 }
 
+#pragma mark - Toolbar action
+
+- (void) didClickToolbarWithIdentifier: (NSToolbarItemIdentifier) toolbarIdentifier {
+    AppController *appController = (AppController *)[NSApp delegate];
+    MSPluginBundle *plugin = context[@"plugin"];
+    MSPluginCommand *command = [[plugin commands] objectForKey:[self commandIdentifierOfIdentifier:toolbarIdentifier]];
+    
+    // 工具栏需要跨多个文档使用，所以需要更新 context，但是不加似乎也可以，先留着观望吧
+    Class MSDocument = NSClassFromString(@"MSDocument");
+    NSDictionary *pluginContext = [MSDocument valueForKeyPath:@"currentDocument.pluginContext"];
+    
+    [appController runPluginCommand:command fromMenu:YES context:pluginContext];
+    
+    // 上报埋点
+    [delegate runToolbarCommand:[self commandIdentifierOfIdentifier:toolbarIdentifier]];
+}
+
+#pragma mark -
 
 // 用来将 manifest 的字符从 Unicode 代码转为中文
 - (NSString *) ASCIIStringFromUnicodeString: (NSString *) unicodeString {
     return [NSString stringWithCString:[unicodeString cStringUsingEncoding:NSUTF8StringEncoding] encoding:NSNonLossyASCIIStringEncoding];
 }
+
 
 @end

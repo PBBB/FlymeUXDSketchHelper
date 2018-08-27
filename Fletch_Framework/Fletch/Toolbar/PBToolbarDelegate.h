@@ -9,6 +9,6 @@
 @interface PBToolbarDelegate : NSObject
 
 - (void)runToolbarCommand: (NSString *)commandIdentifier;
+- (void)didRunCustomizationPalette;
 
 @end
-

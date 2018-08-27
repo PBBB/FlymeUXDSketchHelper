@@ -2,7 +2,7 @@
 @import 'Fletch.framework/FletchSketchHelper.js';
 @import 'Libraries/MochaJSDelegate.js';
 
-var updateCatalog = function (context, shouldKeepAround = true) {
+var updateCatalog = function (context) {
     //初始化 GA
     var ga = new Analytics(context);
 

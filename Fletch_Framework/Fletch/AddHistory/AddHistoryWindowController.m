@@ -81,11 +81,13 @@
     NSTouchBar *mainTouchBar = [[NSTouchBar alloc] init];
     mainTouchBar.delegate = self;
     [mainTouchBar setDefaultItemIdentifiers:@[NSTouchBarItemIdentifierOtherItemsProxy, NSTouchBarItemIdentifierFlexibleSpace, @"PBAddHistoryTouchBarPreviousAndNextDay", NSTouchBarItemIdentifierFixedSpaceLarge, @"PBAddHistoryTouchBarAddHistory"]];
+//    [mainTouchBar setPrincipalItemIdentifier:@"PBAddHistoryTouchBarAddHistory"];
     return mainTouchBar;
 }
 
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier {
     NSCustomTouchBarItem *barItem = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
+    [barItem setVisibilityPriority: NSTouchBarItemPriorityHigh];
     
     if ([identifier isEqualToString:@"PBAddHistoryTouchBarPreviousAndNextDay"]) {
         //前一天和后一天

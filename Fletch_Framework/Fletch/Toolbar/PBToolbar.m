@@ -46,6 +46,9 @@
             }
         }
     }
+    
+    //发出通知，用来做埋点
+    [NSNotificationCenter.defaultCenter postNotificationName:@"PBToolbarDidRunCustomizationPalette" object:nil];
 }
 
 @end

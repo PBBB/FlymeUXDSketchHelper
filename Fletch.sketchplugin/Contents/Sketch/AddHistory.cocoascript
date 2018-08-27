@@ -2,7 +2,7 @@
 @import 'Libraries/MochaJSDelegate.js'
 @import 'Libraries/ga.js'
 
-function addHistory(context, shouldKeepAround = true) {
+function addHistory(context) {
   // 存储线程标识符，避免弹出多个窗口
   var threadDictionary = NSThread.mainThread().threadDictionary();
   var identifier = "com.flyme.uxd.pbb.sketch-helper.addHistory";
@@ -21,10 +21,8 @@ function addHistory(context, shouldKeepAround = true) {
     return;
   }
   //定义 Delegate 所需要的方法
-  if (shouldKeepAround) {
-    COScript.currentCOScript().setShouldKeepAround_(true);
-  }
-  
+  COScript.currentCOScript().setShouldKeepAround_(true);
+    
   var historyDelegate = new MochaJSDelegate();
   historyDelegate.setHandlerForSelector("handleHistoryinAddHistoryWindowController:WithInfo:", function(addHistoryWC, userInfo){
     generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga);
