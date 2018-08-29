@@ -3,10 +3,13 @@
 @import 'Libraries/ga.js';
 
 var showToolbar = function (context) {
-  //生成弹出的窗口，设定 Delegate
+
   COScript.currentCOScript().setShouldKeepAround_(true);
+
   var toolbarHelper = [[PBToolbarHelper alloc] init];
   var toolbarDelegate = new MochaJSDelegate();
+  var ga = new Analytics(context);
+
   toolbarDelegate.setHandlerForSelector("runToolbarCommand:", function(command){
     ga.sendEvent('PBToolbar', 'Click', command);
   });
