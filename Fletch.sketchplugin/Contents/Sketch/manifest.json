@@ -6,7 +6,7 @@
   "version": "2.0.0 beta",
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "icon": "../Resources/icons/icon.png",
-  "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
+  "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/working/appcast_beta.xml",
   "compatibleVersion": "48",
   "bundleVersion": 1,
   "commands": [
