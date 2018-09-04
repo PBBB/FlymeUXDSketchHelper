@@ -139,7 +139,7 @@
                         NSAlert *alert = [[NSAlert alloc] init];
                         [alert addButtonWithTitle:@"确定"];
                         [alert setMessageText:@"导出成功，但部分页面压缩失败"];
-                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF "];
+                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
                         [alert beginSheetModalForWindow:window completionHandler:nil];
                     });
                 }
@@ -169,8 +169,8 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSAlert *alert = [[NSAlert alloc] init];
                         [alert addButtonWithTitle:@"确定"];
-                        [alert setMessageText:@"导出成功"];
-                        [alert setInformativeText:@"部分页面未被压缩，你可以使用其他软件再次压缩导出后的 PDF"];
+                        [alert setMessageText:@"导出成功，但部分页面压缩失败"];
+                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
                         [alert beginSheetModalForWindow:window completionHandler:nil];
                     });
                 }
@@ -340,7 +340,7 @@
         UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
         content.title = @"PDF 导出成功";
         content.body = saveFileURL.lastPathComponent;
-//        content.sound = [UNNotificationSound defaultSound];
+        content.sound = [UNNotificationSound defaultSound];
         content.categoryIdentifier = @"PDF_EXPORT_SUCCESS";
         content.userInfo = @{@"FILE_URL": saveFileURL.absoluteString};
         

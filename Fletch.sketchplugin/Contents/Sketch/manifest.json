@@ -1,5 +1,5 @@
 {
-  "name": "Fletch",
+  "name": "Fletch 2",
   "description": "少一些时间编辑文档，多一些时间斟酌设计",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
@@ -128,6 +128,6 @@
       "-",
       "showToolbar"
     ],
-    "title":"🎈 Fletch"
+    "title":"🎈 Fletch 2"
   }
 }

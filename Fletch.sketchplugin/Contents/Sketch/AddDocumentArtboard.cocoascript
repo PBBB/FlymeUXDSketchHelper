@@ -136,7 +136,11 @@ var addDocumentArtboard = function (context, aspectRatio) {
   //定位至新添加的画板
   zoomToArtboard(context, newDocumentArtboard);
   
-  ga.sendEvent('AddDocumentArtboard', 'Success', 'Success');
+  if (aspectRatio == "18_9") {
+    ga.sendEvent('AddDocumentArtboard', 'Success', '18:9');
+  } else {
+    ga.sendEvent('AddDocumentArtboard', 'Success', '16:9');
+  }
 }
 
 //获得文档画板，倒序排列
