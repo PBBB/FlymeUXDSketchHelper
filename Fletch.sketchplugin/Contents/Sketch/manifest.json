@@ -119,7 +119,7 @@
       "exportPDF",
       "-",
       {
-        "title": "Fletch 实验室",
+        "title": "实验室",
         "identifier": "fletchLabs_Parent",
         "items": [
             "swapStrokeAndFillStyles"
