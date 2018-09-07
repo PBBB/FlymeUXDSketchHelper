@@ -13,7 +13,7 @@ var showToolbar = function (context) {
   toolbarDelegate.setHandlerForSelector("runToolbarCommand:", function(command){
     ga.sendEvent('PBToolbar', 'Click', command);
   });
-  toolbarDelegate.setHandlerForSelector("didRunCustomizationPalette:", function(){
+  toolbarDelegate.setHandlerForSelector("didRunCustomizationPalette", function(){
     ga.sendEvent('PBToolbar', 'Customize', 'RunCustomizationPalette');
   });
   toolbarHelper.delegate = (toolbarDelegate.getClassInstance());

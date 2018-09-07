@@ -6,7 +6,7 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.0.0 Beta</title>
+        <title>v2.0.1 Beta</title>
         <description>
           <![CDATA[
             <ul>
@@ -14,11 +14,12 @@
               <li>更新目录完全重写，性能提升 4.1 倍</li>
               <li>添加更新记录增加 Touch Bar 支持</li>
               <li>导出 PDF 完成后有通知，支持定位到文件（仅限 macOS Mojave）</li>
+              <li>修复了自定义工具栏时闪退的 bug</li>
             </ul>
           ]]>
         </description>
       <pubDate>Tue, 04 Sep 2018 10:08:54 +0800</pubDate>
-      <enclosure url="https://codeload.github.com/PBBB/FlymeUXDSketchHelper/zip/v2.0.0-Beta/Fletch.2.0.0.zip" type="application/octet-stream" sparkle:version="2.0.0 beta"/>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.0.0-beta/Fletch.2.0.1.beta.zip" type="application/octet-stream" sparkle:version="2.0.1 beta"/>
       </item>
   </channel>
 </rss>
