@@ -41,7 +41,11 @@
         if([view isKindOfClass:[NSStackView class]]){
             for(NSView* view2 in [((NSStackView *)view) subviews]){
                 if([view2 isKindOfClass:[NSPopUpButton class]]){
-                    [((NSPopUpButton *)view2) removeItemWithTitle:@"Text Only"];
+                    if ([(NSPopUpButton *)view2 indexOfItemWithTitle:@"Text Only"] != -1) {
+                        [((NSPopUpButton *)view2) removeItemWithTitle:@"Text Only"];
+                    } else if ([(NSPopUpButton *)view2 indexOfItemWithTitle:@"仅文本"] != -1) {
+                        [((NSPopUpButton *)view2) removeItemWithTitle:@"仅文本"];
+                    }
                 }
             }
         }
