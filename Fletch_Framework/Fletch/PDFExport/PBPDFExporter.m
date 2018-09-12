@@ -127,7 +127,8 @@
 //                }
                 if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [progressWC close];
+//                        [progressWC close];
+                        [progressWC showSuccessViewWithFileURL:saveFileURL];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
 //                        [document showMessage:@"✅ 导出成功"];
                     });
@@ -160,7 +161,8 @@
             if (allCompressionTaskFinished) {
                 if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-//                        [document showMessage:@"✅ 导出成功"];
+                        [document showMessage:@"✅ 导出成功"];
+//                        [progressWC showSuccessViewWithFileURL:saveFileURL];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
                     });
                     [self->delegate didFinishExportingWithType:@"DoneGeneratingBeforeClickingSave" count:0];
@@ -322,7 +324,8 @@
 
 - (void) showExportSuccessNotificationWithFileURL: (NSURL *) saveFileURL inDocument: (MSDocument *) document{
     // 文档内显示导出成功
-    [document showMessage:@"✅ 导出成功"];
+//    [document showMessage:@"✅ 导出成功"];
+    
     
     
     // 显示通知（UserNotification 在 10.14 才有，所以做了系统判断）

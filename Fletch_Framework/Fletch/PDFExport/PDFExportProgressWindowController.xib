@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.3.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PDFExportProgressWindowController">
             <connections>
+                <outlet property="PDFExportSucessView" destination="YSH-OJ-6AU" id="4uK-fa-fP5"/>
+                <outlet property="PDFExportingView" destination="tac-Jg-CqA" id="w1R-UE-vid"/>
                 <outlet property="exportLabel" destination="skp-46-6nA" id="4tG-qg-x0k"/>
                 <outlet property="pdfExportProgressIndicator" destination="uF0-IU-H8N" id="F6g-OQ-h7t"/>
                 <outlet property="window" destination="WQh-dz-hRo" id="Uma-zx-jhy"/>
@@ -16,7 +18,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="WQh-dz-hRo" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" utility="YES" HUD="YES" fullSizeContentView="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES" HUD="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="96" width="174" height="73"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
@@ -24,40 +26,51 @@
                 <rect key="frame" x="0.0" y="0.0" width="174" height="73"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" doubleValue="50" bezeled="NO" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="uF0-IU-H8N">
-                        <rect key="frame" x="20" y="41" width="112" height="12"/>
-                    </progressIndicator>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="skp-46-6nA">
-                        <rect key="frame" x="24" y="16" width="127" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="正在后台导出 PDF..." id="R5I-lW-mfP">
-                            <font key="font" usesAppearanceFont="YES"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button translatesAutoresizingMaskIntoConstraints="NO" id="ZRN-XU-x2h">
-                        <rect key="frame" x="140" y="40" width="14" height="14"/>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="tac-Jg-CqA">
+                        <rect key="frame" x="0.0" y="0.0" width="174" height="73"/>
+                        <subviews>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" doubleValue="50" bezeled="NO" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="uF0-IU-H8N">
+                                <rect key="frame" x="20" y="40" width="112" height="12"/>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="skp-46-6nA">
+                                <rect key="frame" x="24" y="15" width="127" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="正在后台导出 PDF..." id="R5I-lW-mfP">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="ZRN-XU-x2h">
+                                <rect key="frame" x="140" y="39" width="14" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="BOG-3Q-lpi"/>
+                                    <constraint firstAttribute="width" constant="14" id="xkb-Zz-sCS"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mvR-xq-1hT">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelExport:" target="-2" id="VPl-qv-pd2"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <constraints>
-                            <constraint firstAttribute="height" constant="14" id="BOG-3Q-lpi"/>
-                            <constraint firstAttribute="width" constant="14" id="xkb-Zz-sCS"/>
+                            <constraint firstItem="skp-46-6nA" firstAttribute="top" secondItem="uF0-IU-H8N" secondAttribute="top" constant="20" id="00l-6g-JAc"/>
+                            <constraint firstItem="uF0-IU-H8N" firstAttribute="top" secondItem="tac-Jg-CqA" secondAttribute="top" constant="21" id="1YN-ZI-bhS"/>
+                            <constraint firstItem="uF0-IU-H8N" firstAttribute="leading" secondItem="tac-Jg-CqA" secondAttribute="leading" constant="20" symbolic="YES" id="Kez-op-4FB"/>
+                            <constraint firstItem="skp-46-6nA" firstAttribute="centerX" secondItem="tac-Jg-CqA" secondAttribute="centerX" id="TM3-ji-Vc5"/>
+                            <constraint firstItem="ZRN-XU-x2h" firstAttribute="leading" secondItem="uF0-IU-H8N" secondAttribute="trailing" constant="8" symbolic="YES" id="kPF-24-zpl"/>
+                            <constraint firstAttribute="trailing" secondItem="ZRN-XU-x2h" secondAttribute="trailing" constant="20" symbolic="YES" id="tPT-4t-YTb"/>
+                            <constraint firstItem="ZRN-XU-x2h" firstAttribute="centerY" secondItem="uF0-IU-H8N" secondAttribute="centerY" id="x1I-81-peS"/>
                         </constraints>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mvR-xq-1hT">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="cancelExport:" target="-2" id="VPl-qv-pd2"/>
-                        </connections>
-                    </button>
+                    </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="ZRN-XU-x2h" secondAttribute="trailing" constant="20" symbolic="YES" id="E2Y-E9-aSZ"/>
-                    <constraint firstItem="skp-46-6nA" firstAttribute="top" secondItem="uF0-IU-H8N" secondAttribute="top" constant="20" id="JsE-ff-xHI"/>
-                    <constraint firstItem="uF0-IU-H8N" firstAttribute="leading" secondItem="lRy-3A-DYU" secondAttribute="leading" constant="20" symbolic="YES" id="hxb-bF-o9q"/>
-                    <constraint firstItem="ZRN-XU-x2h" firstAttribute="leading" secondItem="uF0-IU-H8N" secondAttribute="trailing" constant="8" symbolic="YES" id="iob-GB-yvv"/>
-                    <constraint firstItem="skp-46-6nA" firstAttribute="centerX" secondItem="lRy-3A-DYU" secondAttribute="centerX" id="tHD-ni-qOa"/>
-                    <constraint firstItem="uF0-IU-H8N" firstAttribute="top" secondItem="lRy-3A-DYU" secondAttribute="top" constant="20" id="uta-M8-7tq"/>
-                    <constraint firstItem="ZRN-XU-x2h" firstAttribute="centerY" secondItem="uF0-IU-H8N" secondAttribute="centerY" id="ymc-fn-lme"/>
+                    <constraint firstItem="tac-Jg-CqA" firstAttribute="leading" secondItem="lRy-3A-DYU" secondAttribute="leading" id="GXW-z9-4Uu"/>
+                    <constraint firstItem="tac-Jg-CqA" firstAttribute="top" secondItem="lRy-3A-DYU" secondAttribute="top" id="SGt-IB-9j5"/>
+                    <constraint firstAttribute="bottom" secondItem="tac-Jg-CqA" secondAttribute="bottom" id="gnM-ed-iRb"/>
+                    <constraint firstAttribute="trailing" secondItem="tac-Jg-CqA" secondAttribute="trailing" id="yCA-Hz-XSs"/>
                 </constraints>
             </view>
             <connections>
@@ -65,8 +78,51 @@
             </connections>
             <point key="canvasLocation" x="-94" y="25.5"/>
         </window>
+        <customView id="YSH-OJ-6AU">
+            <rect key="frame" x="0.0" y="0.0" width="189" height="145"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GxC-YD-sgY">
+                    <rect key="frame" x="66" y="53" width="58" height="17"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="导出成功" id="GhW-qH-ON7">
+                        <font key="font" metaFont="message"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5P-NZ-gOk">
+                    <rect key="frame" x="48" y="13" width="94" height="32"/>
+                    <buttonCell key="cell" type="push" title="打开目录" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dzI-4t-evj">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="openFolder:" target="-2" id="Zr2-Ux-sOo"/>
+                    </connections>
+                </button>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PdM-gW-nrM">
+                    <rect key="frame" x="75" y="85" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="PdM-gW-nrM" secondAttribute="height" multiplier="1:1" id="vF0-lU-GLG"/>
+                        <constraint firstAttribute="width" constant="40" id="zO9-0s-jml"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PDF_export_success" id="RMg-9G-7NS"/>
+                    <color key="contentTintColor" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="PdM-gW-nrM" firstAttribute="centerX" secondItem="YSH-OJ-6AU" secondAttribute="centerX" id="7zG-CE-H8P"/>
+                <constraint firstItem="P5P-NZ-gOk" firstAttribute="top" secondItem="GxC-YD-sgY" secondAttribute="bottom" constant="12" id="J10-uz-U6v"/>
+                <constraint firstItem="P5P-NZ-gOk" firstAttribute="centerX" secondItem="YSH-OJ-6AU" secondAttribute="centerX" id="ZIQ-Zd-mgt"/>
+                <constraint firstAttribute="bottom" secondItem="P5P-NZ-gOk" secondAttribute="bottom" constant="20" symbolic="YES" id="ZJj-0S-INs"/>
+                <constraint firstItem="PdM-gW-nrM" firstAttribute="top" secondItem="YSH-OJ-6AU" secondAttribute="top" constant="20" symbolic="YES" id="cnC-fT-Dth"/>
+                <constraint firstItem="GxC-YD-sgY" firstAttribute="centerX" secondItem="YSH-OJ-6AU" secondAttribute="centerX" id="sjT-8l-0g4"/>
+            </constraints>
+            <point key="canvasLocation" x="156" y="26"/>
+        </customView>
     </objects>
     <resources>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="PDF_export_success" width="450" height="450"/>
     </resources>
 </document>

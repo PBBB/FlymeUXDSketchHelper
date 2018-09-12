@@ -11,6 +11,12 @@
 @interface PDFExportProgressWindowController : NSWindowController
 @property (weak) IBOutlet NSProgressIndicator *pdfExportProgressIndicator;
 @property (weak) IBOutlet NSTextField *exportLabel;
+@property (weak) IBOutlet NSView *PDFExportingView;
+@property (weak) IBOutlet NSView *PDFExportSucessView;
+@property (nonatomic, retain) NSURL *fileURL;
+
+- (void)showSuccessViewWithFileURL: (NSURL *)fileURL;
+- (IBAction)openFolder:(NSButton *)sender;
 @end
 
 
