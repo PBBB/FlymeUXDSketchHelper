@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -60,17 +60,17 @@
                             <constraint firstItem="uF0-IU-H8N" firstAttribute="top" secondItem="tac-Jg-CqA" secondAttribute="top" constant="21" id="1YN-ZI-bhS"/>
                             <constraint firstItem="uF0-IU-H8N" firstAttribute="leading" secondItem="tac-Jg-CqA" secondAttribute="leading" constant="20" symbolic="YES" id="Kez-op-4FB"/>
                             <constraint firstItem="skp-46-6nA" firstAttribute="centerX" secondItem="tac-Jg-CqA" secondAttribute="centerX" id="TM3-ji-Vc5"/>
+                            <constraint firstAttribute="height" constant="73" id="fpf-eL-cYY"/>
                             <constraint firstItem="ZRN-XU-x2h" firstAttribute="leading" secondItem="uF0-IU-H8N" secondAttribute="trailing" constant="8" symbolic="YES" id="kPF-24-zpl"/>
                             <constraint firstAttribute="trailing" secondItem="ZRN-XU-x2h" secondAttribute="trailing" constant="20" symbolic="YES" id="tPT-4t-YTb"/>
                             <constraint firstItem="ZRN-XU-x2h" firstAttribute="centerY" secondItem="uF0-IU-H8N" secondAttribute="centerY" id="x1I-81-peS"/>
+                            <constraint firstAttribute="width" constant="174" id="zIc-aW-BTc"/>
                         </constraints>
                     </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="tac-Jg-CqA" firstAttribute="leading" secondItem="lRy-3A-DYU" secondAttribute="leading" id="GXW-z9-4Uu"/>
-                    <constraint firstItem="tac-Jg-CqA" firstAttribute="top" secondItem="lRy-3A-DYU" secondAttribute="top" id="SGt-IB-9j5"/>
-                    <constraint firstAttribute="bottom" secondItem="tac-Jg-CqA" secondAttribute="bottom" id="gnM-ed-iRb"/>
-                    <constraint firstAttribute="trailing" secondItem="tac-Jg-CqA" secondAttribute="trailing" id="yCA-Hz-XSs"/>
+                    <constraint firstItem="tac-Jg-CqA" firstAttribute="centerY" secondItem="lRy-3A-DYU" secondAttribute="centerY" id="IeG-iL-btt"/>
+                    <constraint firstItem="tac-Jg-CqA" firstAttribute="centerX" secondItem="lRy-3A-DYU" secondAttribute="centerX" id="fXn-E9-8m0"/>
                 </constraints>
             </view>
             <connections>
