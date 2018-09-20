@@ -28,8 +28,8 @@
     
     // 初始化工具栏的宽高和位置
     CGFloat tabbarHeight = 24.0;
-    CGFloat toolbarHeightRegular = 70.0;
-    CGFloat toolbarHeightIconOnly = 58.0;
+    CGFloat toolbarHeightRegular = 76.0;
+    CGFloat toolbarHeightIconOnly = 63.0;
 
     NSPoint toolbarOrigin = NSMakePoint(0.0, 0.0);
     BOOL isToolbarHeightRegular = documentWindow.toolbar.displayMode == NSToolbarDisplayModeIconAndLabel;
@@ -42,7 +42,7 @@
         [toolbarWC.window setFrame:newFrame display:YES];
     }
     
-    toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - toolbarWC.window.frame.size.width - 215.0;
+    toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - toolbarWC.window.frame.size.width - 240.0;
     if (([documentWindow styleMask] & NSWindowStyleMaskFullScreen) == NSWindowStyleMaskFullScreen) {
         toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - toolbarWC.window.frame.size.height;
     } else if (documentWindow.tabGroup.tabBarVisible) {
