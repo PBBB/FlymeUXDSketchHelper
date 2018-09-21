@@ -7,7 +7,7 @@
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "icon": "../Resources/icons/icon.png",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
-  "compatibleVersion": "48",
+  "compatibleVersion": "52",
   "bundleVersion": 1,
   "commands": [
     {

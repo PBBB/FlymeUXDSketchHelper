@@ -106,7 +106,8 @@
                 //下拉项目的菜单也需要它们作为子菜单
                 [[menuFormRepresentation submenu] addItem:[[[popUpButton itemArray] lastObject] copy]];
             }
-            [popUpButton setFrameSize:NSMakeSize(44.0, 32.0)];
+//            [popUpButton setFrameSize:NSMakeSize(44.0, 32.0)];
+            [toolbarItem setMaxSize:NSMakeSize(42.0, 32.0)];
             [toolbarItem setView:popUpButton];
             [toolbarItem setMenuFormRepresentation:menuFormRepresentation];
         } else {
