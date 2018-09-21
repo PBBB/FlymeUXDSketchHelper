@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,14 +20,11 @@
         <window title="添加更新记录" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" fullSizeContentView="YES"/>
             <rect key="contentRect" x="1092" y="634" width="480" height="299"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="299"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView blendingMode="behindWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="QPE-1i-dYu">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="299"/>
-                    </visualEffectView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gDG-KP-Ibb">
                         <rect key="frame" x="354" y="13" width="112" height="32"/>
                         <constraints>
@@ -88,11 +86,11 @@ DQ
                                 </textView>
                             </subviews>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="bmh-gs-dxg">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="bmh-gs-dxg">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="NO" id="JgQ-GT-Ica">
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.5" horizontal="NO" id="JgQ-GT-Ica">
                             <rect key="frame" x="348" y="1" width="16" height="159"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -106,7 +104,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pQg-KW-hJA">
-                        <rect key="frame" x="95" y="239" width="100" height="27"/>
+                        <rect key="frame" x="95" y="239" width="96" height="27"/>
                         <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="ag0-if-FTh">
                             <font key="font" metaFont="system"/>
                             <date key="date" timeIntervalSinceReferenceDate="-595929600">
@@ -132,7 +130,6 @@ DQ
                     <constraint firstItem="AI1-0T-L6a" firstAttribute="leading" secondItem="2D3-6s-fEl" secondAttribute="leading" id="HgO-Um-ZWa"/>
                     <constraint firstItem="AI1-0T-L6a" firstAttribute="baseline" secondItem="gDG-KP-Ibb" secondAttribute="baseline" id="HzM-xC-21k"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="baseline" secondItem="CEM-Ol-o0g" secondAttribute="baseline" id="J4W-FP-N9b"/>
-                    <constraint firstAttribute="trailing" secondItem="QPE-1i-dYu" secondAttribute="trailing" id="Jxy-8s-O8Q"/>
                     <constraint firstItem="pIQ-Af-CIv" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" symbolic="YES" id="JzB-ya-czc"/>
                     <constraint firstItem="LlN-rX-yx9" firstAttribute="trailing" secondItem="pIQ-Af-CIv" secondAttribute="trailing" id="L5F-l6-jB3"/>
                     <constraint firstItem="2D3-6s-fEl" firstAttribute="top" secondItem="pQg-KW-hJA" secondAttribute="bottom" constant="18" id="LDm-Vy-uLd"/>
@@ -141,13 +138,10 @@ DQ
                     <constraint firstItem="0tN-Iw-Kp5" firstAttribute="leading" secondItem="pIQ-Af-CIv" secondAttribute="trailing" constant="8" symbolic="YES" id="TUu-od-vuk"/>
                     <constraint firstItem="CEM-Ol-o0g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pQg-KW-hJA" secondAttribute="trailing" constant="8" symbolic="YES" id="Xx1-yz-tHh"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="baseline" secondItem="LlN-rX-yx9" secondAttribute="baseline" id="dgb-vI-5lW"/>
-                    <constraint firstItem="QPE-1i-dYu" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="dt6-qs-KLe"/>
                     <constraint firstAttribute="trailing" secondItem="gDG-KP-Ibb" secondAttribute="trailing" constant="20" symbolic="YES" id="gU8-I8-YsP"/>
                     <constraint firstItem="gDG-KP-Ibb" firstAttribute="top" secondItem="0tN-Iw-Kp5" secondAttribute="bottom" constant="20" id="ohp-vQ-z4i"/>
                     <constraint firstAttribute="trailing" secondItem="60c-ag-Myb" secondAttribute="trailing" constant="20" symbolic="YES" id="qPb-e6-3tn"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="leading" secondItem="CEM-Ol-o0g" secondAttribute="trailing" constant="8" symbolic="YES" id="r0h-r6-0UX"/>
-                    <constraint firstItem="QPE-1i-dYu" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="rDX-6p-Tfj"/>
-                    <constraint firstAttribute="bottom" secondItem="QPE-1i-dYu" secondAttribute="bottom" id="rse-SM-ngg"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="leading" secondItem="LlN-rX-yx9" secondAttribute="trailing" constant="8" symbolic="YES" id="zyk-Pm-3Mg"/>
                 </constraints>
             </view>

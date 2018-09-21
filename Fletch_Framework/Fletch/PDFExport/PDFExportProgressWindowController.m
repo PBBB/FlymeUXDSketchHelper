@@ -32,7 +32,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:TaskCanceledByUserNotificationName object:self];
 }
 
-- (void)showSuccessViewWithFileURL: (NSURL *)fileURL {
+- (void)changeToSuccessViewWithFileURL: (NSURL *)fileURL {
     [self setFileURL:fileURL];
     NSButton *closeButton = [self.window standardWindowButton:NSWindowCloseButton];
     [closeButton setHidden:NO];
@@ -85,6 +85,39 @@
         [self.PDFExportSucessView.layer setOpacity:1.0];
     });
     
+    // 定时自动关闭窗口
+    dispatch_time_t delayCloseTime = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
+    dispatch_after(delayCloseTime, dispatch_get_main_queue(), ^(void){
+        [self close];
+    });
+}
+
+- (void)showSuccessViewWithFileURL: (NSURL *)fileURL {
+    [self setFileURL:fileURL];
+    NSButton *closeButton = [self.window standardWindowButton:NSWindowCloseButton];
+    [closeButton setHidden:NO];
+    
+    // 计算对话框扩大后的位置及大小
+    NSWindow *parentWindow = [[self window] parentWindow];
+    NSPoint progressOrigin;
+    progressOrigin.x = parentWindow.frame.origin.x + (parentWindow.frame.size.width - 189.0) / 2;
+    progressOrigin.y = parentWindow.frame.origin.y + 30;
+    
+    // 放大对话框，添加导出成功的画面并设定透明度为 0
+    [[self window] setFrame:NSMakeRect(progressOrigin.x, progressOrigin.y, 189.0, 145.0) display:YES animate:YES];
+    [self.window.contentView addSubview:_PDFExportSucessView];
+    [_PDFExportSucessView.layer setOpacity:0.0];
+    
+
+    // “导出成功”渐变显示动画
+    CABasicAnimation* successFadeInAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    successFadeInAnim.fromValue = [NSNumber numberWithFloat:0.0];
+    successFadeInAnim.toValue = [NSNumber numberWithFloat:1.0];
+    successFadeInAnim.duration = 0.2;
+    
+    [_PDFExportSucessView.layer addAnimation:successFadeInAnim forKey:@"opacity"];
+    [self.PDFExportSucessView.layer setOpacity:1.0];
+
     // 定时自动关闭窗口
     dispatch_time_t delayCloseTime = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
     dispatch_after(delayCloseTime, dispatch_get_main_queue(), ^(void){

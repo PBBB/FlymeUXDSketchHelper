@@ -15,6 +15,7 @@
 @property (weak) IBOutlet NSView *PDFExportSucessView;
 @property (nonatomic, retain) NSURL *fileURL;
 
+- (void)changeToSuccessViewWithFileURL: (NSURL *)fileURL;
 - (void)showSuccessViewWithFileURL: (NSURL *)fileURL;
 - (IBAction)openFolder:(NSButton *)sender;
 @end
