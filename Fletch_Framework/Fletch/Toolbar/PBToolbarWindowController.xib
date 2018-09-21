@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,16 +17,16 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="BdS-Mo-Un0" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1285" y="903" width="387" height="0.0"/>
+            <rect key="contentRect" x="1285" y="903" width="387" height="2"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-            <value key="minSize" type="size" width="100" height="0.0"/>
-            <value key="maxSize" type="size" width="1000" height="0.0"/>
+            <value key="minSize" type="size" width="100" height="2"/>
+            <value key="maxSize" type="size" width="1000" height="2"/>
             <view key="contentView" id="ERk-mW-m92">
-                <rect key="frame" x="0.0" y="0.0" width="387" height="0.0"/>
+                <rect key="frame" x="0.0" y="0.0" width="387" height="2"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5OR-NS-DE3">
-                        <rect key="frame" x="0.0" y="0.0" width="387" height="0.0"/>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="5OR-NS-DE3">
+                        <rect key="frame" x="0.0" y="0.0" width="387" height="2"/>
                     </customView>
                 </subviews>
                 <constraints>

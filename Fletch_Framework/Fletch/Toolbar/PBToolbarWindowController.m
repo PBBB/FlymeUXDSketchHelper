@@ -29,7 +29,20 @@
     
     // 增加了一个 View，目的是让窗口的高度不为 0（为 0 的时候窗口拉伸有问题，而且窗口圆角有问题）
     [[self backgroudView] setWantsLayer:YES];
-    [[[self backgroudView] layer] setBackgroundColor:[NSColor colorNamed:@"toolbarBackgroundColor"].CGColor];
+    
+    // 插件默认 bundle 是 Sketch 的，所以要找到 Fletch 的
+    NSBundle *fletchBundle = [NSBundle bundleForClass:[PBToolbar class]];
+    [self.window setBackgroundColor:[NSColor colorNamed:@"toolbarBackgroundColor" bundle:fletchBundle]];
+//    [[[self backgroudView] layer] setBackgroundColor:[NSColor colorNamed:@"toolbarBackgroundColor" bundle:fletchBundle].CGColor];
+    
+    // 10.14 下工具栏不需要下面的 View 了，所以去掉吧
+    if (@available(macOS 10.14, *)) {
+        [[self backgroudView] setHidden:YES];
+        [self.window setContentMinSize:NSMakeSize(self.window.contentMinSize.width, self.window.contentMinSize.height - 2.0)];
+        [self.window setContentMaxSize:NSMakeSize(self.window.contentMaxSize.width, self.window.contentMaxSize.height - 2.0)];
+        NSRect currentWindowFrame = self.window.frame;
+        [self.window setFrame:NSMakeRect(currentWindowFrame.origin.x, currentWindowFrame.origin.y + 2.0, currentWindowFrame.size.width, currentWindowFrame.size.height - 2.0) display:YES];
+    }
     
     // 初始化工具栏
     toolbar = [[PBToolbar alloc] initWithIdentifier:@"PBToolbar"];
@@ -150,7 +163,7 @@
 }
 
 #pragma mark -
-                 
+
 // 窗口关闭时移除引用，并记忆工具栏的宽度
 - (void)windowWillClose:(NSNotification *)notification{
     [NSUserDefaults.standardUserDefaults setDouble:self.window.frame.size.width forKey:@"PBToolbarWidth"];
