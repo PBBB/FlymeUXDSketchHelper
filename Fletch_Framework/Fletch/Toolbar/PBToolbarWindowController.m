@@ -29,7 +29,7 @@
     
     // 增加了一个 View，目的是让窗口的高度不为 0（为 0 的时候窗口拉伸有问题，而且窗口圆角有问题）
     [[self backgroudView] setWantsLayer:YES];
-    [[[self backgroudView] layer] setBackgroundColor:[[NSColor colorWithRed:209.0/255.0 green:208.0/255.0 blue:209.0/255.0 alpha:1.0] CGColor]];
+    [[[self backgroudView] layer] setBackgroundColor:[NSColor colorNamed:@"toolbarBackgroundColor"].CGColor];
     
     // 初始化工具栏
     toolbar = [[PBToolbar alloc] initWithIdentifier:@"PBToolbar"];
