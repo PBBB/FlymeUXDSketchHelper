@@ -98,6 +98,7 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
   var historyLayerGroupsArray = [];
   var historyLayerGroup = null;
   var historyTitleTextLayer = null;
+  var isFlyme8UIKit = true;
   for (var i = 0; i < overviewArtboard.layers().length; i++) {
     if (overviewArtboard.layers()[i].name() == "更新记录" && overviewArtboard.layers()[i].isMemberOfClass(MSLayerGroup)) {
       historyLayerGroup = overviewArtboard.layers()[i];
@@ -120,6 +121,11 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     [alert addButtonWithTitle:"确定"];
     [alert beginSheetModalForWindow:addHistoryWC.window() completionHandler:nil];
     return false;
+  }
+  
+  // 判断是否为 Flyme 8 的交互模板，据此调整更新记录的宽度和位置
+  if (historyLayerGroup.frame().x() > 1300) {
+    isFlyme8UIKit = false;
   }
 
   // 将更新记录图层组按从新到旧的顺序排序
@@ -167,7 +173,11 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     numberAndNotesTextLayer.setStyleAttributes(attributes);
     numberAndNotesTextLayer.changeListType(textList);
     numberAndNotesTextLayer.setTextBehaviour(1);
-    numberAndNotesTextLayer.frame().setWidth(539);
+    if (isFlyme8UIKit) {
+      numberAndNotesTextLayer.frame().setWidth(770);
+    } else {
+      numberAndNotesTextLayer.frame().setWidth(539);
+    }
     numberAndNotesTextLayer.adjustFrameToFit();
 
     return numberAndNotesTextLayer;
@@ -212,7 +222,11 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     dateAndDesignerTextLayer.setFont(font);
     dateAndDesignerTextLayer.textColor = [MSImmutableColor colorWithRed:26/255 green:26/255 blue:26/255 alpha:1];
     dateAndDesignerTextLayer.adjustFrameToFit();
-    dateAndDesignerTextLayer.frame().setWidth(521);
+    if (isFlyme8UIKit) {
+      dateAndDesignerTextLayer.frame().setWidth(759);
+    } else {
+      dateAndDesignerTextLayer.frame().setWidth(521);
+    }
 
     //生成更新记录图层
     var numberAndNotesLayer = generateNumberAndNotesTextLayer(notesArray);
@@ -281,7 +295,11 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
         hasTooManyHistory = true;
         continue;
       }
-      historyLayerGroupsArray[i].frame().setX(historyLayerGroupsArray[0].frame().x() + 688 * (currentColumnNumber - 1));
+      if (isFlyme8UIKit) {
+        historyLayerGroupsArray[i].frame().setX(historyLayerGroupsArray[0].frame().x() + 861 * (currentColumnNumber - 1));
+      } else {
+        historyLayerGroupsArray[i].frame().setX(historyLayerGroupsArray[0].frame().x() + 688 * (currentColumnNumber - 1));
+      }
       historyLayerGroupsArray[i].frame().setY(historyLayerGroupsArray[i-1].frame().y() + historyLayerGroupsArray[i-1].frame().height() + 154);
       var farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
       if (farestBottom > 1540) {
@@ -291,7 +309,11 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
             hasTooManyHistory = true;
             continue;
           }
-          historyLayerGroupsArray[i].frame().setX(0 + 688 * (currentColumnNumber - 1));
+          if (isFlyme8UIKit) {
+            historyLayerGroupsArray[i].frame().setX(0 + 861 * (currentColumnNumber - 1));
+          } else {
+            historyLayerGroupsArray[i].frame().setX(0 + 688 * (currentColumnNumber - 1));
+          }
           historyLayerGroupsArray[i].frame().setY(229);
           farestBottom = historyLayerGroupsArray[i].frame().y() + historyLayerGroupsArray[i].frame().height();
           if (farestBottom > 1540) {
