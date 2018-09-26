@@ -274,7 +274,7 @@
                             [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
                                 switch (returnCode) {
                                     case NSAlertFirstButtonReturn:
-                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg"]];
+                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.25.pkg"]];
                                         [window endSheet:[alert window]];
                                         break;
                                     case NSAlertSecondButtonReturn:

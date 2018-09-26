@@ -139,6 +139,20 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
 
   historyLayerGroupsArray.sort(compareLayers);
 
+  // 判断第一条更新记录的内容是不是跟模板一样，如果是的话就认为是首次添加更新记录
+  if (historyLayerGroupsArray.length > 0) {
+    var latestHistoryLayersArray = historyLayerGroupsArray[0].layers();
+    latestHistoryLayersArray.sort(compareLayers);
+    var numberAndNotesLayer = latestHistoryLayersArray[0];
+    var isLatestHistoryTemplate = numberAndNotesLayer.stringValue().containsString("1.	「产品」新增-播放器随机播放需求 3-A");
+    if (numberAndNotesLayer.isMemberOfClass(MSTextLayer) && isLatestHistoryTemplate) {
+      historyLayerGroupsArray.forEach(function(historyLayerGroup){
+          historyLayerGroup.removeFromParent();
+        }
+      );
+      historyLayerGroupsArray = [];
+    }
+  }
 
   function generateUpdateNotes (notesArray) {
     var updateNotesText = "";
