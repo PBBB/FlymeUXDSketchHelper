@@ -91,6 +91,15 @@
           "CloseDocument": "onClosingDocument"
         }
       }
+    },
+    {
+      "name": "对调描边和填充样式",
+      "fullName": "对调描边和填充样式",
+      "identifier": "swapStrokeAndFillStyles",
+      "isTool":"true",
+      "script": "SwapStrokeAndFillStyles.js",
+      "handler": "swapStrokeAndFillStyles"
+      
     }
   ],
   "menu": {
