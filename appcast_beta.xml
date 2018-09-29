@@ -6,20 +6,20 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.0.2 Beta</title>
+        <title>v2.0.3 Beta</title>
         <description>
           <![CDATA[
             <ul>
-              <li>全新工具栏</li>
-              <li>更新目录完全重写，性能提升 4.1 倍</li>
-              <li>添加更新记录增加 Touch Bar 支持</li>
-              <li>导出 PDF 完成后有通知，支持定位到文件（仅限 macOS Mojave）</li>
-              <li>修复了自定义工具栏时闪退的 bug</li>
+              <li>PDF 导出提示框优化，并且支持打开目录</li>
+              <li>兼容 Flyme 7 和 Flyme 8 的 UI Kit</li>
+              <li>进一步适配 macOS Mojave 和 Sketch 52</li>
+              <li>添加更新记录会识别是否为新模板，自动删除已有记录</li>
+              <li>GS 的安装包链接更新到 9.25</li>
             </ul>
           ]]>
         </description>
       <pubDate>Tue, 04 Sep 2018 10:08:54 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.0.0-beta/Fletch.2.0.2.beta.zip" type="application/octet-stream" sparkle:version="2.0.2 beta"/>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.0.3-beta/Fletch.2.0.3.beta.zip" type="application/octet-stream" sparkle:version="2.0.2 beta"/>
       </item>
   </channel>
 </rss>
