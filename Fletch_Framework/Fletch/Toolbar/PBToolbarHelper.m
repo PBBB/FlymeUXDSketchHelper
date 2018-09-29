@@ -57,7 +57,7 @@
     // 文档窗口进入或退出全屏时，重置工具栏位置
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidEnterFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         NSPoint toolbarOrigin = NSMakePoint(0.0, 0.0);
-        toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - self->toolbarWC.window.frame.size.width - 215.0;
+        toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - self->toolbarWC.window.frame.size.width - 240.0;
         toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - self->toolbarWC.window.frame.size.height;
         [[self->toolbarWC window] setFrameOrigin:toolbarOrigin];
     }];
@@ -70,7 +70,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidExitFullScreenNotification object:documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         NSPoint toolbarOrigin = NSMakePoint(0.0, 0.0);
-        toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - self->toolbarWC.window.frame.size.width - 215.0;
+        toolbarOrigin.x = documentWindow.frame.origin.x + documentWindow.frame.size.width - self->toolbarWC.window.frame.size.width - 240.0;
         if (documentWindow.tabGroup.tabBarVisible) {
             toolbarOrigin.y = documentWindow.frame.origin.y + documentWindow.frame.size.height - self->toolbarWC.window.frame.size.height - toolbarHeight - tabbarHeight;
         } else {

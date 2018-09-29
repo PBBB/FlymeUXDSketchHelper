@@ -22,8 +22,9 @@
     
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [[self window] setMovableByWindowBackground:YES];
-    NSButton *closeButton = [self.window standardWindowButton:NSWindowCloseButton];
-    [closeButton setHidden:YES];
+    [[[self window] standardWindowButton:NSWindowCloseButton] setHidden:YES];
+    [[[self window] standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
+    [[[self window] standardWindowButton:NSWindowZoomButton] setHidden:YES];
     [[[self window] contentView] setWantsLayer:YES];
     [_PDFExportSucessView setWantsLayer:YES];
 }
@@ -118,6 +119,7 @@
     [_PDFExportSucessView.layer addAnimation:successFadeInAnim forKey:@"opacity"];
     [self.PDFExportSucessView.layer setOpacity:1.0];
 
+    [[self window] makeKeyAndOrderFront:nil];
     // 定时自动关闭窗口
     dispatch_time_t delayCloseTime = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
     dispatch_after(delayCloseTime, dispatch_get_main_queue(), ^(void){

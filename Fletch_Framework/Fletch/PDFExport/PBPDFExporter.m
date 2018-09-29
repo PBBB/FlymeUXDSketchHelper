@@ -165,6 +165,7 @@
             progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
             progressOrigin.y = window.frame.origin.y + 30;
             [[progressWC window] setFrameOrigin:progressOrigin];
+            [[progressWC window] makeKeyAndOrderFront:nil];
             
             //接收通知，用户取消之后就停掉导出进程
             [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
