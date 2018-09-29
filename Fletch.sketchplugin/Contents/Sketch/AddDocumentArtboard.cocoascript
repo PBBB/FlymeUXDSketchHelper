@@ -112,7 +112,7 @@ var addDocumentArtboard = function (context, aspectRatio) {
   var layerIDs = getLayerIDsOfUIName(uiNameLayers[0]);
   for (var i = 0; i < uiNameLayers.length; i++) {
     var uiNameData = {};
-    uiNameData[layerIDs.uiName_ID.toString()] = "界面名称";
+    uiNameData[layerIDs.uiName_ID.toString()] = "";
     uiNameData[layerIDs.uiOrderLetter_ID.toString()] = letters[i];
     uiNameLayers[i].overrides = uiNameData;
     uiNameLayers[i].frame().setX(i%5 * 580);

@@ -37,12 +37,12 @@
     [super runCustomizationPalette:sender];
     NSWindow* toolbarWindow = ((PBToolbarWindowController *)self.delegate).window;
     NSWindow* sheet = [toolbarWindow attachedSheet];
-    for(NSView* view in [[sheet contentView] subviews]){
-        if([view isKindOfClass:[NSStackView class]]){
-            for(NSView* view2 in [((NSStackView *)view) subviews]){
-                if([view2 isKindOfClass:[NSPopUpButton class]]){
-                    [((NSPopUpButton *)view2) removeItemWithTitle:@"Text Only"];
-                }
+    for(NSView* view in [self allSubviewsOfView:[sheet contentView]]){
+        if([view isKindOfClass:[NSPopUpButton class]]){
+            if ([(NSPopUpButton *)view indexOfItemWithTitle:@"Text Only"] != -1) {
+                [((NSPopUpButton *)view) removeItemWithTitle:@"Text Only"];
+            } else if ([(NSPopUpButton *)view indexOfItemWithTitle:@"仅文本"] != -1) {
+                [((NSPopUpButton *)view) removeItemWithTitle:@"仅文本"];
             }
         }
     }
@@ -51,4 +51,16 @@
     [NSNotificationCenter.defaultCenter postNotificationName:@"PBToolbarDidRunCustomizationPalette" object:nil];
 }
 
+- (NSArray *)allSubviewsOfView:(NSView *)view
+{
+    NSMutableArray *subviews = [[view subviews] mutableCopy];
+    for (NSView *subview in [view subviews]){
+        if ([subview isKindOfClass: [NSStackView class]]) {
+            [subviews addObjectsFromArray:[self allSubviewsOfView:subview]]; //recursive
+        }
+    }
+    return subviews;
+}
+
 @end
+

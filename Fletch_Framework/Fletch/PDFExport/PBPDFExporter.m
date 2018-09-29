@@ -127,7 +127,8 @@
 //                }
                 if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [progressWC close];
+//                        [progressWC close];
+                        [progressWC changeToSuccessViewWithFileURL:saveFileURL];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
 //                        [document showMessage:@"✅ 导出成功"];
                     });
@@ -157,10 +158,41 @@
         if (result == NSModalResponseOK) {
             //如果点击 OK 之后后台工作都准备好，那么直接合成文件
             saveFileURL = [savePanel URL];
+            
+            //初始化进度弹框
+            progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
+            NSPoint progressOrigin;
+            progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
+            progressOrigin.y = window.frame.origin.y + 30;
+            [[progressWC window] setFrameOrigin:progressOrigin];
+            [[progressWC window] makeKeyAndOrderFront:nil];
+            
+            //接收通知，用户取消之后就停掉导出进程
+            [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+                userCanceledTask = YES;
+                for (int i = 0; i < [CompressionTaskArray count]; i++) {
+                    [CompressionTaskArray[i] terminate];
+                }
+                [progressWC close];
+            }];
+            
+            [[progressWC PDFExportingView] setHidden:YES];
+            [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
+            
+            
+            //接收通知，根据父窗口的尺寸变化，调整自己的位置
+            [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+                NSPoint progressOrigin;
+                progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
+                progressOrigin.y = window.frame.origin.y + 30;
+                [[progressWC window] setFrameOrigin:progressOrigin];
+            }];
+            
             if (allCompressionTaskFinished) {
                 if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-//                        [document showMessage:@"✅ 导出成功"];
+                        
+                        [progressWC showSuccessViewWithFileURL:saveFileURL];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
                     });
                     [self->delegate didFinishExportingWithType:@"DoneGeneratingBeforeClickingSave" count:0];
@@ -173,35 +205,17 @@
                         [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
                         [alert beginSheetModalForWindow:window completionHandler:nil];
                     });
+                    return;
                 }
             } else {
-                progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
-                NSPoint progressOrigin;
-                progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
-                progressOrigin.y = window.frame.origin.y + 30;
-                [[progressWC window] setFrameOrigin:progressOrigin];
+                [[progressWC PDFExportingView] setHidden:NO];
                 [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
 //                进度条不能直接做动画，坑爹
 //                [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 //                    [context setDuration:0.2];
 //                    [[[progressWC pdfExportProgressIndicator] animator] setDoubleValue: (double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
 //                } completionHandler:nil];
-                //接收通知，用户取消之后就停掉导出进程
-                [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                    userCanceledTask = YES;
-                    for (int i = 0; i < [CompressionTaskArray count]; i++) {
-                        [CompressionTaskArray[i] terminate];
-                    }
-                    [progressWC close];
-                }];
-                [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
-                //接收通知，根据父窗口的尺寸变化，调整自己的位置
-                [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                    NSPoint progressOrigin;
-                    progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
-                    progressOrigin.y = window.frame.origin.y + 30;
-                    [[progressWC window] setFrameOrigin:progressOrigin];
-                }];
+                
             }
         } else {
             //如果点击取消，最好清理缓存文件以及停止导出的进程
@@ -261,7 +275,7 @@
                             [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
                                 switch (returnCode) {
                                     case NSAlertFirstButtonReturn:
-                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg"]];
+                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.25.pkg"]];
                                         [window endSheet:[alert window]];
                                         break;
                                     case NSAlertSecondButtonReturn:
@@ -322,7 +336,8 @@
 
 - (void) showExportSuccessNotificationWithFileURL: (NSURL *) saveFileURL inDocument: (MSDocument *) document{
     // 文档内显示导出成功
-    [document showMessage:@"✅ 导出成功"];
+//    [document showMessage:@"✅ 导出成功"];
+    
     
     
     // 显示通知（UserNotification 在 10.14 才有，所以做了系统判断）

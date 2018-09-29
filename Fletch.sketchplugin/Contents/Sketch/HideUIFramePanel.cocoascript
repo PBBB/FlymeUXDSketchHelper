@@ -284,18 +284,19 @@ function prepareSelectedArtboards (context) {
 
 //画框的方法，并根据当前界面框是否能看见来决定框的颜色
 function generateRectangleWithRect(nsRect, isVisible) {
-	var rect   = MSRectangleShape.alloc().init();
-	rect.frame = MSRect.rectWithRect(nsRect);
-	var shapeGroup = MSShapeGroup.shapeWithPath(rect);
+	// var rect   = MSRectangleShape.alloc().init();
+  // rect.frame = MSRect.rectWithRect(nsRect);
+  var cgRect = NSRectToCGRect(nsRect);
+  var shapeGroup = MSShapeGroup.shapeWithRect(cgRect);
 	var style  = MSStyle.alloc().init();
 	var styleFill = style.addStylePartOfType(0);
 	styleFill.color = MSColor.colorWithRGBADictionary({"r": 0, "g": 0, "b": 0, "a": 0.02});
 	var styleBorder = style.addStylePartOfType(1);
 	styleBorder.color = MSColor.colorWithRGBADictionary({"r": 0.96, "g": 0.65, "b": 0.137, "a": 1});
-	styleBorder.thickness = 2;
+  styleBorder.thickness = 2;
 	isVisible ? style.contextSettings().setOpacity(1) : style.contextSettings().setOpacity(0.3);
-	shapeGroup.setStyle(style);
-	return shapeGroup;
+  shapeGroup.setStyle(style);
+  return shapeGroup;
 }
 
 //图层按位置排序
