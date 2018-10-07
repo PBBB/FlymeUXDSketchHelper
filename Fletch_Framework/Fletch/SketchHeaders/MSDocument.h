@@ -7,9 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MSLayerArray.h"
 @class MSPage, MSDocumentWindow;
 
 @interface MSDocument : NSDocument <NSMenuDelegate, NSToolbarDelegate, NSWindowDelegate>
+
+@property(copy, nonatomic) MSLayerArray *selectedLayers;
 
 - (MSDocumentWindow * _Nonnull)window;
 - (MSPage * _Nonnull)currentPage;

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="13506"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="the Touch Bar" message="Use a version of macOS with Touch Bar support." minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AddHistoryWindowController">
@@ -19,17 +17,14 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="添加更新记录" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="F0z-JX-Cv5">
+        <window title="添加更新记录" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" fullSizeContentView="YES"/>
             <rect key="contentRect" x="1092" y="634" width="480" height="299"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="299"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="QPE-1i-dYu">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="299"/>
-                    </visualEffectView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gDG-KP-Ibb">
                         <rect key="frame" x="354" y="13" width="112" height="32"/>
                         <constraints>
@@ -55,14 +50,14 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="60c-ag-Myb">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="60c-ag-Myb">
                         <rect key="frame" x="340" y="239" width="120" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="120" id="yho-UF-VQj"/>
                         </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="Ymk-c9-7FN">
                             <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
@@ -83,34 +78,8 @@ DQ
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="2D3-6s-fEl" customClass="PBUpdateNotesTextView">
                                     <rect key="frame" x="0.0" y="0.0" width="363" height="159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <touchBar key="touchBar" id="4jk-LB-RDb">
-                                        <touchBarItems>
-                                            <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="IcO-l1-j4Z"/>
-                                            <touchBarItem id="HyG-h5-GfH">
-                                                <viewController key="viewController" id="yPN-Rh-ZOt">
-                                                    <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SNX-4y-c1f">
-                                                        <rect key="frame" x="0.0" y="0.0" width="112" height="41"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="100" id="gQE-Ea-RZN"/>
-                                                        </constraints>
-                                                        <buttonCell key="cell" type="push" title="添加" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wyu-Kw-WwP">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" usesAppearanceFont="YES"/>
-                                                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="addHistory:" target="-2" id="sW9-Dy-SYO"/>
-                                                        </connections>
-                                                    </button>
-                                                </viewController>
-                                                <size key="designTimeSize" width="100" height="30"/>
-                                            </touchBarItem>
-                                        </touchBarItems>
-                                    </touchBar>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <size key="minSize" width="363" height="159"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -161,7 +130,6 @@ DQ
                     <constraint firstItem="AI1-0T-L6a" firstAttribute="leading" secondItem="2D3-6s-fEl" secondAttribute="leading" id="HgO-Um-ZWa"/>
                     <constraint firstItem="AI1-0T-L6a" firstAttribute="baseline" secondItem="gDG-KP-Ibb" secondAttribute="baseline" id="HzM-xC-21k"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="baseline" secondItem="CEM-Ol-o0g" secondAttribute="baseline" id="J4W-FP-N9b"/>
-                    <constraint firstAttribute="trailing" secondItem="QPE-1i-dYu" secondAttribute="trailing" id="Jxy-8s-O8Q"/>
                     <constraint firstItem="pIQ-Af-CIv" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" symbolic="YES" id="JzB-ya-czc"/>
                     <constraint firstItem="LlN-rX-yx9" firstAttribute="trailing" secondItem="pIQ-Af-CIv" secondAttribute="trailing" id="L5F-l6-jB3"/>
                     <constraint firstItem="2D3-6s-fEl" firstAttribute="top" secondItem="pQg-KW-hJA" secondAttribute="bottom" constant="18" id="LDm-Vy-uLd"/>
@@ -170,13 +138,10 @@ DQ
                     <constraint firstItem="0tN-Iw-Kp5" firstAttribute="leading" secondItem="pIQ-Af-CIv" secondAttribute="trailing" constant="8" symbolic="YES" id="TUu-od-vuk"/>
                     <constraint firstItem="CEM-Ol-o0g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pQg-KW-hJA" secondAttribute="trailing" constant="8" symbolic="YES" id="Xx1-yz-tHh"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="baseline" secondItem="LlN-rX-yx9" secondAttribute="baseline" id="dgb-vI-5lW"/>
-                    <constraint firstItem="QPE-1i-dYu" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="dt6-qs-KLe"/>
                     <constraint firstAttribute="trailing" secondItem="gDG-KP-Ibb" secondAttribute="trailing" constant="20" symbolic="YES" id="gU8-I8-YsP"/>
                     <constraint firstItem="gDG-KP-Ibb" firstAttribute="top" secondItem="0tN-Iw-Kp5" secondAttribute="bottom" constant="20" id="ohp-vQ-z4i"/>
                     <constraint firstAttribute="trailing" secondItem="60c-ag-Myb" secondAttribute="trailing" constant="20" symbolic="YES" id="qPb-e6-3tn"/>
                     <constraint firstItem="60c-ag-Myb" firstAttribute="leading" secondItem="CEM-Ol-o0g" secondAttribute="trailing" constant="8" symbolic="YES" id="r0h-r6-0UX"/>
-                    <constraint firstItem="QPE-1i-dYu" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="rDX-6p-Tfj"/>
-                    <constraint firstAttribute="bottom" secondItem="QPE-1i-dYu" secondAttribute="bottom" id="rse-SM-ngg"/>
                     <constraint firstItem="pQg-KW-hJA" firstAttribute="leading" secondItem="LlN-rX-yx9" secondAttribute="trailing" constant="8" symbolic="YES" id="zyk-Pm-3Mg"/>
                 </constraints>
             </view>

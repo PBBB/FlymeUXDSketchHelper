@@ -6,16 +6,19 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v1.5.1</title>
+        <title>v2.0.0</title>
         <description>
           <![CDATA[
             <ul>
-              <li>添加文档画板功能支持选择格子比例</li>
+              <li>全新的工具栏</li>
+              <li>重写更新目录（速度高达旧版的 5.1 倍）</li>
+              <li>添加更新记录支持 Touch Bar 切换日期</li>
+              <li>后台导出 PDF 成功时有通知，并且可直接定位至文件（需要 macOS Mojave）</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Tue, 17 Jul 2018 11:05:00 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/1.5.1/Fletch.1.5.1.zip" type="application/octet-stream" sparkle:version="1.5.1"/>
+      <pubDate>Sun, 07 Oct 2018 19:16:25 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/2.0.0/Fletch.2.0.0.zip" type="application/octet-stream" sparkle:version="2.0.0"/>
       </item>
   </channel>
 </rss>

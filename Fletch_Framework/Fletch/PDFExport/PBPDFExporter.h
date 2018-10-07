@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "PDFExportDelegate.h"
+#import <UserNotifications/UserNotifications.h>
+
 @class MSArtboardGroup;
 
-@interface PBPDFExporter : NSObject
+@interface PBPDFExporter : NSObject <UNUserNotificationCenterDelegate>
 
 @property (nonatomic, retain) PDFExportDelegate *delegate;
 - (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass

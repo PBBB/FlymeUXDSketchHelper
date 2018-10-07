@@ -112,7 +112,7 @@ var addDocumentArtboard = function (context, aspectRatio) {
   var layerIDs = getLayerIDsOfUIName(uiNameLayers[0]);
   for (var i = 0; i < uiNameLayers.length; i++) {
     var uiNameData = {};
-    uiNameData[layerIDs.uiName_ID.toString()] = "界面名称";
+    uiNameData[layerIDs.uiName_ID.toString()] = "";
     uiNameData[layerIDs.uiOrderLetter_ID.toString()] = letters[i];
     uiNameLayers[i].overrides = uiNameData;
     uiNameLayers[i].frame().setX(i%5 * 580);
@@ -136,7 +136,11 @@ var addDocumentArtboard = function (context, aspectRatio) {
   //定位至新添加的画板
   zoomToArtboard(context, newDocumentArtboard);
   
-  ga.sendEvent('AddDocumentArtboard', 'Success', 'Success');
+  if (aspectRatio == "18_9") {
+    ga.sendEvent('AddDocumentArtboard', 'Success', '18:9');
+  } else {
+    ga.sendEvent('AddDocumentArtboard', 'Success', '16:9');
+  }
 }
 
 //获得文档画板，倒序排列

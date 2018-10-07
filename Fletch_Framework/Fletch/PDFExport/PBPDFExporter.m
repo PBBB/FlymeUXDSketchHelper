@@ -91,6 +91,9 @@
     NSString *fileName = appName == nil ? [NSString stringWithFormat: @"功能概述_交互文档_%@", dateString]
     : [NSString stringWithFormat: @"%@_交互文档_%@", [appName stringByReplacingOccurrencesOfString:@" " withString:@""], dateString];
     
+    //压缩过程中使用这个额外的部分做文件名，用于避免同时导出 PDF 时文件混淆
+    NSString *extraFileNameForCompression = [NSString stringWithFormat:@"%f", currentDate.timeIntervalSince1970];
+    
     //用数组保存压缩任务
     NSMutableArray <NSTask *> *CompressionTaskArray = [[NSMutableArray alloc] init];
     
@@ -122,10 +125,12 @@
 //                    [[progressWC pdfExportProgressIndicator] startAnimation:nil];
 //                    [[progressWC exportLabel] setStringValue:@"即将完成…"];
 //                }
-                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
+                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [progressWC close];
-                        [document showMessage:@"✅ 导出成功"];
+//                        [progressWC close];
+                        [progressWC changeToSuccessViewWithFileURL:saveFileURL];
+                        [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
+//                        [document showMessage:@"✅ 导出成功"];
                     });
                     [self->delegate didFinishExportingWithType:@"DoneGeneratingAfterClickingSave" count:0];
                 }
@@ -135,7 +140,7 @@
                         NSAlert *alert = [[NSAlert alloc] init];
                         [alert addButtonWithTitle:@"确定"];
                         [alert setMessageText:@"导出成功，但部分页面压缩失败"];
-                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF "];
+                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
                         [alert beginSheetModalForWindow:window completionHandler:nil];
                     });
                 }
@@ -153,10 +158,42 @@
         if (result == NSModalResponseOK) {
             //如果点击 OK 之后后台工作都准备好，那么直接合成文件
             saveFileURL = [savePanel URL];
+            
+            //初始化进度弹框
+            progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
+            NSPoint progressOrigin;
+            progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
+            progressOrigin.y = window.frame.origin.y + 30;
+            [[progressWC window] setFrameOrigin:progressOrigin];
+            [[progressWC window] makeKeyAndOrderFront:nil];
+            
+            //接收通知，用户取消之后就停掉导出进程
+            [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+                userCanceledTask = YES;
+                for (int i = 0; i < [CompressionTaskArray count]; i++) {
+                    [CompressionTaskArray[i] terminate];
+                }
+                [progressWC close];
+            }];
+            
+            [[progressWC PDFExportingView] setHidden:YES];
+            [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
+            
+            
+            //接收通知，根据父窗口的尺寸变化，调整自己的位置
+            [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+                NSPoint progressOrigin;
+                progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
+                progressOrigin.y = window.frame.origin.y + 30;
+                [[progressWC window] setFrameOrigin:progressOrigin];
+            }];
+            
             if (allCompressionTaskFinished) {
-                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count]]) {
+                if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [document showMessage:@"✅ 导出成功"];
+                        
+                        [progressWC showSuccessViewWithFileURL:saveFileURL];
+                        [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
                     });
                     [self->delegate didFinishExportingWithType:@"DoneGeneratingBeforeClickingSave" count:0];
                 } else {
@@ -164,39 +201,21 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSAlert *alert = [[NSAlert alloc] init];
                         [alert addButtonWithTitle:@"确定"];
-                        [alert setMessageText:@"导出成功"];
-                        [alert setInformativeText:@"部分页面未被压缩，你可以使用其他软件再次压缩导出后的 PDF"];
+                        [alert setMessageText:@"导出成功，但部分页面压缩失败"];
+                        [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
                         [alert beginSheetModalForWindow:window completionHandler:nil];
                     });
+                    return;
                 }
             } else {
-                progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
-                NSPoint progressOrigin;
-                progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
-                progressOrigin.y = window.frame.origin.y + 30;
-                [[progressWC window] setFrameOrigin:progressOrigin];
+                [[progressWC PDFExportingView] setHidden:NO];
                 [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
 //                进度条不能直接做动画，坑爹
 //                [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
 //                    [context setDuration:0.2];
 //                    [[[progressWC pdfExportProgressIndicator] animator] setDoubleValue: (double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
 //                } completionHandler:nil];
-                //接收通知，用户取消之后就停掉导出进程
-                [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                    userCanceledTask = YES;
-                    for (int i = 0; i < [CompressionTaskArray count]; i++) {
-                        [CompressionTaskArray[i] terminate];
-                    }
-                    [progressWC close];
-                }];
-                [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
-                //接收通知，根据父窗口的尺寸变化，调整自己的位置
-                [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                    NSPoint progressOrigin;
-                    progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
-                    progressOrigin.y = window.frame.origin.y + 30;
-                    [[progressWC window] setFrameOrigin:progressOrigin];
-                }];
+                
             }
         } else {
             //如果点击取消，最好清理缓存文件以及停止导出的进程
@@ -216,11 +235,11 @@
             [pdfDocument insertPage:pdfPage atIndex:0];
             //每一页都导出一个 PDF 文件，放在缓存文件夹
             NSString *TmpPath = NSTemporaryDirectory();
-            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
+            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
             [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
             //执行压缩命令
-            NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d.pdf", TmpPath, i];
-            NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%d_compressed.pdf", TmpPath, i];
+            NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
+            NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%@%d_compressed.pdf", TmpPath, extraFileNameForCompression, i];
             NSTask *task = [[NSTask alloc] init];
             [CompressionTaskArray addObject:task];
             if (@available(macOS 10.13, *)) {
@@ -256,7 +275,7 @@
                             [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
                                 switch (returnCode) {
                                     case NSAlertFirstButtonReturn:
-                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pages.uoregon.edu/koch/Ghostscript-9.23.pkg"]];
+                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.25.pkg"]];
                                         [window endSheet:[alert window]];
                                         break;
                                     case NSAlertSecondButtonReturn:
@@ -284,13 +303,13 @@
     });
 }
 
-- (BOOL) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount {
+- (BOOL) combinePDFDocumentToURL:(NSURL *) url pageCount: (NSUInteger) pageCount extraFileName: (NSString *) extraFileNameForCompression{
     PDFDocument *pdfDocument = nil;
     NSString *TmpPath = NSTemporaryDirectory();
     NSMutableArray<NSNumber *> *failedPagesArray = [NSMutableArray<NSNumber *> array];
     for (int i = 0; i < pageCount; i++) {
-        NSString *compressedFilePath = [NSString stringWithFormat:@"file://%@%d_compressed.pdf", TmpPath, i];
-        NSString *originalFilePath = [NSString stringWithFormat:@"file://%@%d.pdf", TmpPath, i];
+        NSString *compressedFilePath = [NSString stringWithFormat:@"file://%@%@%d_compressed.pdf", TmpPath, extraFileNameForCompression, i];
+        NSString *originalFilePath = [NSString stringWithFormat:@"file://%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
         if (i == 0) {
             pdfDocument = [[PDFDocument alloc] initWithURL:[NSURL URLWithString:compressedFilePath]];
             if ([pdfDocument pageCount] == 0){
@@ -315,6 +334,47 @@
     }
 }
 
+- (void) showExportSuccessNotificationWithFileURL: (NSURL *) saveFileURL inDocument: (MSDocument *) document{
+    // 文档内显示导出成功
+//    [document showMessage:@"✅ 导出成功"];
+    
+    
+    
+    // 显示通知（UserNotification 在 10.14 才有，所以做了系统判断）
+    if (@available(macOS 10.14, *)) {
+        // 定义类别，为通知添加操作做准备
+        UNNotificationAction *openFolderAction = [UNNotificationAction actionWithIdentifier:@"OPEN_FOLDER" title:@"打开目录" options:UNNotificationActionOptionNone];
+        UNNotificationCategory *PDFExportSuccessNotificationCategpry = [UNNotificationCategory categoryWithIdentifier:@"PDF_EXPORT_SUCCESS" actions:@[openFolderAction] intentIdentifiers:@[] hiddenPreviewsBodyPlaceholder:@"" categorySummaryFormat:nil options:UNNotificationCategoryOptionCustomDismissAction];
+        
+        // 向通知中心注册此类通知
+        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+        [center setNotificationCategories: [NSSet setWithObject:PDFExportSuccessNotificationCategpry]];
+        [center setDelegate:self];
+        
+        // 初始化通知信息
+        UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
+        content.title = @"PDF 导出成功";
+        content.body = saveFileURL.lastPathComponent;
+        content.sound = [UNNotificationSound defaultSound];
+        content.categoryIdentifier = @"PDF_EXPORT_SUCCESS";
+        content.userInfo = @{@"FILE_URL": saveFileURL.absoluteString};
+        
+        UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.001 repeats:NO];
+        UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"PBPDFExportSuccess" content:content trigger:trigger];
+        
+        [center addNotificationRequest:request withCompletionHandler:nil];
+    } else {
+        // Fallback on earlier versions
+    }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(macos(10.14)){
+    if ([response.actionIdentifier isEqualToString:@"OPEN_FOLDER"]) {
+        NSString *fileURLString = response.notification.request.content.userInfo[@"FILE_URL"];
+        NSURL *fileURL = [NSURL URLWithString:fileURLString];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    }
+    completionHandler();
+}
 
 @end
-

@@ -14,5 +14,6 @@
 
 //处理弹窗中输入的内容
 - (void) handleHistoryinAddHistoryWindowController:(AddHistoryWindowController *)addHistoryWC WithInfo:(NSDictionary *)userInfo;
+- (void) willCloseWindow;
 //- (void) handleHistoryinAddHistoryWindowController:(AddHistoryWindowController *)addHistoryWC WithDate:(NSDate *)date Author:(NSString *)author Notes:(NSArray *)updateNotes;
 @end
