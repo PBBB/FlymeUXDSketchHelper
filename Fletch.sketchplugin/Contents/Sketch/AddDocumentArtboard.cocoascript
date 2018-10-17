@@ -1,3 +1,5 @@
+@import 'Fletch.framework/FletchSketchHelper.js'
+@import 'Libraries/MochaJSDelegate.js'
 @import 'Libraries/ga.js'
 
 var add_16_9_DocumentArtboard = function (context) {
@@ -7,9 +9,15 @@ var add_16_9_DocumentArtboard = function (context) {
 var add_18_9_DocumentArtboard = function (context) {
   addDocumentArtboard(context, "18_9");
 }
+var addLandscapeDocumentArtboard = function (context) {
+  addDocumentArtboard(context, "landscape");
+}
 
-var addDocumentArtboard = function (context, aspectRatio) {
+var addDocumentArtboard = function (context, artboardType) {
 
+  var documentArtboardManager = [[PBDocumentArtboardManager alloc] init];
+  [documentArtboardManager addDocumentArtboardType:artboardType withContext:context MSDocumentClass:MSDocument];
+/*
   //初始化 GA
   var ga = new Analytics(context);
 
@@ -141,7 +149,7 @@ var addDocumentArtboard = function (context, aspectRatio) {
   } else {
     ga.sendEvent('AddDocumentArtboard', 'Success', '16:9');
   }
-}
+*/}
 
 //获得文档画板，倒序排列
 function prepareDocumentArtboard (context) {
