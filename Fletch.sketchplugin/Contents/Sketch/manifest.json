@@ -64,6 +64,15 @@
       
     },
     {
+      "name": "横屏",
+      "fullName": "添加横屏线框画板",
+      "identifier": "addLandscapeDocumentArtboard",
+      "isTool":"true",
+      "script": "AddDocumentArtboard.cocoascript",
+      "handler": "addLandscapeDocumentArtboard"
+      
+    },
+    {
       "name": "导出 PDF...",
       "identifier": "exportPDF",
       "isTool":"true",
@@ -109,7 +118,8 @@
         "identifier": "addDocumentArtboard_Parent",
         "items": [
             "add_16_9_DocumentArtboard",
-            "add_18_9_DocumentArtboard"
+            "add_18_9_DocumentArtboard",
+            "addLandscapeDocumentArtboard"
         ]
     },
       "showHideUIFramePanel",

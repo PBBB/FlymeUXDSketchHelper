@@ -10,6 +10,8 @@
 		2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */; };
 		2B087CC62149029D002BF520 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B087CC52149029D002BF520 /* Media.xcassets */; };
 		2B1237871F5937BF0010ABDC /* FletchSketchHelper.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1237841F5936C90010ABDC /* FletchSketchHelper.js */; };
+		2B1C7CDC2179CEAA003DB6CE /* MSContentDrawViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1C7CDB2179CEAA003DB6CE /* MSContentDrawViewController.h */; };
+		2B1C7CDE2179CF37003DB6CE /* MSContentDrawView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1C7CDD2179CF37003DB6CE /* MSContentDrawView.h */; };
 		2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */; };
 		2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */; };
 		2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */; };
@@ -76,6 +78,8 @@
 		2B087CC52149029D002BF520 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		2B1237841F5936C90010ABDC /* FletchSketchHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FletchSketchHelper.js; sourceTree = "<group>"; };
 		2B1B6C34200A6D7D00511E45 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		2B1C7CDB2179CEAA003DB6CE /* MSContentDrawViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSContentDrawViewController.h; sourceTree = "<group>"; };
+		2B1C7CDD2179CF37003DB6CE /* MSContentDrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSContentDrawView.h; sourceTree = "<group>"; };
 		2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarWindowController.h; sourceTree = "<group>"; };
 		2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarWindowController.m; sourceTree = "<group>"; };
 		2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PBToolbarWindowController.xib; sourceTree = "<group>"; };
@@ -260,6 +264,8 @@
 			children = (
 				2BB85B292133A2B200B38162 /* AppController.h */,
 				2BFF0642200B756C00075D14 /* MSArtboardGroup.h */,
+				2B1C7CDD2179CF37003DB6CE /* MSContentDrawView.h */,
+				2B1C7CDB2179CEAA003DB6CE /* MSContentDrawViewController.h */,
 				2BFF0643200B756C00075D14 /* MSDocument.h */,
 				2BFF0641200B756C00075D14 /* MSDocumentWindow.h */,
 				2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */,
@@ -306,6 +312,7 @@
 				2BFF0660200B7F5600075D14 /* MSPDFBookExporter.h in Headers */,
 				2BFF0661200B7F5600075D14 /* MSRect.h in Headers */,
 				2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */,
+				2B1C7CDE2179CF37003DB6CE /* MSContentDrawView.h in Headers */,
 				2BE505901F5930E500083521 /* Fletch.h in Headers */,
 				2BFF065C200B7F5600075D14 /* MSDocumentWindow.h in Headers */,
 				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
@@ -316,6 +323,7 @@
 				2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */,
 				2BB85B2B2133A2B200B38162 /* AppController.h in Headers */,
 				2BB85B302133D5EC00B38162 /* MSLayerArray.h in Headers */,
+				2B1C7CDC2179CEAA003DB6CE /* MSContentDrawViewController.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

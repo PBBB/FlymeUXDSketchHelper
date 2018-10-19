@@ -12,5 +12,6 @@
 @property (nonatomic) double x;
 @property (nonatomic) double width;
 @property (nonatomic) double height;
+@property(nonatomic) CGRect rect;
 
 @end

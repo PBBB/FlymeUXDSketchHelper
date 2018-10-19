@@ -11,6 +11,9 @@
 #import "MSDocument.h"
 #import "MSpage.h"
 #import "MSArtboardGroup.h"
+#import "MSRect.h"
+#import "MSContentDrawView.h"
+#import "MSDocumentWindow.h"
 
 
 @implementation PBDocumentArtboardManager
@@ -21,6 +24,17 @@
     // 获得当前文档和窗口
     MSDocument *document = context[@"document"];
     MSDocumentWindow * _Nonnull documentWindow = [document window];
+    MSPage *currentPage = [document currentPage];
+    NSMutableArray <MSArtboardGroup *> *artboardsInCurrentPage = [NSMutableArray arrayWithArray:[currentPage artboards]];
+    
+    // 将画板按照画布中的位置排序
+    [artboardsInCurrentPage sortUsingComparator:^NSComparisonResult(MSArtboardGroup *  _Nonnull firstAB, MSArtboardGroup * _Nonnull secondAB) {
+        if (fabs([[firstAB frame] y] - [[secondAB frame] y]) < [[firstAB frame] height]) {
+            return [[firstAB frame] x] > [[secondAB frame] x];
+        } else {
+            return [[firstAB frame] y] > [[secondAB frame] y];
+        }
+    }];
     
     // 获得 sketch 文件
     MSPluginBundle *plugin = context[@"plugin"];
@@ -34,7 +48,23 @@
     BOOL readFileResult = [FlymeUIKitArtboardsSketchDocument readDocumentFromURL:FlymeUIKitArtboardsSketchURL ofType:@"com.bohemiancoding.sketch.drawing" error:nil];
 
     if (!readFileResult) {
-        PBLog(@"文件读取失败");
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"去下载"];
+        [alert addButtonWithTitle:@"取消"];
+        [alert setMessageText:@"文件读取失败，请重新安装插件"];
+        [alert beginSheetModalForWindow:documentWindow completionHandler:^(NSModalResponse returnCode) {
+            switch (returnCode) {
+                case NSAlertFirstButtonReturn:
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/PBBB/FlymeUXDSketchHelper/releases"]];
+                    [documentWindow endSheet:[alert window]];
+                    break;
+                case NSAlertSecondButtonReturn:
+                    [documentWindow endSheet:[alert window]];
+                    break;
+                default:
+                    break;
+            }
+        }];
         return;
     }
     
@@ -43,7 +73,7 @@
         if ([[page name] isEqualToString:@"Artboards"]) {
             for (MSArtboardGroup *artboard in [page artboards]) {
                 if ([[artboard name] isEqualToString:type]) {
-                    artboardtoAdd = artboard;
+                    artboardtoAdd = (MSArtboardGroup *)[artboard duplicate];
                     break;
                 }
                 
@@ -53,11 +83,41 @@
     }
     
     if (artboardtoAdd == nil) {
-        PBLog(@"未找到对应画板");
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"去下载"];
+        [alert addButtonWithTitle:@"取消"];
+        [alert setMessageText:@"文件读取失败，请重新安装插件"];
+        [alert beginSheetModalForWindow:documentWindow completionHandler:^(NSModalResponse returnCode) {
+            switch (returnCode) {
+                case NSAlertFirstButtonReturn:
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/PBBB/FlymeUXDSketchHelper/releases"]];
+                    [documentWindow endSheet:[alert window]];
+                    break;
+                case NSAlertSecondButtonReturn:
+                    [documentWindow endSheet:[alert window]];
+                    break;
+                default:
+                    break;
+            }
+        }];
         return;
     }
     
-    [[document currentPage] insertLayer:[artboardtoAdd duplicate] atIndex:[[document currentPage] artboards].count - 1];
+    // 将画板插入及放入对应位置
+    [artboardtoAdd setName:@"功能概述"];
+    [currentPage insertLayer:artboardtoAdd atIndex:artboardsInCurrentPage.count - 1];
+    [artboardtoAdd.frame setX:artboardsInCurrentPage.lastObject.frame.x + artboardsInCurrentPage.lastObject.frame.width + 100.0];
+    [artboardtoAdd.frame setY:artboardsInCurrentPage.lastObject.frame.y];
+    
+    // 定位至刚添加的画板
+    MSContentDrawView *canvasView = document.currentContentViewController.contentDrawView;
+    CGRect originalRect = artboardtoAdd.frame.rect;
+    CGRect zoomRect = CGRectMake(originalRect.origin.x - 200, originalRect.origin.y - 200, originalRect.size.width + 400, originalRect.size.height + 400);
+    [canvasView zoomToFitRect:zoomRect];
+    
+    // 操作完成后关闭并释放文档
+    [FlymeUIKitArtboardsSketchDocument close];
+    FlymeUIKitArtboardsSketchDocument = nil;
 }
 
 
