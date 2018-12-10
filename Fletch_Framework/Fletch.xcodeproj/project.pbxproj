@@ -92,6 +92,7 @@
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
 		2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBDocumentArtboardManager.h; sourceTree = "<group>"; };
 		2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBDocumentArtboardManager.m; sourceTree = "<group>"; };
+		2B998A6B21BE468F009D340D /* PBDocumentArtboardManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBDocumentArtboardManagerDelegate.h; sourceTree = "<group>"; };
 		2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolInstance.h; sourceTree = "<group>"; };
 		2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolMaster.h; sourceTree = "<group>"; };
 		2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSImmutableColor.h; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 		2B8BFD2B21771DE700B3A951 /* AddDocumentArtboard */ = {
 			isa = PBXGroup;
 			children = (
+				2B998A6B21BE468F009D340D /* PBDocumentArtboardManagerDelegate.h */,
 				2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */,
 				2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */,
 			);

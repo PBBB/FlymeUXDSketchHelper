@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "PBDocumentArtboardManagerDelegate.h"
 
 @interface PBDocumentArtboardManager : NSObject
+@property(nonatomic, retain) PBDocumentArtboardManagerDelegate *delegate;
+
 - (void) addDocumentArtboardType: (NSString *)type withContext: (NSDictionary *)context MSDocumentClass: (Class)MSDocumentClass;
 
 @end

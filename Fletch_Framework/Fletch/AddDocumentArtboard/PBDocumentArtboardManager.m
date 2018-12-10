@@ -18,6 +18,7 @@
 
 @implementation PBDocumentArtboardManager
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+@synthesize delegate;
 
 - (void) addDocumentArtboardType: (NSString *)type withContext: (NSDictionary *)context MSDocumentClass: (Class)MSDocumentClass {
     
@@ -114,6 +115,15 @@
     CGRect originalRect = artboardtoAdd.frame.rect;
     CGRect zoomRect = CGRectMake(originalRect.origin.x - 200, originalRect.origin.y - 200, originalRect.size.width + 400, originalRect.size.height + 400);
     [canvasView zoomToFitRect:zoomRect];
+    
+    // 上报埋点
+    if ([type isEqualToString:@"16_9"]) {
+        [delegate addDocumentArtboardSuccessWithType:@"16:9"];
+    } else if ([type isEqualToString:@"18_9"]) {
+        [delegate addDocumentArtboardSuccessWithType:@"18:9"];
+    } else {
+        [delegate addDocumentArtboardSuccessWithType:type];
+    }
     
     // 操作完成后关闭并释放文档
     [FlymeUIKitArtboardsSketchDocument close];
