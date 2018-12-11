@@ -52,7 +52,6 @@
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "add_16_9_DocumentArtboard"
-      
     },
     {
       "name": "18:9",
@@ -61,7 +60,6 @@
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "add_18_9_DocumentArtboard"
-      
     },
     {
       "name": "横屏",
@@ -70,7 +68,6 @@
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "addLandscapeDocumentArtboard"
-      
     },
     {
       "name": "导出 PDF...",
