@@ -161,6 +161,7 @@
             
             //初始化进度弹框
             progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
+            progressWC.pdfExporter = self;
             NSPoint progressOrigin;
             progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
             progressOrigin.y = window.frame.origin.y + 30;
@@ -373,6 +374,7 @@
         NSString *fileURLString = response.notification.request.content.userInfo[@"FILE_URL"];
         NSURL *fileURL = [NSURL URLWithString:fileURLString];
         [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+        [delegate didOpenFolderWithType:@"Notification"];
     }
     completionHandler();
 }

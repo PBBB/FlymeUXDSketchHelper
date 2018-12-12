@@ -14,7 +14,6 @@ var exportPDF = function (context) {
 
   var pdfExporterDelegate = new MochaJSDelegate();
   pdfExporterDelegate.setHandlerForSelector("didFinishExportingWithType:count:", function(type, count){
-  	//类型 0 是点击保存的时候后台已经生成完成，类型 1 是后台生成后才导出成功
   	if (type == "DoneGeneratingBeforeClickingSave") {
   		ga.sendEvent('ExportPDF', 'Success', 'DoneGeneratingBeforeClickingSave');
   	} else if (type == "DoneGeneratingAfterClickingSave") {
@@ -23,6 +22,16 @@ var exportPDF = function (context) {
       ga.sendEvent('ExportPDF', 'Fail', 'FailedCompressing', count);
     }
   });
+
+  pdfExporterDelegate.setHandlerForSelector("didOpenFolderWithType:", function(type){
+    if (type == "Dialog") {
+      ga.sendEvent('ExportPDF', 'OpenFolder', 'Dialog');
+    } else if (type == "Notification") {
+      ga.sendEvent('ExportPDF', 'OpenFolder', 'Notification');
+    }
+    
+  });
+
   pdfExporter.delegate = (pdfExporterDelegate.getClassInstance());
   [pdfExporter exportPDF:context withPDFExporterClass:MSPDFBookExporter TextLayerClass:MSTextLayer ArtboardGroupClass:MSArtboardGroup];
 }

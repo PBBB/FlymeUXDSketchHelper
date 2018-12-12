@@ -15,7 +15,7 @@
 
 @implementation PDFExportProgressWindowController
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-@synthesize fileURL;
+@synthesize fileURL, pdfExporter;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
@@ -129,6 +129,7 @@
 
 - (IBAction)openFolder:(NSButton *)sender {
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+    [pdfExporter.delegate didOpenFolderWithType:@"Dialog"];
     [self close];
 }
 
