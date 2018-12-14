@@ -3,7 +3,7 @@
   "description": "少一些时间编辑文档，多一些时间斟酌设计",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
-  "version": "2.0.3 beta",
+  "version": "2.0.4 beta",
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "icon": "../Resources/icons/icon.png",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/working/appcast_beta.xml",
@@ -52,7 +52,6 @@
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "add_16_9_DocumentArtboard"
-      
     },
     {
       "name": "18:9",
@@ -61,7 +60,14 @@
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "add_18_9_DocumentArtboard"
-      
+    },
+    {
+      "name": "横屏",
+      "fullName": "添加横屏线框画板",
+      "identifier": "addLandscapeDocumentArtboard",
+      "isTool":"true",
+      "script": "AddDocumentArtboard.cocoascript",
+      "handler": "addLandscapeDocumentArtboard"
     },
     {
       "name": "导出 PDF...",
@@ -100,6 +106,13 @@
       "script": "SwapStrokeAndFillStyles.js",
       "handler": "swapStrokeAndFillStyles"
       
+    },
+    {
+      "name": "修改设计师信息",
+      "fullName": "修改设计师信息",
+      "identifier": "modify-profile-identifier",
+      "isTool":"true",
+      "script": "./Labs/modify-profile.js"
     }
   ],
   "menu": {
@@ -109,7 +122,8 @@
         "identifier": "addDocumentArtboard_Parent",
         "items": [
             "add_16_9_DocumentArtboard",
-            "add_18_9_DocumentArtboard"
+            "add_18_9_DocumentArtboard",
+            "addLandscapeDocumentArtboard"
         ]
     },
       "showHideUIFramePanel",
@@ -122,7 +136,8 @@
         "title": "实验室",
         "identifier": "fletchLabs_Parent",
         "items": [
-            "swapStrokeAndFillStyles"
+            "swapStrokeAndFillStyles",
+            "modify-profile-identifier"
         ]
       },
       "-",

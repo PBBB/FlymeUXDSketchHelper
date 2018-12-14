@@ -1,3 +1,5 @@
+@import 'Fletch.framework/FletchSketchHelper.js'
+@import 'Libraries/MochaJSDelegate.js'
 @import 'Libraries/ga.js'
 
 var add_16_9_DocumentArtboard = function (context) {
@@ -7,218 +9,25 @@ var add_16_9_DocumentArtboard = function (context) {
 var add_18_9_DocumentArtboard = function (context) {
   addDocumentArtboard(context, "18_9");
 }
+var addLandscapeDocumentArtboard = function (context) {
+  addDocumentArtboard(context, "landscape");
+}
 
-var addDocumentArtboard = function (context, aspectRatio) {
+var addDocumentArtboard = function (context, artboardType) {
+
+  COScript.currentCOScript().setShouldKeepAround_(true);
 
   //初始化 GA
   var ga = new Analytics(context);
 
-  //获取文档画板
-  var exisitingDocumentArtboard = prepareDocumentArtboard(context);
-  if (exisitingDocumentArtboard == null){
-    var window = context.document.window();
-    var alert = [[NSAlert alloc] init];
-    [alert setMessageText:"需要已有文档画板才能添加新的文档画板"];
-    [alert addButtonWithTitle:"确定"];
-    [alert beginSheetModalForWindow: window completionHandler:nil];
-    return;
-  }
-  //复制文档画板
-  var newDocumentArtboard = exisitingDocumentArtboard.copy();
+  var documentArtboardManager = [[PBDocumentArtboardManager alloc] init];
 
-  //设定新画板的基本属性
-  newDocumentArtboard.setName("功能概述");
-  var currentPage = context.document.currentPage();
-  [currentPage insertLayers:[newDocumentArtboard] afterLayer:exisitingDocumentArtboard];
-  newDocumentArtboard.frame().setX(exisitingDocumentArtboard.frame().x() + exisitingDocumentArtboard.frame().width() + 100);
-  newDocumentArtboard.frame().setY(exisitingDocumentArtboard.frame().y());
+  var documentArtboardManagerDelegate = new MochaJSDelegate();
+  documentArtboardManager.delegate = (documentArtboardManagerDelegate.getClassInstance());
+  documentArtboardManagerDelegate.setHandlerForSelector("addDocumentArtboardSuccessWithType:", function(type){
+    ga.sendEvent('AddDocumentArtboard', 'Success', type);
+  });
 
-  //规范元素，删除多余元素
-  //规范内容包括显示/隐藏、文本内容、图层名称、位置、大小
-  var sublayers = newDocumentArtboard.layers();
-  var length = sublayers.length;
-  var uiDescriptionLayers = [];
-  var uiNameLayers = [];
-  for (var i = length - 1; i >= 0; i--) {
-    if (sublayers[i].name() == "功能概述" && sublayers[i].isMemberOfClass(MSTextLayer)) {
-      sublayers[i].setStringValue("功能概述");
-      sublayers[i].frame().setX(164);
-      sublayers[i].frame().setY(65);
-      setLayerVisibility(sublayers[i], true);
-    } else if (sublayers[i].name() == "交互图例 / 页码" && sublayers[i].isMemberOfClass(MSSymbolInstance)) {
-      var pageData = {};
-      var layerIDs = getLayerIDsOfPageNumber(sublayers[i]);
-      pageData[layerIDs.currentPage_ID.toString()] = "3";
-      pageData[layerIDs.totalPages_ID.toString()] = "10";
-      sublayers[i].overrides = pageData;
-      sublayers[i].frame().setX(374);
-      sublayers[i].frame().setY(63);
-      setLayerVisibility(sublayers[i], true);
-    } else if (sublayers[i].name() == "界面名称" && sublayers[i].isMemberOfClass(MSLayerGroup)) {
-      for (var j = 0; j < sublayers[i].layers().length; j++) {
-        if (sublayers[i].layers()[j].isMemberOfClass(MSTextLayer)) {
-          sublayers[i].layers()[j].setName("说明");
-          sublayers[i].layers()[j].setStringValue("- 界面逻辑说明");
-
-          if (aspectRatio == "18_9") {
-            sublayers[i].layers()[j].frame().setWidth(500);
-          } else {
-            sublayers[i].layers()[j].frame().setWidth(360);
-          }
-          
-          sublayers[i].layers()[j].adjustFrameToFit();
-          uiDescriptionLayers.push(sublayers[i].layers()[j]);
-          setLayerVisibility(sublayers[i].layers()[j], true);
-        } else if (sublayers[i].layers()[j].isMemberOfClass(MSSymbolInstance)){
-          uiNameLayers.push(sublayers[i].layers()[j]);
-          setLayerVisibility(sublayers[i].layers()[j], true);
-        }
-      }
-      setLayerVisibility(sublayers[i], true);
-      sublayers[i].frame().setX(149);
-      if (aspectRatio == "18_9") {
-            sublayers[i].frame().setY(154);
-          } else {
-            sublayers[i].frame().setY(184);
-      }
-      
-    } else if (sublayers[i].name() == "框架" && sublayers[i].isMemberOfClass(MSLayerGroup)) {
-      for (var j = 0; j < sublayers[i].layers().length; j++) {
-        if (aspectRatio == "18_9") {
-          sublayers[i].layers()[j].frame().setHeight(720);
-          sublayers[i].layers()[j].frame().setY(j<5 ? 0 : 982);
-        } else {
-          sublayers[i].layers()[j].frame().setHeight(640);
-          sublayers[i].layers()[j].frame().setY(j<5 ? 0 : 942);
-        }
-        sublayers[i].layers()[j].frame().setWidth(360);
-        sublayers[i].layers()[j].frame().setX(j%5 * 580);
-        setLayerVisibility(sublayers[i].layers()[j], true);
-      }
-      setLayerVisibility(sublayers[i], true);
-      sublayers[i].frame().setX(150);
-      if (aspectRatio == "18_9") {
-        sublayers[i].frame().setY(199);
-      } else {
-        sublayers[i].frame().setY(229);
-      }
-    } else {
-      sublayers[i].removeFromParent();
-    }
-  }
-
-  //修改界面名称及字母以及位置
-  var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-  var layerIDs = getLayerIDsOfUIName(uiNameLayers[0]);
-  for (var i = 0; i < uiNameLayers.length; i++) {
-    var uiNameData = {};
-    uiNameData[layerIDs.uiName_ID.toString()] = "";
-    uiNameData[layerIDs.uiOrderLetter_ID.toString()] = letters[i];
-    uiNameLayers[i].overrides = uiNameData;
-    uiNameLayers[i].frame().setX(i%5 * 580);
-    if (aspectRatio == "18_9") {
-      uiNameLayers[i].frame().setY(i<5 ? 0 : 982);
-    } else {
-      uiNameLayers[i].frame().setY(i<5 ? 0 : 942);
-    }
-  }
-
-  //修改界面逻辑说明的位置
-  for (var i = 0; i < uiDescriptionLayers.length; i++) {
-    uiDescriptionLayers[i].frame().setX(i%5 * 580);
-    if (aspectRatio == "18_9") {
-      uiDescriptionLayers[i].frame().setY(i<5 ? 776 : 1758);
-    } else {
-      uiDescriptionLayers[i].frame().setY(i<5 ? 703 : 1645);
-    }
-  }
-
-  //定位至新添加的画板
-  zoomToArtboard(context, newDocumentArtboard);
-  
-  if (aspectRatio == "18_9") {
-    ga.sendEvent('AddDocumentArtboard', 'Success', '18:9');
-  } else {
-    ga.sendEvent('AddDocumentArtboard', 'Success', '16:9');
-  }
+  [documentArtboardManager addDocumentArtboardType:artboardType withContext:context MSDocumentClass:MSDocument];
 }
 
-//获得文档画板，倒序排列
-function prepareDocumentArtboard (context) {
-  var artboardsOfCurrentPage = context.document.currentPage().artboards();
-  artboardsOfCurrentPage.sort(compareArtboards);
-  var exisitingDocumentArtboard = null;
-  for (var i = 0; i < artboardsOfCurrentPage.length; i++) {
-    for (var j = 0; j < artboardsOfCurrentPage[i].layers().length; j++) {
-      if (artboardsOfCurrentPage[i].layers()[j].name() == "功能概述") {
-        exisitingDocumentArtboard = artboardsOfCurrentPage[i];
-        return exisitingDocumentArtboard;
-      }
-    }
-  }
-  return exisitingDocumentArtboard;
-}
-
-//将画板按照画布中的位置排序
-function compareArtboards (firstAB, secondAB) {
-  if (firstAB.frame().y() != secondAB.frame().y()) {
-    return -(firstAB.frame().y() - secondAB.frame().y());
-  } else {
-    return -(firstAB.frame().x() - secondAB.frame().x());
-  }
-}
-
-//定位至画板
-function zoomToArtboard (context, artboard){
-  var canvasView = context.document.currentContentViewController().contentDrawView();
-  var originalRect = artboard.frame().rect();
-  var zoomRect = CGRectMake(originalRect.origin.x - 200, originalRect.origin.y - 200, originalRect.size.width + 400, originalRect.size.height + 400);
-  [canvasView zoomToFitRect:zoomRect];
-}
-
-//获取图层 ID，用来修改页码
-function getLayerIDsOfPageNumber(symbolInstance) {
-    var symbolMaster = symbolInstance.symbolMaster();
-    var children = symbolMaster.children();
-    var layerIDs = {};
-    for (var i = 0; i < [children count]; i++){
-        var layer = children[i];
-        if( layer.name() == "3" )   { layerIDs.currentPage_ID = layer.objectID() }
-        if( layer.name() == "10" )  { layerIDs.totalPages_ID = layer.objectID() }
-    }
-
-    // 兼容处理，后续模板更新后删掉此部分
-    if (layerIDs.currentPage_ID == null) {
-        layerIDs.currentPage_ID = children[0].objectID();
-    }
-    if (layerIDs.totalPages_ID == null) {
-        layerIDs.totalPages_ID = children[1].objectID();
-    }
-
-    return layerIDs;
-}
-
-//获取图层 ID，用来修改界面名称
-function getLayerIDsOfUIName(symbolInstance) {
-    var symbolMaster = symbolInstance.symbolMaster();
-    var children = symbolMaster.children();
-    var layerIDs = {};
-    for (var i = 0; i < [children count]; i++){
-        var layer = children[i];
-        if( layer.name() == "界面名称" )   { layerIDs.uiName_ID = layer.objectID() }
-        if( layer.name() == "A" )  { layerIDs.uiOrderLetter_ID = layer.objectID() }
-    }
-    return layerIDs;
-}
-
-//隐藏或显示图层
-function setLayerVisibility (layer, isVisible) {
-  var style = layer.style();
-  if (isVisible) {
-    layer.setIsVisible(true);
-    style.contextSettings().setOpacity(1);
-    layer.setStyle(style);
-  } else {
-    layer.setIsVisible(false);
-  }
-}

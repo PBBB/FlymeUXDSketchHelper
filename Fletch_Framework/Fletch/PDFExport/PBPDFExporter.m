@@ -20,7 +20,7 @@
 @implementation PBPDFExporter
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@synthesize delegate;
+@synthesize delegate, documentWindow;
 
 - (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass
    TextLayerClass: (Class)MSTextLayerClass ArtboardGroupClass: (Class)MSArtboardGroupClass {
@@ -30,7 +30,7 @@
     NSArray *selection = context[@"selection"];
     NSMutableArray<MSArtboardGroup *> *selectedArtboards = [NSMutableArray<MSArtboardGroup *> array];
     MSDocument *document = context[@"document"];
-    MSDocumentWindow *window = [document window];
+    documentWindow = [document window];
     
     //从选择中筛选出画板
     for (int i = 0; i < [selection count]; i++) {
@@ -52,7 +52,7 @@
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"请选择需要导出的画板"];
         [alert addButtonWithTitle:@"确定"];
-        [alert beginSheetModalForWindow:window completionHandler:nil];
+        [alert beginSheetModalForWindow:documentWindow completionHandler:nil];
     }
     
     //画板排序
@@ -141,7 +141,7 @@
                         [alert addButtonWithTitle:@"确定"];
                         [alert setMessageText:@"导出成功，但部分页面压缩失败"];
                         [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
-                        [alert beginSheetModalForWindow:window completionHandler:nil];
+                        [alert beginSheetModalForWindow:self->documentWindow completionHandler:nil];
                     });
                 }
             }
@@ -153,7 +153,7 @@
     [savePanel setNameFieldStringValue:fileName];
     [savePanel setAllowedFileTypes:@[@"pdf"]];
 //    [savePanel setMessage:@"导出较大文件时请耐心等候"];
-    [savePanel beginSheetModalForWindow:window completionHandler:^(NSModalResponse result) {
+    [savePanel beginSheetModalForWindow:documentWindow completionHandler:^(NSModalResponse result) {
         [savePanel orderOut:nil];
         if (result == NSModalResponseOK) {
             //如果点击 OK 之后后台工作都准备好，那么直接合成文件
@@ -161,9 +161,10 @@
             
             //初始化进度弹框
             progressWC = [[PDFExportProgressWindowController alloc] initWithWindowNibName:@"PDFExportProgressWindowController"];
+            progressWC.pdfExporter = self;
             NSPoint progressOrigin;
-            progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
-            progressOrigin.y = window.frame.origin.y + 30;
+            progressOrigin.x = self->documentWindow.frame.origin.x + (self->documentWindow.frame.size.width - progressWC.window.frame.size.width) / 2;
+            progressOrigin.y = self->documentWindow.frame.origin.y + 30;
             [[progressWC window] setFrameOrigin:progressOrigin];
             [[progressWC window] makeKeyAndOrderFront:nil];
             
@@ -177,14 +178,14 @@
             }];
             
             [[progressWC PDFExportingView] setHidden:YES];
-            [window addChildWindow:[progressWC window] ordered:NSWindowAbove];
+            [self->documentWindow addChildWindow:[progressWC window] ordered:NSWindowAbove];
             
             
             //接收通知，根据父窗口的尺寸变化，调整自己的位置
-            [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:window queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResizeNotification object:self->documentWindow queue:nil usingBlock:^(NSNotification * _Nonnull note) {
                 NSPoint progressOrigin;
-                progressOrigin.x = window.frame.origin.x + (window.frame.size.width - progressWC.window.frame.size.width) / 2;
-                progressOrigin.y = window.frame.origin.y + 30;
+                progressOrigin.x = self->documentWindow.frame.origin.x + (self->documentWindow.frame.size.width - progressWC.window.frame.size.width) / 2;
+                progressOrigin.y = self->documentWindow.frame.origin.y + 30;
                 [[progressWC window] setFrameOrigin:progressOrigin];
             }];
             
@@ -203,7 +204,7 @@
                         [alert addButtonWithTitle:@"确定"];
                         [alert setMessageText:@"导出成功，但部分页面压缩失败"];
                         [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
-                        [alert beginSheetModalForWindow:window completionHandler:nil];
+                        [alert beginSheetModalForWindow:self->documentWindow completionHandler:nil];
                     });
                     return;
                 }
@@ -272,14 +273,14 @@
                             [alert addButtonWithTitle:@"取消"];
                             [alert setMessageText:@"请先安装 GhostScript"];
                             [alert setInformativeText:@"PDF 压缩功能需要 GhostScript，请先下载并安装"];
-                            [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
+                            [alert beginSheetModalForWindow:self->documentWindow completionHandler:^(NSModalResponse returnCode) {
                                 switch (returnCode) {
                                     case NSAlertFirstButtonReturn:
-                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.25.pkg"]];
-                                        [window endSheet:[alert window]];
+                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.26.pkg"]];
+                                        [self->documentWindow endSheet:[alert window]];
                                         break;
                                     case NSAlertSecondButtonReturn:
-                                        [window endSheet:[alert window]];
+                                        [self->documentWindow endSheet:[alert window]];
                                         break;
                                     default:
                                         break;
@@ -373,6 +374,10 @@
         NSString *fileURLString = response.notification.request.content.userInfo[@"FILE_URL"];
         NSURL *fileURL = [NSURL URLWithString:fileURLString];
         [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[fileURL]];
+        [delegate didOpenFolderWithType:@"Notification"];
+    } else if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]){
+        [documentWindow makeKeyAndOrderFront:nil];
+        [NSApp activateIgnoringOtherApps:YES];
     }
     completionHandler();
 }

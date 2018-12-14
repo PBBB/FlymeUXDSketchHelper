@@ -16,5 +16,6 @@
 
 - (NSArray<MSLayer *> *)childrenIncludingSelf:(BOOL)includingSelf;
 - (void)removeFromParent;
+- (MSLayer *)duplicate;
 
 @end
