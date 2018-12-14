@@ -107,6 +107,13 @@
       "handler": "swapStrokeAndFillStyles"
       
     },
+    {
+      "name": "修改设计师信息",
+      "fullName": "修改设计师信息",
+      "identifier": "modify-profile-identifier",
+      "isTool":"true",
+      "script": "./Labs/modify-profile.js"
+    }
   ],
   "menu": {
     "items": [
@@ -129,7 +136,8 @@
         "title": "实验室",
         "identifier": "fletchLabs_Parent",
         "items": [
-            "swapStrokeAndFillStyles"
+            "swapStrokeAndFillStyles",
+            "modify-profile-identifier"
         ]
       },
       "-",
