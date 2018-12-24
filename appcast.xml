@@ -6,19 +6,19 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.0.0</title>
+        <title>v2.1.0</title>
         <description>
           <![CDATA[
             <ul>
-              <li>全新的工具栏</li>
-              <li>重写更新目录（速度高达旧版的 5.1 倍）</li>
-              <li>添加更新记录支持 Touch Bar 切换日期</li>
-              <li>后台导出 PDF 成功时有通知，并且可直接定位至文件（需要 macOS Mojave）</li>
+              <li>实验室正式上线，增加来自土福的修改设计师信息的功能</li>
+              <li>添加线框画版完全重写，支持添加横屏画板</li>
+              <li>修复了 Ghostscript 下载链接失效的问题</li>
+              <li>导出 PDF 功能一些微不足道的优化</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Sun, 07 Oct 2018 19:16:25 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.0.0/Fletch.2.0.0.zip" type="application/octet-stream" sparkle:version="2.0.0"/>
+      <pubDate>Mon, 24 Dec 2018 15:12:01 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.0/Fletch.2.1.0.zip" type="application/octet-stream" sparkle:version="2.1.0"/>
       </item>
   </channel>
 </rss>

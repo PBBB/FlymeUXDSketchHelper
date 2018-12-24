@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PBPDFExporter.h"
 
 @interface PDFExportProgressWindowController : NSWindowController
 @property (weak) IBOutlet NSProgressIndicator *pdfExportProgressIndicator;
@@ -14,6 +15,7 @@
 @property (weak) IBOutlet NSView *PDFExportingView;
 @property (weak) IBOutlet NSView *PDFExportSucessView;
 @property (nonatomic, retain) NSURL *fileURL;
+@property (weak) PBPDFExporter *pdfExporter;
 
 - (void)changeToSuccessViewWithFileURL: (NSURL *)fileURL;
 - (void)showSuccessViewWithFileURL: (NSURL *)fileURL;
