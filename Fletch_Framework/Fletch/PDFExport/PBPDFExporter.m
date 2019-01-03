@@ -141,6 +141,7 @@
                         [alert addButtonWithTitle:@"确定"];
                         [alert setMessageText:@"导出成功，但部分页面压缩失败"];
                         [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
+                        [progressWC close];
                         [alert beginSheetModalForWindow:self->documentWindow completionHandler:nil];
                     });
                 }
@@ -166,7 +167,8 @@
             progressOrigin.x = self->documentWindow.frame.origin.x + (self->documentWindow.frame.size.width - progressWC.window.frame.size.width) / 2;
             progressOrigin.y = self->documentWindow.frame.origin.y + 30;
             [[progressWC window] setFrameOrigin:progressOrigin];
-            [[progressWC window] makeKeyAndOrderFront:nil];
+            [[progressWC window] orderOut:nil];
+//            [[progressWC window] makeKeyAndOrderFront:nil];
             
             //接收通知，用户取消之后就停掉导出进程
             [[NSNotificationCenter defaultCenter] addObserverForName:TaskCanceledByUserNotificationName object:progressWC queue:nil usingBlock:^(NSNotification * _Nonnull note) {
@@ -192,7 +194,7 @@
             if (allCompressionTaskFinished) {
                 if ([self combinePDFDocumentToURL:saveFileURL pageCount:[sortedArtboardArray count] extraFileName:extraFileNameForCompression]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
+                        [[progressWC window] makeKeyAndOrderFront:nil];
                         [progressWC showSuccessViewWithFileURL:saveFileURL];
                         [self showExportSuccessNotificationWithFileURL:saveFileURL inDocument:document];
                     });
@@ -204,11 +206,13 @@
                         [alert addButtonWithTitle:@"确定"];
                         [alert setMessageText:@"导出成功，但部分页面压缩失败"];
                         [alert setInformativeText:@"你可以使用其他软件再次压缩导出后的 PDF。\n这种情况通常是由于文档中的部分图片在压缩过程中出现异常，你可以检查一下文档中所使用的图片。"];
+                        [progressWC close];
                         [alert beginSheetModalForWindow:self->documentWindow completionHandler:nil];
                     });
                     return;
                 }
             } else {
+                [[progressWC window] makeKeyAndOrderFront:nil];
                 [[progressWC PDFExportingView] setHidden:NO];
                 [[progressWC pdfExportProgressIndicator] setDoubleValue:(double)finishedArtboardsCount/(double)[sortedArtboardArray count]*100.0];
 //                进度条不能直接做动画，坑爹
@@ -295,11 +299,7 @@
                 }
                 
             }];
-            if (@available(macOS 10.13, *)) {
-                [task launchAndReturnError: &compressTaskError];
-            } else {
-                [task launch];
-            }
+            [task launchAndReturnError: &compressTaskError];
         }
     });
 }
