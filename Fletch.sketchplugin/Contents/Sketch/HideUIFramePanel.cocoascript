@@ -87,9 +87,9 @@ var showHideUIFramePanel = function (context) {
 
   //图层按位置排序
   for (var i = 0; i < artboardsWithUIFrame.length; i++) {
-  	frameLayers[i].sort(compareLayers);
-  	uiNameLayers[i].sort(compareLayers);
-  	uiDescriptionLayers[i].sort(compareUIDescriptionLayers);
+    frameLayers[i].sort(compareLayers);
+    uiNameLayers[i].sort(compareLayers);
+    uiDescriptionLayers[i].sort(compareUIDescriptionLayers);      
   }
   
 
@@ -260,9 +260,11 @@ var showHideUIFramePanel = function (context) {
   		shapeGroupOfDescriptionLayerGroupArray[i].addLayers([shapeGroupOfDescription]);
   		// artboardsWithUIFrame[i].addLayers([shapeGroupOfFrame, shapeGroupOfDescription]);
   	}
-  	shapeGroupOfFrameLayerGroupArray[i].resizeToFitChildrenWithOption(0);
+    // shapeGroupOfFrameLayerGroupArray[i].resizeToFitChildrenWithOption(0);
+    shapeGroupOfFrameLayerGroupArray[i].fixGeometryWithOptions(0);
   	shapeGroupOfFrameLayerGroupArray[i].setHasClickThrough(true);
-  	shapeGroupOfDescriptionLayerGroupArray[i].resizeToFitChildrenWithOption(0);
+    // shapeGroupOfDescriptionLayerGroupArray[i].resizeToFitChildrenWithOption(0);
+    shapeGroupOfDescriptionLayerGroupArray[i].fixGeometryWithOptions(0);
   	shapeGroupOfDescriptionLayerGroupArray[i].setHasClickThrough(true);
     artboardsWithUIFrame[i].addLayers([shapeGroupOfFrameLayerGroupArray[i], shapeGroupOfDescriptionLayerGroupArray[i]]);
   }

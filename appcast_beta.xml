@@ -6,18 +6,17 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.0.4 Beta</title>
+        <title>v2.1.1 Beta</title>
         <description>
           <![CDATA[
             <ul>
-              <li>重构添加画板，支持添加横屏画板</li>
-              <li>增加来自土福的修改设计师信息的功能</li>
-              <li>导出 PDF 成功后的通知优化</li>
+              <li>修复了更新到 Sketch 53 后部分功能不可用的问题</li>
+              <li>内置文档画板模板略微更新</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Fri, 14 Dec 2018 15:28:35 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.0.4-beta/Fletch.2.0.4.beta.zip" type="application/octet-stream" sparkle:version="2.0.4 beta"/>
+      <pubDate>Wed, 13 Feb 2019 11:09:26 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.1-beta/Fletch.2.1.1.beta.zip" type="application/octet-stream" sparkle:version="2.1.1 beta"/>
       </item>
   </channel>
 </rss>

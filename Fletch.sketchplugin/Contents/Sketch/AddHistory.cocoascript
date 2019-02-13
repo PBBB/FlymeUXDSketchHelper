@@ -251,7 +251,7 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     //调整各个图层的间距
     numberAndNotesLayer.frame().setX(dateAndDesignerTextLayer.frame().x() - 11);
     numberAndNotesLayer.frame().setY(dateAndDesignerTextLayer.frame().y() + 82);
-    updateHistorylayerGroup.resizeToFitChildrenWithOption(0);
+    updateHistorylayerGroup.fixGeometryWithOptions(0);
 
   } else {
 
@@ -273,7 +273,7 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     numberAndNotesLayer.setStringValue(numberAndNotesLayer.stringValue() + "\n" + generateUpdateNotes(notesArray));
     var textList = [[NSTextList alloc] initWithMarkerFormat:"{decimal}." options:0];
     numberAndNotesLayer.changeListType(textList);
-    latestHistoryLayersGroup.resizeToFitChildrenWithOption(0);
+    latestHistoryLayersGroup.fixGeometryWithOptions(0);
   }
 
   // 排列目录
@@ -340,7 +340,7 @@ function generateHistory (context, overviewArtboard, addHistoryWC, userInfo, ga)
     }
   }
 
-  historyLayerGroup.resizeToFitChildrenWithOption(0);
+  historyLayerGroup.fixGeometryWithOptions(0);
   
   if (hasTooManyHistory) {
     //获取是否选择过不再提醒
