@@ -3,11 +3,11 @@
   "description": "少一些时间编辑文档，多一些时间斟酌设计",
   "author": "Flyme UXD",
   "homepage": "https://github.com/PBBB/FlymeUXDSketchHelper",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "icon": "../Resources/icons/icon.png",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
-  "compatibleVersion": "52",
+  "compatibleVersion": "53",
   "bundleVersion": 1,
   "commands": [
     {

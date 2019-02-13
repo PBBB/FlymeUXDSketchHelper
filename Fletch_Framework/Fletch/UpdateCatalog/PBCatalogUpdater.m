@@ -284,7 +284,7 @@
         //选出每个目录下包含的图层
         NSRange range = NSMakeRange(i*groupSize, MIN((i+1)*groupSize, layers.count) - i*groupSize);
         [layerGroup addLayers: [layers subarrayWithRange:range]];
-        [layerGroup resizeToFitChildrenWithOption:0];
+        [layerGroup fixGeometryWithOptions:0];
         [layerGroups addObject:layerGroup];
     }
     return layerGroups;

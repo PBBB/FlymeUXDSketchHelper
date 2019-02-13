@@ -16,7 +16,7 @@
 
 - (void)addLayers: (NSArray<MSLayer *> *)layers;
 - (void)insertLayer:(MSLayer *)layer atIndex:(unsigned long long)index;
-- (BOOL)resizeToFitChildrenWithOption:(long long)option;
+- (BOOL)fixGeometryWithOptions:(long long)option;
 
 @end
 

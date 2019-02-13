@@ -6,19 +6,17 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.1.0</title>
+        <title>v2.1.1</title>
         <description>
           <![CDATA[
             <ul>
-              <li>实验室正式上线，增加来自土福的修改设计师信息的功能</li>
-              <li>添加线框画版完全重写，支持添加横屏画板</li>
-              <li>修复了 Ghostscript 下载链接失效的问题</li>
-              <li>导出 PDF 功能一些微不足道的优化</li>
+              <li>修复了升级至 Sketch 53 之后部分功能不可用的问题</li>
+              <li>内置文档模板小更新</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Mon, 24 Dec 2018 15:12:01 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.0/Fletch.2.1.0.zip" type="application/octet-stream" sparkle:version="2.1.0"/>
+      <pubDate>Wed, 13 Feb 2019 11:09:26 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.1/Fletch.2.1.1.zip" type="application/octet-stream" sparkle:version="2.1.1"/>
       </item>
   </channel>
 </rss>
