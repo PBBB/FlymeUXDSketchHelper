@@ -10,54 +10,54 @@
 		2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0511F61FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h */; };
 		2B087CC62149029D002BF520 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B087CC52149029D002BF520 /* Media.xcassets */; };
 		2B1237871F5937BF0010ABDC /* FletchSketchHelper.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B1237841F5936C90010ABDC /* FletchSketchHelper.js */; };
-		2B1C7CDC2179CEAA003DB6CE /* MSContentDrawViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1C7CDB2179CEAA003DB6CE /* MSContentDrawViewController.h */; };
-		2B1C7CDE2179CF37003DB6CE /* MSContentDrawView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1C7CDD2179CF37003DB6CE /* MSContentDrawView.h */; };
+		2B1C7CDC2179CEAA003DB6CE /* MSContentDrawViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1C7CDB2179CEAA003DB6CE /* MSContentDrawViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B1C7CDE2179CF37003DB6CE /* MSContentDrawView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1C7CDD2179CF37003DB6CE /* MSContentDrawView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */; };
 		2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */; };
 		2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */; };
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
+		2B4E946F221D012A00CD5D15 /* PBDocumentArtboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4E946E221D012A00CD5D15 /* PBDocumentArtboardManager.swift */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
 		2B5F3AD7211154990098064A /* PBToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B5F3AD5211154990098064A /* PBToolbar.h */; };
 		2B5F3AD8211154990098064A /* PBToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F3AD6211154990098064A /* PBToolbar.m */; };
 		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
-		2B8BFD2E21771E3600B3A951 /* PBDocumentArtboardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */; };
-		2B8BFD2F21771E3600B3A951 /* PBDocumentArtboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */; };
-		2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */; };
-		2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */; };
-		2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */; };
+		2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22B20EF0556002BB65D /* PBToolbarHelper.h */; };
 		2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA7E22C20EF0556002BB65D /* PBToolbarHelper.m */; };
-		2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */; };
+		2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA7E22F20EF1BFF002BB65D /* MSPluginBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BA8AE9420F5E1C7003888DB /* PBCatalogUpdaterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA8AE9320F5E1C7003888DB /* PBCatalogUpdaterDelegate.h */; };
 		2BA8AE9720F5E1F2003888DB /* PBCatalogUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BA8AE9520F5E1F2003888DB /* PBCatalogUpdater.h */; };
 		2BA8AE9820F5E1F2003888DB /* PBCatalogUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8AE9620F5E1F2003888DB /* PBCatalogUpdater.m */; };
 		2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB090711FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h */; };
 		2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB090721FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m */; };
 		2BB090761FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB090731FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.xib */; };
-		2BB85B2B2133A2B200B38162 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB85B292133A2B200B38162 /* AppController.h */; };
-		2BB85B302133D5EC00B38162 /* MSLayerArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB85B2F2133D5EC00B38162 /* MSLayerArray.h */; };
+		2BB85B2B2133A2B200B38162 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB85B292133A2B200B38162 /* AppController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BB85B302133D5EC00B38162 /* MSLayerArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BB85B2F2133D5EC00B38162 /* MSLayerArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4D971F5CEE4E005ACB47 /* AddHistoryWindowController.h */; };
 		2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE4D981F5CEE4E005ACB47 /* AddHistoryWindowController.m */; };
 		2BBE4D9C1F5CEE4E005ACB47 /* AddHistoryWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BBE4D991F5CEE4E005ACB47 /* AddHistoryWindowController.xib */; };
 		2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */; };
 		2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */; };
 		2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */; };
+		2BC93B75221D03CB00DAC525 /* PBDocumentArtboardManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC93B74221D03CB00DAC525 /* PBDocumentArtboardManagerDelegate.swift */; };
 		2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BCB2BF4207320D8003469BD /* PDFExportProgressWindowController.h */; };
 		2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCB2BF5207320D8003469BD /* PDFExportProgressWindowController.m */; };
 		2BCB2BF9207320D8003469BD /* PDFExportProgressWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BCB2BF6207320D8003469BD /* PDFExportProgressWindowController.xib */; };
 		2BE505901F5930E500083521 /* Fletch.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BE5058E1F5930E500083521 /* Fletch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BFF0657200B7DD900075D14 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1B6C34200A6D7D00511E45 /* Quartz.framework */; };
-		2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0642200B756C00075D14 /* MSArtboardGroup.h */; };
-		2BFF065B200B7F5600075D14 /* MSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0643200B756C00075D14 /* MSDocument.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF065C200B7F5600075D14 /* MSDocumentWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0641200B756C00075D14 /* MSDocumentWindow.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF063F200B756C00075D14 /* MSLayer.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0640200B756C00075D14 /* MSLayerGroup.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF065F200B7F5600075D14 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0645200B756C00075D14 /* MSPage.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF0660200B7F5600075D14 /* MSPDFBookExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0644200B756C00075D14 /* MSPDFBookExporter.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF0661200B7F5600075D14 /* MSRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0646200B756D00075D14 /* MSRect.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0647200B756D00075D14 /* MSStyledLayer.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0648200B756D00075D14 /* MSTextLayer.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0642200B756C00075D14 /* MSArtboardGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF065B200B7F5600075D14 /* MSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0643200B756C00075D14 /* MSDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF065C200B7F5600075D14 /* MSDocumentWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0641200B756C00075D14 /* MSDocumentWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF063F200B756C00075D14 /* MSLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0640200B756C00075D14 /* MSLayerGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF065F200B7F5600075D14 /* MSPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0645200B756C00075D14 /* MSPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF0660200B7F5600075D14 /* MSPDFBookExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0644200B756C00075D14 /* MSPDFBookExporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF0661200B7F5600075D14 /* MSRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0646200B756D00075D14 /* MSRect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0647200B756D00075D14 /* MSStyledLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BFF0648200B756D00075D14 /* MSTextLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,14 +85,12 @@
 		2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PBToolbarWindowController.xib; sourceTree = "<group>"; };
 		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
+		2B4E946E221D012A00CD5D15 /* PBDocumentArtboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBDocumentArtboardManager.swift; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
 		2B5F3AD32110639B0098064A /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2B5F3AD5211154990098064A /* PBToolbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbar.h; sourceTree = "<group>"; };
 		2B5F3AD6211154990098064A /* PBToolbar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbar.m; sourceTree = "<group>"; };
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
-		2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBDocumentArtboardManager.h; sourceTree = "<group>"; };
-		2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBDocumentArtboardManager.m; sourceTree = "<group>"; };
-		2B998A6B21BE468F009D340D /* PBDocumentArtboardManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBDocumentArtboardManagerDelegate.h; sourceTree = "<group>"; };
 		2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolInstance.h; sourceTree = "<group>"; };
 		2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolMaster.h; sourceTree = "<group>"; };
 		2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSImmutableColor.h; sourceTree = "<group>"; };
@@ -113,6 +111,7 @@
 		2BBE4D9D1F5D2D48005ACB47 /* AddHistoryDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddHistoryDelegate.h; sourceTree = "<group>"; };
 		2BBE4DA11F5D4849005ACB47 /* PBUpdateNotesTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBUpdateNotesTextView.h; sourceTree = "<group>"; };
 		2BBE4DA21F5D4849005ACB47 /* PBUpdateNotesTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBUpdateNotesTextView.m; sourceTree = "<group>"; };
+		2BC93B74221D03CB00DAC525 /* PBDocumentArtboardManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBDocumentArtboardManagerDelegate.swift; sourceTree = "<group>"; };
 		2BCB2BF4207320D8003469BD /* PDFExportProgressWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportProgressWindowController.h; sourceTree = "<group>"; };
 		2BCB2BF5207320D8003469BD /* PDFExportProgressWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFExportProgressWindowController.m; sourceTree = "<group>"; };
 		2BCB2BF6207320D8003469BD /* PDFExportProgressWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDFExportProgressWindowController.xib; sourceTree = "<group>"; };
@@ -185,9 +184,8 @@
 		2B8BFD2B21771DE700B3A951 /* AddDocumentArtboard */ = {
 			isa = PBXGroup;
 			children = (
-				2B998A6B21BE468F009D340D /* PBDocumentArtboardManagerDelegate.h */,
-				2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */,
-				2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */,
+				2B4E946E221D012A00CD5D15 /* PBDocumentArtboardManager.swift */,
+				2BC93B74221D03CB00DAC525 /* PBDocumentArtboardManagerDelegate.swift */,
 			);
 			path = AddDocumentArtboard;
 			sourceTree = "<group>";
@@ -295,37 +293,36 @@
 			files = (
 				2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */,
 				2BFF065B200B7F5600075D14 /* MSDocument.h in Headers */,
-				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
-				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
-				2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */,
-				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
-				2B5F3AD7211154990098064A /* PBToolbar.h in Headers */,
-				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
-				2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */,
-				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
-				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
-				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,
-				2B8BFD2E21771E3600B3A951 /* PBDocumentArtboardManager.h in Headers */,
-				2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */,
-				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
-				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
-				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
-				2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */,
-				2BFF0660200B7F5600075D14 /* MSPDFBookExporter.h in Headers */,
 				2BFF0661200B7F5600075D14 /* MSRect.h in Headers */,
-				2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */,
+				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,
+				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
 				2B1C7CDE2179CF37003DB6CE /* MSContentDrawView.h in Headers */,
-				2BE505901F5930E500083521 /* Fletch.h in Headers */,
 				2BFF065C200B7F5600075D14 /* MSDocumentWindow.h in Headers */,
-				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
-				2BFF065F200B7F5600075D14 /* MSPage.h in Headers */,
+				2BFF0663200B7F5600075D14 /* MSTextLayer.h in Headers */,
+				2BFF065D200B7F5600075D14 /* MSLayer.h in Headers */,
+				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
+				2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */,
+				2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */,
 				2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */,
-				2BA8AE9720F5E1F2003888DB /* PBCatalogUpdater.h in Headers */,
-				2BA8AE9420F5E1C7003888DB /* PBCatalogUpdaterDelegate.h in Headers */,
-				2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */,
 				2BB85B2B2133A2B200B38162 /* AppController.h in Headers */,
 				2BB85B302133D5EC00B38162 /* MSLayerArray.h in Headers */,
 				2B1C7CDC2179CEAA003DB6CE /* MSContentDrawViewController.h in Headers */,
+				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
+				2BFF0660200B7F5600075D14 /* MSPDFBookExporter.h in Headers */,
+				2BFF065F200B7F5600075D14 /* MSPage.h in Headers */,
+				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
+				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
+				2BA7E22D20EF0556002BB65D /* PBToolbarHelper.h in Headers */,
+				2B5F3AD7211154990098064A /* PBToolbar.h in Headers */,
+				2BBE4D9A1F5CEE4E005ACB47 /* AddHistoryWindowController.h in Headers */,
+				2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */,
+				2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */,
+				2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */,
+				2BE505901F5930E500083521 /* Fletch.h in Headers */,
+				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
+				2BA8AE9720F5E1F2003888DB /* PBCatalogUpdater.h in Headers */,
+				2BA8AE9420F5E1C7003888DB /* PBCatalogUpdaterDelegate.h in Headers */,
+				2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,12 +355,13 @@
 		2BE505821F5930E500083521 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = pbb;
 				TargetAttributes = {
 					2BE5058A1F5930E500083521 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 23GN8P9Q5M;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -374,6 +372,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 2BE505811F5930E500083521;
 			productRefGroup = 2BE5058C1F5930E500083521 /* Products */;
@@ -406,13 +405,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B5F3AD8211154990098064A /* PBToolbar.m in Sources */,
+				2B4E946F221D012A00CD5D15 /* PBDocumentArtboardManager.swift in Sources */,
 				2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */,
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
+				2BC93B75221D03CB00DAC525 /* PBDocumentArtboardManagerDelegate.swift in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
 				2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */,
 				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
 				2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */,
-				2B8BFD2F21771E3600B3A951 /* PBDocumentArtboardManager.m in Sources */,
 				2BA7E22E20EF0556002BB65D /* PBToolbarHelper.m in Sources */,
 				2BA8AE9820F5E1F2003888DB /* PBCatalogUpdater.m in Sources */,
 			);
@@ -527,6 +527,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -535,6 +536,7 @@
 		2BE505941F5930E500083521 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -546,7 +548,7 @@
 				INFOPLIST_FILE = Fletch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -555,6 +557,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbb.study.Fletch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_REFLECTION_METADATA_LEVEL = all;
+				SWIFT_VERSION = 5.0;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
@@ -562,6 +568,7 @@
 		2BE505951F5930E500083521 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -573,7 +580,7 @@
 				INFOPLIST_FILE = Fletch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -582,6 +589,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbb.study.Fletch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_REFLECTION_METADATA_LEVEL = all;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
