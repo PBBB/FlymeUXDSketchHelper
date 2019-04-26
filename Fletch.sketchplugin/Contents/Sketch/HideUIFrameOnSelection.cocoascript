@@ -3,9 +3,15 @@ var hideUIFrameOnSelection = function (context) {
   var threadDictionary = NSThread.mainThread().threadDictionary();
   var identifier = "com.flyme.uxd.pbb.sketch-helper.hideUIFramePanel";
   var hideUIFramePanelWC = threadDictionary[identifier];
-  if (hideUIFramePanelWC == null) {
-  	return;
+  if (hideUIFramePanelWC != null) {
+  	hideUIFramePanelWC.handleSelectedLayer(context.actionContext.document.selectedLayers().layers());
+    context.actionContext.document.currentPage().changeSelectionBySelectingLayers(nil);
+  } else if (context.actionContext.newSelection.length == 0){
+    var firstOldSelectedLayer = context.actionContext.oldSelection[0];
+    if (firstOldSelectedLayer.isMemberOfClass(MSSymbolInstance)) {
+      @import 'Fletch.framework/FletchSketchHelper.js'
+      // var autoLayoutManager_Symbol = [[PBAutoLayoutManager_Symbol alloc] init];
+      [PBAutoLayoutManager_Symbol performLayoutOfSymbolInstance:firstOldSelectedLayer];
+    }
   }
-  hideUIFramePanelWC.handleSelectedLayer(context.actionContext.document.selectedLayers().layers());
-  context.actionContext.document.currentPage().changeSelectionBySelectingLayers(nil);
 }

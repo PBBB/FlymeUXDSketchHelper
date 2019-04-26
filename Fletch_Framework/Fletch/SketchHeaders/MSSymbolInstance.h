@@ -12,6 +12,8 @@
 @interface MSSymbolInstance : MSStyledLayer
 
 @property (copy, nonatomic) NSDictionary *overrides;
+@property(retain, nonatomic) NSArray *overrideValues;
+//@property(retain, nonatomic) NSString *symbolID;
 
 - (MSSymbolMaster *) symbolMaster;
 

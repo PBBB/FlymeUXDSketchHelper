@@ -15,6 +15,10 @@
 		2B1D0F0420D102CC00242DB4 /* PBToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */; };
 		2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */; };
 		2B1D0F0620D102CC00242DB4 /* PBToolbarWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */; };
+		2B210DD12272E3B7001B22C8 /* PBAutoLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B210DCF2272E3B7001B22C8 /* PBAutoLayoutManager.h */; };
+		2B210DD22272E3B7001B22C8 /* PBAutoLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B210DD02272E3B7001B22C8 /* PBAutoLayoutManager.m */; };
+		2B210DD52272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B210DD32272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.h */; };
+		2B210DD62272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B210DD42272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.m */; };
 		2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */; };
 		2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */; };
 		2B57DED4200CB9650093EF5F /* PDFExportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */; };
@@ -83,6 +87,10 @@
 		2B1D0F0120D102CC00242DB4 /* PBToolbarWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarWindowController.h; sourceTree = "<group>"; };
 		2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarWindowController.m; sourceTree = "<group>"; };
 		2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PBToolbarWindowController.xib; sourceTree = "<group>"; };
+		2B210DCF2272E3B7001B22C8 /* PBAutoLayoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBAutoLayoutManager.h; sourceTree = "<group>"; };
+		2B210DD02272E3B7001B22C8 /* PBAutoLayoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBAutoLayoutManager.m; sourceTree = "<group>"; };
+		2B210DD32272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBAutoLayoutManager_Symbol.h; sourceTree = "<group>"; };
+		2B210DD42272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBAutoLayoutManager_Symbol.m; sourceTree = "<group>"; };
 		2B231BAA2009BAA1003E1625 /* PBPDFExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBPDFExporter.h; sourceTree = "<group>"; };
 		2B231BAB2009BAA1003E1625 /* PBPDFExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBPDFExporter.m; sourceTree = "<group>"; };
 		2B57DED3200CB9650093EF5F /* PDFExportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFExportDelegate.h; sourceTree = "<group>"; };
@@ -169,6 +177,17 @@
 			path = Toolbar;
 			sourceTree = "<group>";
 		};
+		2B210DCE2272E2DB001B22C8 /* AutoLayoutManager */ = {
+			isa = PBXGroup;
+			children = (
+				2B210DCF2272E3B7001B22C8 /* PBAutoLayoutManager.h */,
+				2B210DD02272E3B7001B22C8 /* PBAutoLayoutManager.m */,
+				2B210DD32272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.h */,
+				2B210DD42272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.m */,
+			);
+			path = AutoLayoutManager;
+			sourceTree = "<group>";
+		};
 		2B231BA92009B85B003E1625 /* PDFExport */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				2BE5058E1F5930E500083521 /* Fletch.h */,
+				2B210DCE2272E2DB001B22C8 /* AutoLayoutManager */,
 				2B8BFD2B21771DE700B3A951 /* AddDocumentArtboard */,
 				2BA8AE9220F5E192003888DB /* UpdateCatalog */,
 				2BB0906F1FC6A9710065F0D3 /* AddHistory */,
@@ -294,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BBE4D9F1F5D2D48005ACB47 /* AddHistoryDelegate.h in Headers */,
+				2B210DD12272E3B7001B22C8 /* PBAutoLayoutManager.h in Headers */,
 				2BFF065B200B7F5600075D14 /* MSDocument.h in Headers */,
 				2BB090741FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.h in Headers */,
 				2BCB2BF7207320D8003469BD /* PDFExportProgressWindowController.h in Headers */,
@@ -327,6 +348,7 @@
 				2BB85B302133D5EC00B38162 /* MSLayerArray.h in Headers */,
 				2B1C7CDC2179CEAA003DB6CE /* MSContentDrawViewController.h in Headers */,
 				2BBE4DA31F5D4849005ACB47 /* PBUpdateNotesTextView.h in Headers */,
+				2B210DD52272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +380,7 @@
 		2BE505821F5930E500083521 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = pbb;
 				TargetAttributes = {
 					2BE5058A1F5930E500083521 = {
@@ -370,10 +392,11 @@
 			};
 			buildConfigurationList = 2BE505851F5930E500083521 /* Build configuration list for PBXProject "Fletch" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 2BE505811F5930E500083521;
 			productRefGroup = 2BE5058C1F5930E500083521 /* Products */;
@@ -405,11 +428,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B210DD62272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.m in Sources */,
 				2B5F3AD8211154990098064A /* PBToolbar.m in Sources */,
 				2BB090751FC6A9D70065F0D3 /* ShowHideUIFrameWindowController.m in Sources */,
 				2BBE4DA41F5D4849005ACB47 /* PBUpdateNotesTextView.m in Sources */,
 				2BBE4D9B1F5CEE4E005ACB47 /* AddHistoryWindowController.m in Sources */,
 				2BCB2BF8207320D8003469BD /* PDFExportProgressWindowController.m in Sources */,
+				2B210DD22272E3B7001B22C8 /* PBAutoLayoutManager.m in Sources */,
 				2B231BAD2009BAA1003E1625 /* PBPDFExporter.m in Sources */,
 				2B1D0F0520D102CC00242DB4 /* PBToolbarWindowController.m in Sources */,
 				2B8BFD2F21771E3600B3A951 /* PBDocumentArtboardManager.m in Sources */,
@@ -425,6 +450,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -484,6 +510,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
