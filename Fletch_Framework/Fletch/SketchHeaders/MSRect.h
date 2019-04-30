@@ -14,4 +14,6 @@
 @property (nonatomic) double height;
 @property(nonatomic) CGRect rect;
 
+- (BOOL)isEqual:(MSRect *)anotherRect;
+
 @end

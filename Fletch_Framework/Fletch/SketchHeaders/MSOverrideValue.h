@@ -12,4 +12,6 @@
 @property(retain, nonatomic) NSString *overrideName;
 @property(readonly, nonatomic) NSString *attributeName;
 
+- (instancetype)initWithName:(NSString *)overrideName value:(NSObject<NSCopying> *) value;
+
 @end

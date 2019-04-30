@@ -88,6 +88,7 @@
 		2B1D0F0220D102CC00242DB4 /* PBToolbarWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToolbarWindowController.m; sourceTree = "<group>"; };
 		2B1D0F0320D102CC00242DB4 /* PBToolbarWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PBToolbarWindowController.xib; sourceTree = "<group>"; };
 		2B1DAAC82276F4AC0096854F /* MSOverrideValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOverrideValue.h; sourceTree = "<group>"; };
+		2B1DAAC9227829DA0096854F /* MSOverridePoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOverridePoint.h; sourceTree = "<group>"; };
 		2B210DCF2272E3B7001B22C8 /* PBAutoLayoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBAutoLayoutManager.h; sourceTree = "<group>"; };
 		2B210DD02272E3B7001B22C8 /* PBAutoLayoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBAutoLayoutManager.m; sourceTree = "<group>"; };
 		2B210DD32272E3CC001B22C8 /* PBAutoLayoutManager_Symbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBAutoLayoutManager_Symbol.h; sourceTree = "<group>"; };
@@ -295,6 +296,7 @@
 				2BFF063F200B756C00075D14 /* MSLayer.h */,
 				2BB85B2F2133D5EC00B38162 /* MSLayerArray.h */,
 				2BFF0640200B756C00075D14 /* MSLayerGroup.h */,
+				2B1DAAC9227829DA0096854F /* MSOverridePoint.h */,
 				2B1DAAC82276F4AC0096854F /* MSOverrideValue.h */,
 				2BFF0645200B756C00075D14 /* MSPage.h */,
 				2BFF0644200B756C00075D14 /* MSPDFBookExporter.h */,

@@ -9,15 +9,17 @@
 #import "MSStyledLayer.h"
 #import "MSSymbolMaster.h"
 #import "MSOverrideValue.h"
+#import "MSOverridePoint.h"
 
 @interface MSSymbolInstance : MSStyledLayer
 
 @property (copy, nonatomic) NSDictionary *overrides;
 @property (retain, nonatomic) NSArray<MSOverrideValue *> *overrideValues;
 @property (retain, nonatomic) NSString *symbolID;
-//@property(readonly, nonatomic) NSArray *availableOverrides;
-//@property(readonly, nonatomic) NSArray *overridePoints;
+//@property (readonly, nonatomic) NSArray *availableOverrides;
+@property (readonly, nonatomic) NSArray<MSOverridePoint *> *overridePoints;
 
 - (MSSymbolMaster *) symbolMaster;
+- (MSLayerGroup *)detachStylesAndReplaceWithGroupRecursively:(BOOL)recursive;
 
 @end
