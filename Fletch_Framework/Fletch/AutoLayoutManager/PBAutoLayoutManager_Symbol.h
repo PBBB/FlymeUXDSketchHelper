@@ -14,11 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PBAutoLayoutManager_Symbol : PBAutoLayoutManager
 #define PBLog(fmt, ...) NSLog((@"Fletch (Sketch Plugin) %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define kAlertSymbolMasterID @"1EA1A886-C5E1-4145-8679-1D9E20E1805D"
-#define kAlertTitleTextOverrideName @"E3D16CDC-A576-4400-B115-4EC836793214"
-#define kAlertTitleLeftAlignTextStyleID @"7F21F730-4B86-465E-845C-13C46E412551"
-#define kAlertSubtitleTextOverrideName @"DBE035AC-00AC-48F0-A015-8DC837555D43"
-#define kAlertSubtitleLeftAlignTextStyleID @"47B4E527-89D5-4D99-9978-197031155409"
+//#define kAlertSymbolMasterID @"95F30D38-A2BB-431D-9989-EB746ADF9710"
+#define kAlertSymbolMasterName @"3 弹框 / 警示框 / a 主副标题"
+#define kAlertTitleTextOverrideName @"51FFE8CF-A7AB-45E0-A32F-1B899A84BDF9"
+#define kAlertTitleLeftAlignTextStyleID @"8F9E9568-0575-49C9-BA01-80F53BE1E1C6"
+#define kAlertSubtitleTextOverrideName @"84E02B3E-C676-475D-B982-12BA5887D7A0"
+#define kAlertSubtitleLeftAlignTextStyleID @"229A38F9-14CF-4B71-A635-5BF4F9944392"
 
 + (void)performLayoutOfSymbolInstance: (MSSymbolInstance *) symbolInstance;
 @end
