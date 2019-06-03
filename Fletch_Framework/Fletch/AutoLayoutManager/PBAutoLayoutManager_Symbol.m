@@ -16,6 +16,7 @@
     
     MSLayerGroup *currentArtboardGroup = [symbolInstance parentArtboard] ? (MSLayerGroup *)[symbolInstance parentArtboard] : (MSLayerGroup *)[symbolInstance parentPage] ;
     
+    
     // 如果图层名前面有 _，就视为不需要处理高度
     if ([[symbolInstance name] hasPrefix:@"_"]) {
         return;
@@ -90,61 +91,74 @@
             // 3.2 通过对比 frame 和名字，如果两个图层的坐标、名称都相同，就当作同一个图层了
             // 这种对比对于左对齐的 symbol 才有用，之后做到其他 symbol 的时候，看有没有什么新的图层关联方式
             NSMutableArray<MSLayer *> *layersToOverrideInDetachedInstance = [[NSMutableArray<MSLayer *> alloc] init];
-            NSMutableArray<MSLayer *> *layersToOverrideInSymbolMaster = [[NSMutableArray<MSLayer *> alloc] init];
             NSMutableArray<MSRect *> *newLayerFrames = [[NSMutableArray<MSRect *> alloc] init];
             [layersToOverride enumerateObjectsUsingBlock:^(MSLayer * _Nonnull layerFromSymbolMaster, NSUInteger idx, BOOL * _Nonnull stop) {
                 [[newGroupFromDetachedInstance childrenIncludingSelf:NO] enumerateObjectsUsingBlock:^(MSLayer * _Nonnull layerFromDetachedInstance, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([layerFromSymbolMaster.name isEqualToString:layerFromDetachedInstance.name] &&
                         layerFromSymbolMaster.frame.x == layerFromDetachedInstance.frame.x && layerFromSymbolMaster.frame.y == layerFromDetachedInstance.frame.y) {
                         [layersToOverrideInDetachedInstance addObject:layerFromDetachedInstance];
-                        [layersToOverrideInSymbolMaster addObject:layerFromSymbolMaster];
                         [newLayerFrames addObject:layerFromDetachedInstance.frame];
                         *stop = YES;
                     }
                 }];
             }];
-//            PBLog(@"layersToOverride: %@",layersToOverrideInDetachedInstance);
-//            PBLog(@"originalLayerFrames: %@",newLayerFrames);
+//            PBLog(@"layersToOverride: %@",layersToOverride);
+//            PBLog(@"layersToOverrideInSymbolMaster: %@",layersToOverrideInSymbolMaster);
         
             // 4. 根据新的文字高度，调整文字样式和计算总高度
             __block double deltaHeight = 0.0;
             NSMutableArray<MSOverrideValue *> *newOverrideValues = [[NSMutableArray<MSOverrideValue *> alloc] initWithArray:symbolInstance.overrideValues];
             
-            [layersToOverrideInDetachedInstance enumerateObjectsUsingBlock:^(MSLayer * _Nonnull layerFromDetachedInstance, NSUInteger idx, BOOL * _Nonnull stop) {
+//            NSMutableIndexSet *indexesOfOverrideValuesToRemove = [[NSMutableIndexSet alloc] init];
+            NSMutableArray<MSOverrideValue *> *overrideValuesToRemove = [[NSMutableArray<MSOverrideValue *> alloc] init];
+            [layersToOverrideInDetachedInstance enumerateObjectsUsingBlock:^(MSLayer * _Nonnull layerFromDetachedInstance, NSUInteger idxOfLayerFromDetachedInstance, BOOL * _Nonnull stop) {
                 
                 // 如果文字内容为单个空格，那么就等同于把这行文字删掉，即减少文字本身高度以及间距 13 pt
                 if ([layerFromDetachedInstance isMemberOfClass:NSClassFromString(@"MSTextLayer")] && [((MSTextLayer *)layerFromDetachedInstance).stringValue isEqualToString:@" "]) {
-                    deltaHeight = deltaHeight - newLayerFrames[idx].height - 13;
+                    deltaHeight = deltaHeight - newLayerFrames[idxOfLayerFromDetachedInstance].height - 13;
                 } else {
-                    deltaHeight += (newLayerFrames[idx].height - originalLayerFrames[idx].height);
+                    deltaHeight += (newLayerFrames[idxOfLayerFromDetachedInstance].height - originalLayerFrames[idxOfLayerFromDetachedInstance].height);
                 }
                 
                 // 如果只有一行（即高度相等），将文字恢复成默认样式
-                NSMutableIndexSet *indexesOfOverrideValuesToRemove = [[NSMutableIndexSet alloc] init];
-                if ([layerFromDetachedInstance isMemberOfClass:NSClassFromString(@"MSTextLayer")] && newLayerFrames[idx].height == originalLayerFrames[idx].height) {
-                    [[symbolInstance overridePoints] enumerateObjectsUsingBlock:^(MSOverridePoint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        [layersToOverrideInSymbolMaster enumerateObjectsUsingBlock:^(MSLayer * _Nonnull obj2, NSUInteger idx2, BOOL * _Nonnull stop2) {
-                            if ([obj.layerID isEqualToString: obj2.objectID] && [obj.name containsString:@"textStyle"]) {
-                                NSString *overrideName = obj.name;
-                                [newOverrideValues enumerateObjectsUsingBlock:^(MSOverrideValue * _Nonnull obj3, NSUInteger idx3, BOOL * _Nonnull stop3) {
-                                    if ([obj3.overrideName isEqualToString:overrideName]) {
-                                        [indexesOfOverrideValuesToRemove addIndex:idx3];
-                                    }
-                                }];
-                            }
-                        }];
+                
+                if ([layerFromDetachedInstance isMemberOfClass:NSClassFromString(@"MSTextLayer")] && newLayerFrames[idxOfLayerFromDetachedInstance].height == originalLayerFrames[idxOfLayerFromDetachedInstance].height) {
+                    
+                    // 找到这个图层的 style 对应的 override point
+                    [[symbolInstance overridePoints] enumerateObjectsUsingBlock:^(MSOverridePoint * _Nonnull overridePoint, NSUInteger idxOfOverridePoint, BOOL * _Nonnull stop2) {
+                        
+                        // 遍历 override point，如果 layer ID 对上号了，那就是匹配上了
+                        if ([overridePoint.layerID isEqualToString: layersToOverride[idxOfLayerFromDetachedInstance].objectID] && [overridePoint.name containsString:@"textStyle"]) {
+                            NSString *overrideName = overridePoint.name;
+                            
+                            // 记录一下哪些 override point 要删，最后一起删
+                            [newOverrideValues enumerateObjectsUsingBlock:^(MSOverrideValue * _Nonnull newOverrideValue, NSUInteger idxOfNewOverrideValue, BOOL * _Nonnull stop3) {
+                                if ([newOverrideValue.overrideName isEqualToString:overrideName]) {
+//                                    [indexesOfOverrideValuesToRemove addIndex:idxOfNewOverrideValue];
+                                    [overrideValuesToRemove addObject:newOverrideValue];
+                                    *stop3 = YES;
+                                }
+                            }];
+                            *stop2 = YES;
+                        }
                     }];
-                    [newOverrideValues removeObjectsAtIndexes:indexesOfOverrideValuesToRemove];
+                    
                 } else {
                     // 如果超过一行，将文字改为左对齐
-                    if ([[symbolInstance overridePoints][idx].name isEqualToString:kAlertTitleTextOverrideName]) {
+                    if ([[symbolInstance overridePoints][idxOfLayerFromDetachedInstance].name isEqualToString:kAlertTitleTextOverrideName]) {
+//                        MSOverrideValue *newTitleStyleOverrideValue = [[NSClassFromString(@"MSOverrideValue") alloc] init];
+//                        newTitleStyleOverrideValue.overrideName = [NSString stringWithFormat:@""];
+//                        newTitleStyleOverrideValue.value = kAlertTitleLeftAlignTextStyleID;
+                        
                         //TODO: 调整左对齐样式
-                    } else if ([[symbolInstance overridePoints][idx].name isEqualToString:kAlertSubtitleTextOverrideName]) {
+                    } else if ([[symbolInstance overridePoints][idxOfLayerFromDetachedInstance].name isEqualToString:kAlertSubtitleTextOverrideName]) {
                         //TODO: 调整左对齐样式
                     }
                 }
                 
             }];
+//            [newOverrideValues removeObjectsAtIndexes:indexesOfOverrideValuesToRemove];
+            [newOverrideValues removeObjectsInArray:overrideValuesToRemove];
             
             // 5. 调整高度，并且删除新建的图层
             
