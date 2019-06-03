@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define kAlertTitleTextOverrideName @"51FFE8CF-A7AB-45E0-A32F-1B899A84BDF9"
 #define kAlertTitleLeftAlignTextStyleID @"8F9E9568-0575-49C9-BA01-80F53BE1E1C6"
 #define kAlertSubtitleTextOverrideName @"84E02B3E-C676-475D-B982-12BA5887D7A0"
-#define kAlertSubtitleLeftAlignTextStyleID @"229A38F9-14CF-4B71-A635-5BF4F9944392"
+#define kAlertSubtitleLeftAlignTextStyleID @"A5472578-073A-440C-8339-CDC9E1E04021"
 
 + (void)performLayoutOfSymbolInstance: (MSSymbolInstance *) symbolInstance;
 @end

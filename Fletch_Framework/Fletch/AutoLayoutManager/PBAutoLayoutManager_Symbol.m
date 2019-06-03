@@ -111,6 +111,7 @@
             
 //            NSMutableIndexSet *indexesOfOverrideValuesToRemove = [[NSMutableIndexSet alloc] init];
             NSMutableArray<MSOverrideValue *> *overrideValuesToRemove = [[NSMutableArray<MSOverrideValue *> alloc] init];
+            NSMutableArray<MSOverrideValue *> *overrideValuesToAdd = [[NSMutableArray<MSOverrideValue *> alloc] init];
             [layersToOverrideInDetachedInstance enumerateObjectsUsingBlock:^(MSLayer * _Nonnull layerFromDetachedInstance, NSUInteger idxOfLayerFromDetachedInstance, BOOL * _Nonnull stop) {
                 
                 // 如果文字内容为单个空格，那么就等同于把这行文字删掉，即减少文字本身高度以及间距 13 pt
@@ -120,45 +121,44 @@
                     deltaHeight += (newLayerFrames[idxOfLayerFromDetachedInstance].height - originalLayerFrames[idxOfLayerFromDetachedInstance].height);
                 }
                 
-                // 如果只有一行（即高度相等），将文字恢复成默认样式
                 
-                if ([layerFromDetachedInstance isMemberOfClass:NSClassFromString(@"MSTextLayer")] && newLayerFrames[idxOfLayerFromDetachedInstance].height == originalLayerFrames[idxOfLayerFromDetachedInstance].height) {
+                
+                // 找到这个图层的 style 对应的 override point，开始遍历
+                [[symbolInstance overridePoints] enumerateObjectsUsingBlock:^(MSOverridePoint * _Nonnull overridePoint, NSUInteger idxOfOverridePoint, BOOL * _Nonnull stop2) {
                     
-                    // 找到这个图层的 style 对应的 override point
-                    [[symbolInstance overridePoints] enumerateObjectsUsingBlock:^(MSOverridePoint * _Nonnull overridePoint, NSUInteger idxOfOverridePoint, BOOL * _Nonnull stop2) {
+                    // 如果 layer ID 对上号了，那就是匹配上了
+                    if ([overridePoint.layerID isEqualToString: layersToOverride[idxOfLayerFromDetachedInstance].objectID] && [overridePoint.name containsString:@"textStyle"]) {
+                        NSString *overrideName = overridePoint.name;
                         
-                        // 遍历 override point，如果 layer ID 对上号了，那就是匹配上了
-                        if ([overridePoint.layerID isEqualToString: layersToOverride[idxOfLayerFromDetachedInstance].objectID] && [overridePoint.name containsString:@"textStyle"]) {
-                            NSString *overrideName = overridePoint.name;
+                        // 先删掉对应的 override value（记录一下哪些要删，最后一起删），结果是恢复成默认的居中样式
+                        [newOverrideValues enumerateObjectsUsingBlock:^(MSOverrideValue * _Nonnull newOverrideValue, NSUInteger idxOfNewOverrideValue, BOOL * _Nonnull stop3) {
+                            if ([newOverrideValue.overrideName isEqualToString:overrideName]) {
+                                [overrideValuesToRemove addObject:newOverrideValue];
+                                *stop3 = YES;
+                            }
+                        }];
+                        
+                        // 判断是否高度相等，如果不相等，意味着高度不止一行，就要加左对齐样式
+                        if ([layerFromDetachedInstance isMemberOfClass:NSClassFromString(@"MSTextLayer")] && newLayerFrames[idxOfLayerFromDetachedInstance].height != originalLayerFrames[idxOfLayerFromDetachedInstance].height) {
+                            MSOverrideValue *newTextStyleOverrideValue = [[NSClassFromString(@"MSOverrideValue") alloc] init];
+                            newTextStyleOverrideValue.overrideName = overridePoint.name;
+                            if ([overridePoint.name containsString:kAlertTitleTextOverrideName]) {
+                                newTextStyleOverrideValue.value = kAlertTitleLeftAlignTextStyleID;
+                                [overrideValuesToAdd addObject:newTextStyleOverrideValue];
+                            } else if ([overridePoint.name containsString:kAlertSubtitleTextOverrideName]){
+                                newTextStyleOverrideValue.value = kAlertSubtitleLeftAlignTextStyleID;
+                                [overrideValuesToAdd addObject:newTextStyleOverrideValue];
+                            }
                             
-                            // 记录一下哪些 override point 要删，最后一起删
-                            [newOverrideValues enumerateObjectsUsingBlock:^(MSOverrideValue * _Nonnull newOverrideValue, NSUInteger idxOfNewOverrideValue, BOOL * _Nonnull stop3) {
-                                if ([newOverrideValue.overrideName isEqualToString:overrideName]) {
-//                                    [indexesOfOverrideValuesToRemove addIndex:idxOfNewOverrideValue];
-                                    [overrideValuesToRemove addObject:newOverrideValue];
-                                    *stop3 = YES;
-                                }
-                            }];
-                            *stop2 = YES;
                         }
-                    }];
-                    
-                } else {
-                    // 如果超过一行，将文字改为左对齐
-                    if ([[symbolInstance overridePoints][idxOfLayerFromDetachedInstance].name isEqualToString:kAlertTitleTextOverrideName]) {
-//                        MSOverrideValue *newTitleStyleOverrideValue = [[NSClassFromString(@"MSOverrideValue") alloc] init];
-//                        newTitleStyleOverrideValue.overrideName = [NSString stringWithFormat:@""];
-//                        newTitleStyleOverrideValue.value = kAlertTitleLeftAlignTextStyleID;
-                        
-                        //TODO: 调整左对齐样式
-                    } else if ([[symbolInstance overridePoints][idxOfLayerFromDetachedInstance].name isEqualToString:kAlertSubtitleTextOverrideName]) {
-                        //TODO: 调整左对齐样式
+                        *stop2 = YES;
                     }
-                }
-                
+                }];
             }];
-//            [newOverrideValues removeObjectsAtIndexes:indexesOfOverrideValuesToRemove];
+
             [newOverrideValues removeObjectsInArray:overrideValuesToRemove];
+            [newOverrideValues addObjectsFromArray:overrideValuesToAdd];
+            
             
             // 5. 调整高度，并且删除新建的图层
             
@@ -167,17 +167,6 @@
             [newGroupFromDetachedInstance removeFromParent];
             
         }
-
-        
-        
-        
-        
-        
-        
-        // 根据文字高度调整弹框高度（通用方法）
-        
-        
-        
     }
     
     
