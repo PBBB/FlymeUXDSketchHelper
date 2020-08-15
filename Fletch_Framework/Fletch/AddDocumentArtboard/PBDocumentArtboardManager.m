@@ -117,8 +117,8 @@
     [canvasView zoomToFitRect:zoomRect];
     
     // 上报埋点
-    if ([type isEqualToString:@"16_9"]) {
-        [delegate addDocumentArtboardSuccessWithType:@"16:9"];
+    if ([type isEqualToString:@"19.5_9"]) {
+        [delegate addDocumentArtboardSuccessWithType:@"19.5:9"];
     } else if ([type isEqualToString:@"18_9"]) {
         [delegate addDocumentArtboardSuccessWithType:@"18:9"];
     } else {

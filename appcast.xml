@@ -6,17 +6,16 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.1.1</title>
+        <title>v2.1.2</title>
         <description>
           <![CDATA[
             <ul>
-              <li>修复了升级至 Sketch 53 之后部分功能不可用的问题</li>
-              <li>内置文档模板小更新</li>
+              <li>增加了 19.5:9 和手表的画板，去掉 16:9 的画板</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Wed, 13 Feb 2019 11:09:26 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.1/Fletch.2.1.1.zip" type="application/octet-stream" sparkle:version="2.1.1"/>
+      <pubDate>Sun, 16 Aug 2020 00:12:21 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.2/Fletch.2.1.2.zip" type="application/octet-stream" sparkle:version="2.1.2"/>
       </item>
   </channel>
 </rss>
