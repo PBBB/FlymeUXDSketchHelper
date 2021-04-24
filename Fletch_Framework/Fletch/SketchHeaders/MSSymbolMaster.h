@@ -8,10 +8,6 @@
 
 #import "MSArtboardGroup.h"
 
-@class MSSymbolInstance;
-
 @interface MSSymbolMaster : MSArtboardGroup
-
-- (MSSymbolInstance *)newSymbolInstance;
 
 @end

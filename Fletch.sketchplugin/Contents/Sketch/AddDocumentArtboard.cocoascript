@@ -2,8 +2,8 @@
 @import 'Libraries/MochaJSDelegate.js'
 @import 'Libraries/ga.js'
 
-var add_16_9_DocumentArtboard = function (context) {
-  addDocumentArtboard(context, "16_9");
+var add_19_5_9_DocumentArtboard = function (context) {
+  addDocumentArtboard(context, "19.5_9");
 }
 
 var add_18_9_DocumentArtboard = function (context) {
@@ -11,6 +11,10 @@ var add_18_9_DocumentArtboard = function (context) {
 }
 var addLandscapeDocumentArtboard = function (context) {
   addDocumentArtboard(context, "landscape");
+}
+
+var addWatchDocumentArtboard = function (context) {
+  addDocumentArtboard(context, "watch");
 }
 
 var addDocumentArtboard = function (context, artboardType) {

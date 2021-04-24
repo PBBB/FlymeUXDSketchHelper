@@ -12,13 +12,13 @@
 
 @interface MSDocument : NSDocument <NSMenuDelegate, NSToolbarDelegate, NSWindowDelegate>
 
-@property(copy, nonatomic) MSLayerArray * _Nonnull selectedLayers;
-@property(retain, nonatomic) MSContentDrawViewController * _Nonnull currentContentViewController;
+@property(copy, nonatomic) MSLayerArray *selectedLayers;
+@property(retain, nonatomic) MSContentDrawViewController *currentContentViewController;
 
 - (MSDocumentWindow * _Nonnull)window;
 - (MSPage * _Nonnull)currentPage;
 - (void)showMessage:(NSString *_Nonnull)message;
-- (NSArray<MSPage *> *_Nonnull) pages;
-- (BOOL)readDocumentFromURL:(NSURL *_Nonnull)url ofType:(NSString *_Nonnull)typeName error:(NSError *_Nullable)error;
+- (NSArray<MSPage *> *) pages;
+- (BOOL)readDocumentFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable *)error;
 
 @end
