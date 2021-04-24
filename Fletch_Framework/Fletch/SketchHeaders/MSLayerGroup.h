@@ -7,7 +7,7 @@
 //
 
 
-#import "MSStyledLayer.h"
+#import <MSStyledLayer.h>
 @class MSLayer;
 
 @interface MSLayerGroup : MSStyledLayer
