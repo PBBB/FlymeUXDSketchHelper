@@ -7,7 +7,7 @@
   "identifier": "com.flyme.uxd.pbb.sketch-helper",
   "icon": "../Resources/icons/icon.png",
   "appcast": "https://raw.githubusercontent.com/PBBB/FlymeUXDSketchHelper/master/appcast.xml",
-  "compatibleVersion": "71",
+  "compatibleVersion": "80",
   "bundleVersion": 1,
   "commands": [
     {
@@ -46,12 +46,12 @@
       }
     },
     {
-      "name": "16:9",
-      "fullName": "添加 16:9 线框画板",
-      "identifier": "add_16_9_DocumentArtboard",
+      "name": "19.5:9",
+      "fullName": "添加 19.5:9 线框画板",
+      "identifier": "add_19_5_9_DocumentArtboard",
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
-      "handler": "add_16_9_DocumentArtboard"
+      "handler": "add_19_5_9_DocumentArtboard"
     },
     {
       "name": "18:9",
@@ -68,6 +68,14 @@
       "isTool":"true",
       "script": "AddDocumentArtboard.cocoascript",
       "handler": "addLandscapeDocumentArtboard"
+    },
+    {
+      "name": "手表",
+      "fullName": "添加手表线框画板",
+      "identifier": "addWatchDocumentArtboard",
+      "isTool":"true",
+      "script": "AddDocumentArtboard.cocoascript",
+      "handler": "addWatchDocumentArtboard"
     },
     {
       "name": "导出 PDF...",
@@ -121,9 +129,10 @@
         "title": "添加线框画板",
         "identifier": "addDocumentArtboard_Parent",
         "items": [
-            "add_16_9_DocumentArtboard",
-            "add_18_9_DocumentArtboard",
-            "addLandscapeDocumentArtboard"
+          "add_19_5_9_DocumentArtboard",
+          "add_18_9_DocumentArtboard",
+          "addLandscapeDocumentArtboard",
+          "addWatchDocumentArtboard"
         ]
     },
       "showHideUIFramePanel",
