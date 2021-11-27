@@ -6,7 +6,7 @@
 //  Copyright © 2018 pbb. All rights reserved.
 //
 
-#import "MSStyledLayer.h"
+#import <MSStyledLayer.h>
 #import "MSImmutableColor.h"
 
 @interface MSTextLayer : MSStyledLayer
