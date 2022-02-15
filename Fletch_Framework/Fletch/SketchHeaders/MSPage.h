@@ -6,7 +6,7 @@
 //  Copyright © 2018 pbb. All rights reserved.
 //
 
-#import "MSLayerGroup.h"
+#import <MSLayerGroup.h>
 @class MSArtboardGroup;
 
 @interface MSPage : MSLayerGroup
