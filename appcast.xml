@@ -6,16 +6,17 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.1.2</title>
+        <title>v2.2.0</title>
         <description>
           <![CDATA[
             <ul>
-              <li>增加了 19.5:9 和手表的画板，去掉 16:9 的画板</li>
+              <li>支持 Apple Silicon</li>
+              <li>微调新增画板里元素的一些间距</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Sun, 16 Aug 2020 00:12:21 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.1.2/Fletch.2.1.2.zip" type="application/octet-stream" sparkle:version="2.1.2"/>
+      <pubDate>Tue, 15 Feb 2022 19:42:21 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.2.0/Fletch.2.2.0.zip" type="application/octet-stream" sparkle:version="2.2.0"/>
       </item>
   </channel>
 </rss>
