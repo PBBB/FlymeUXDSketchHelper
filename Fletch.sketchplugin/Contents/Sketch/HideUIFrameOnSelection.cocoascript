@@ -7,5 +7,5 @@ var hideUIFrameOnSelection = function (context) {
   	return;
   }
   hideUIFramePanelWC.handleSelectedLayer(context.actionContext.document.selectedLayers().layers());
-  context.actionContext.document.currentPage().changeSelectionBySelectingLayers(nil);
+  // context.actionContext.document.currentPage().changeSelectionBySelectingLayers(nil);
 }
