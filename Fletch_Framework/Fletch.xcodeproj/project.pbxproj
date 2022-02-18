@@ -23,6 +23,8 @@
 		2B802FDB20E0F84200FC93C3 /* PBToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */; };
 		2B8BFD2E21771E3600B3A951 /* PBDocumentArtboardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */; };
 		2B8BFD2F21771E3600B3A951 /* PBDocumentArtboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */; };
+		2B8CBE9E27BF31CD00D7A427 /* MSHighLevelExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B8CBE9D27BF31CD00D7A427 /* MSHighLevelExporter.h */; };
+		2B8CBEA027BF32BF00D7A427 /* MSSelfContainedHighLevelExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B8CBE9F27BF32BF00D7A427 /* MSSelfContainedHighLevelExporter.h */; };
 		2B9EA00F20F5F16F00F3D5E4 /* MSSymbolInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */; };
 		2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */; };
 		2B9EA01320F6ECB000F3D5E4 /* MSImmutableColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */; };
@@ -92,6 +94,8 @@
 		2B802FDA20E0F83C00FC93C3 /* PBToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToolbarDelegate.h; sourceTree = "<group>"; };
 		2B8BFD2C21771E3600B3A951 /* PBDocumentArtboardManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBDocumentArtboardManager.h; sourceTree = "<group>"; };
 		2B8BFD2D21771E3600B3A951 /* PBDocumentArtboardManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBDocumentArtboardManager.m; sourceTree = "<group>"; };
+		2B8CBE9D27BF31CD00D7A427 /* MSHighLevelExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHighLevelExporter.h; sourceTree = "<group>"; };
+		2B8CBE9F27BF32BF00D7A427 /* MSSelfContainedHighLevelExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSelfContainedHighLevelExporter.h; sourceTree = "<group>"; };
 		2B998A6B21BE468F009D340D /* PBDocumentArtboardManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBDocumentArtboardManagerDelegate.h; sourceTree = "<group>"; };
 		2B9EA00E20F5F16F00F3D5E4 /* MSSymbolInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolInstance.h; sourceTree = "<group>"; };
 		2B9EA01020F5F37500F3D5E4 /* MSSymbolMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSymbolMaster.h; sourceTree = "<group>"; };
@@ -270,6 +274,8 @@
 				2B1C7CDB2179CEAA003DB6CE /* MSContentDrawViewController.h */,
 				2BFF0643200B756C00075D14 /* MSDocument.h */,
 				2BFF0641200B756C00075D14 /* MSDocumentWindow.h */,
+				2B8CBE9D27BF31CD00D7A427 /* MSHighLevelExporter.h */,
+				2B8CBE9F27BF32BF00D7A427 /* MSSelfContainedHighLevelExporter.h */,
 				2B9EA01220F6ECB000F3D5E4 /* MSImmutableColor.h */,
 				2BFF063F200B756C00075D14 /* MSLayer.h */,
 				2BB85B2F2133D5EC00B38162 /* MSLayerArray.h */,
@@ -307,6 +313,7 @@
 				2BA7E23020EF1BFF002BB65D /* MSPluginBundle.h in Headers */,
 				2B8BFD2E21771E3600B3A951 /* PBDocumentArtboardManager.h in Headers */,
 				2B9EA01120F5F37500F3D5E4 /* MSSymbolMaster.h in Headers */,
+				2B8CBE9E27BF31CD00D7A427 /* MSHighLevelExporter.h in Headers */,
 				2BFF065A200B7F5600075D14 /* MSArtboardGroup.h in Headers */,
 				2BFF065E200B7F5600075D14 /* MSLayerGroup.h in Headers */,
 				2BFF0662200B7F5600075D14 /* MSStyledLayer.h in Headers */,
@@ -316,6 +323,7 @@
 				2B231BAC2009BAA1003E1625 /* PBPDFExporter.h in Headers */,
 				2B1C7CDE2179CF37003DB6CE /* MSContentDrawView.h in Headers */,
 				2BE505901F5930E500083521 /* Fletch.h in Headers */,
+				2B8CBEA027BF32BF00D7A427 /* MSSelfContainedHighLevelExporter.h in Headers */,
 				2BFF065C200B7F5600075D14 /* MSDocumentWindow.h in Headers */,
 				2B0511F81FC6BD7D00FB317C /* ShowHideUIFrameDelegate.h in Headers */,
 				2BFF065F200B7F5600075D14 /* MSPage.h in Headers */,

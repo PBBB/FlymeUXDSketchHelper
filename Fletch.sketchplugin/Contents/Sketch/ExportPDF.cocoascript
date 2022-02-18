@@ -33,5 +33,5 @@ var exportPDF = function (context) {
   });
 
   pdfExporter.delegate = (pdfExporterDelegate.getClassInstance());
-  [pdfExporter exportPDF:context withPDFExporterClass:MSPDFBookExporter TextLayerClass:MSTextLayer ArtboardGroupClass:MSArtboardGroup];
+  [pdfExporter exportPDF:context withPDFExporterClass:MSPDFBookExporter TextLayerClass:MSTextLayer ArtboardGroupClass:MSArtboardGroup MSSelfContainedHighLevelExporterClass:MSSelfContainedHighLevelExporter];
 }

@@ -19,6 +19,7 @@
 
 - (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass
                     TextLayerClass: (Class)MSTextLayerClass
-                    ArtboardGroupClass: (Class)MSArtboardGroupClass;
+                    ArtboardGroupClass: (Class)MSArtboardGroupClass
+                    MSSelfContainedHighLevelExporterClass:(Class)MSSelfContainedHighLevelExporterClass;
 @end
 

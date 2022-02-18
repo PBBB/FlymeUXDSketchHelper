@@ -15,6 +15,7 @@
 #import "MSPDFBookExporter.h"
 #import "MSRect.h"
 #import "MSArtboardGroup.h"
+#import "MSSelfContainedHighLevelExporter.h"
 #import "PDFExportProgressWindowController.h"
 
 @implementation PBPDFExporter
@@ -23,7 +24,7 @@
 @synthesize delegate, documentWindow;
 
 - (void)exportPDF: (NSDictionary *)context withPDFExporterClass: (Class)MSPDFBookExporterClass
-   TextLayerClass: (Class)MSTextLayerClass ArtboardGroupClass: (Class)MSArtboardGroupClass {
+   TextLayerClass: (Class)MSTextLayerClass ArtboardGroupClass: (Class)MSArtboardGroupClass MSSelfContainedHighLevelExporterClass:(Class)MSSelfContainedHighLevelExporterClass {
 
     //获取画板
     NSArray<MSArtboardGroup *> *artboardsToExport = nil;
@@ -234,16 +235,31 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         for (int i = 0; i < [sortedArtboardArray count]; i++) {
             //从画板生成 PDFPage
-            PDFPage *pdfPage = [MSPDFBookExporterClass pdfFromArtboard:sortedArtboardArray[i]];
+//            PDFPage *pdfPage = [MSPDFBookExporterClass pdfFromArtboard:sortedArtboardArray[i]];
             //每一页一个文档
-            PDFDocument *pdfDocument = [[PDFDocument alloc] init];
-            [pdfDocument insertPage:pdfPage atIndex:0];
+//            PDFDocument *pdfDocument = [[PDFDocument alloc] init];
+//            [pdfDocument insertPage:pdfPage atIndex:0];
             //每一页都导出一个 PDF 文件，放在缓存文件夹
             NSString *TmpPath = NSTemporaryDirectory();
-            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
-            [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
+//            NSString *tmpFileURLString = [NSString stringWithFormat:@"file://%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
+//            [pdfDocument writeToURL:[NSURL URLWithString:tmpFileURLString]];
+            
+            //设定导出选项
+            NSDictionary *exporterOptions = @{
+                @"overwriting" : @YES,
+                @"use-id-for-name" : @YES,
+                @"formats" : @[@"pdf"],
+                @"output" : TmpPath
+            };
+            
+            MSSelfContainedHighLevelExporter *exporter = [(MSSelfContainedHighLevelExporter *)[MSSelfContainedHighLevelExporterClass alloc] initWithOptions: exporterOptions];
+            [exporter exportLayers:@[sortedArtboardArray[i]]];
+            
+            
             //执行压缩命令
+            NSString *exportedFileURLString = [NSString stringWithFormat:@"%@%@.pdf", TmpPath, [sortedArtboardArray[i] objectID]];
             NSString *tmpFileURLStringForTerminal = [NSString stringWithFormat:@"%@%@%d.pdf", TmpPath, extraFileNameForCompression, i];
+            [[NSFileManager defaultManager] moveItemAtPath:exportedFileURLString toPath:tmpFileURLStringForTerminal error:nil];
             NSString *tmpCompressedFileURLStringForTerminal = [NSString stringWithFormat:@"%@%@%d_compressed.pdf", TmpPath, extraFileNameForCompression, i];
             NSTask *task = [[NSTask alloc] init];
             [CompressionTaskArray addObject:task];
@@ -280,7 +296,7 @@
                             [alert beginSheetModalForWindow:self->documentWindow completionHandler:^(NSModalResponse returnCode) {
                                 switch (returnCode) {
                                     case NSAlertFirstButtonReturn:
-                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.26.pkg"]];
+                                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://pages.uoregon.edu/koch/Ghostscript-9.55-Full.pkg"]];
                                         [self->documentWindow endSheet:[alert window]];
                                         break;
                                     case NSAlertSecondButtonReturn:
