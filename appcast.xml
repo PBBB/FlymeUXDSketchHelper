@@ -6,17 +6,17 @@
     <description></description>
     <language>en</language>
       <item>
-        <title>v2.2.0</title>
+        <title>v2.2.1</title>
         <description>
           <![CDATA[
             <ul>
-              <li>支持 Apple Silicon</li>
-              <li>微调新增画板里元素的一些间距</li>
+              <li>导出 PDF 不会再闪退（需要 Sketch 82 以上的版本）</li>
+              <li>显示 / 隐藏线框能正常使用了</li>
             </ul>
           ]]>
         </description>
-      <pubDate>Tue, 15 Feb 2022 19:42:21 +0800</pubDate>
-      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.2.0/Fletch.2.2.0.zip" type="application/octet-stream" sparkle:version="2.2.0"/>
+      <pubDate>Tue, 23 Feb 2022 14:42:21 +0800</pubDate>
+      <enclosure url="https://github.com/PBBB/FlymeUXDSketchHelper/releases/download/v2.2.1/Fletch.2.2.1.zip" type="application/octet-stream" sparkle:version="2.2.1"/>
       </item>
   </channel>
 </rss>
